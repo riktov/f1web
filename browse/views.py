@@ -7,7 +7,7 @@ from django.views.generic.list import ListView
 from django import forms
 
 from f1web.models import Car, Driver, Constructor, Season, Engine, DrivingContract
-from .forms import AddDriverDriveForm, AddCarSeasonForm
+from .forms import CreateDriveForDriverForm, CreateDriveForSeasonForm, AddSeasonToCarForm
 
 
 # Create your views here.
@@ -22,12 +22,12 @@ class DriverDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = AddDriverDriveForm(initial = {'driver': self.get_object() })
+        context['form'] = CreateDriveForDriverForm(initial = {'driver': self.get_object() })
         return context
     
     def post(self, request, *args, **kwargs):
         """The form will never be initialized to an existing object"""
-        incoming_form = AddDriverDriveForm(request.POST, request.FILES)
+        incoming_form = CreateDriveForDriverForm(request.POST, request.FILES)
 
         if incoming_form.is_valid():
             # self.object = self.get_object()#this is the driver
@@ -62,7 +62,7 @@ class CarDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = AddCarSeasonForm()
+        context['form'] = AddSeasonToCarForm()
         return context
     
 class CarListView(ListView):
@@ -92,5 +92,5 @@ class SeasonDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = AddCarSeasonForm()
+        context['form'] = AddSeasonToCarForm()
         return context
