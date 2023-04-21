@@ -31,6 +31,13 @@
             <li><a href="{% url 'car_detail' car.slug %}">{{car}}</a></li>
             {% endfor %}
         </ul>
+
+        <h3>Add a car that drove this year</h3>
+        <form method="POST">
+            {{form}}
+            {% csrf_token %}
+            <input type="submit" />
+        </form>
     </div>
 
     <div>
