@@ -1,0 +1,80 @@
+[
+    {
+        "model": "f1web.constructor",
+        "pk": 1,
+        "fields": {
+            "name": "McLaren",
+            "country": "GB"
+        }
+    },
+    {
+        "model": "f1web.constructor",
+        "pk": 2,
+        "fields": {
+            "name": "Ferrari",
+            "country": "IT"
+        }
+    },
+    {
+        "model": "f1web.constructor",
+        "pk": 3,
+        "fields": {
+            "name": "Brabham",
+            "country": "GB"
+        }
+    },
+    {
+        "model": "f1web.constructor",
+        "pk": 4,
+        "fields": {
+            "name": "Williams",
+            "country": "GB"
+        }
+    },
+    {
+        "model": "f1web.constructor",
+        "pk": 5,
+        "fields": {
+            "name": "Lotus",
+            "country": "GB"
+        }
+    },
+    {
+        "model": "f1web.constructor",
+        "pk": 6,
+        "fields": {
+            "name": "Benetton",
+            "country": "GB"
+        }
+    },
+    {
+        "model": "f1web.constructor",
+        "pk": 7,
+        "fields": {
+            "name": "Tyrrell",
+            "country": "GB"
+        }
+    },
+    {
+        "model": "f1web.constructor",
+        "pk": 8,
+        "fields": {
+            "name": "Renault",
+            "country": "FR"
+        }
+    },
+    {
+        "model": "f1web.constructor",
+        "pk": 9,
+        "fields": {
+            "name": "Arrows",
+            "country": "GB"
+        }
+    },
+    {
+        "model": "f1web.constructor",
+        "fields": {
+            "name": "Jordan",
+            "country": "GB"
+        }
+    }]

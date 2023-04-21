@@ -1,0 +1,22 @@
+<html>
+
+<head>
+<title>Constructor List</title>
+</head>
+
+<body>
+This is a constructors list view page template.
+
+    <div>
+        <a href="{% url 'index' %}">Top</a>
+    </div>
+
+
+    <ul>
+    {% for constructor in constructor_list %}
+        <li><a href="{% url 'constructor_detail' constructor.slug %}">{{constructor}}</a></li>
+    {% endfor %}
+    </ul>
+
+</body>
+</html>

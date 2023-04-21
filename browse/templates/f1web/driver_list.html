@@ -1,0 +1,27 @@
+<html>
+
+<head>
+    <title>
+    Driver List
+    </title>
+</head>
+<body>
+
+<p>
+This is a driver list view page template.
+</p>
+
+    <div>
+        <a href="{% url 'index' %}">Top</a>
+    </div>
+
+<div class="ObjectList">
+    <ul>
+    {% for driver in driver_list %}
+        <li><a href="{{driver.slug}}">{{driver}}</a></li>
+    {% endfor %}
+    </ul>
+</div>
+
+</body>
+</html>

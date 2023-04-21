@@ -1,0 +1,45 @@
+<html>
+
+<head>
+    <title>
+    {{object}}
+    </title>
+</head>
+<body>
+    <h1>{{object}}</h1>
+
+    <div class="ObjectsList">
+        <table>
+        <th>
+            <tr>
+            <td>Chassis</td>
+            <td>Engine</td>
+            <td>Year(s)</td>
+            <td>Driver(s)</td>
+        </th>
+        
+        {% for car in object.cars %}
+            <tr>
+                <td>
+                    <a href="{% url 'car_detail' car.slug %}">{{car.name}}</a>
+                </td>
+                <td>
+                {% if car.engine %}
+                    <a href="{% url 'engine_detail' car.engine.pk %}">{{car.engine}}</a>
+                {% else %}
+                    --
+                {% endif %}
+                </td>
+
+                <td>
+                {% for season in car.season_list %}
+                    {{season}}
+                {% endfor %}
+                </td>
+            </tr>
+        {% endfor%}
+        </table>
+    </div>
+
+</body>
+</html>

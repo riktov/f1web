@@ -1,0 +1,240 @@
+[
+    {
+        "model": "f1web.driver",
+        "pk": 1,
+        "fields": {
+            "name": "Nelson Piquet",
+            "country": "BR",
+            "drives": [
+                35,
+                1,
+                2,
+                30,
+                31,
+                5,
+                4,
+                27,
+                32,
+                33,
+                34
+            ]
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 2,
+        "fields": {
+            "name": "Alain Prost",
+            "country": "FR",
+            "drives": [
+                38,
+                37,
+                36,
+                14,
+                8,
+                3,
+                10,
+                12,
+                15,
+                16
+            ]
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 3,
+        "fields": {
+            "name": "Nigel Mansell",
+            "country": "GB",
+            "drives": [
+                5,
+                4,
+                7,
+                11,
+                12,
+                23,
+                24
+            ]
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 4,
+        "fields": {
+            "name": "Riccardo Patrese",
+            "country": "IT",
+            "drives": [
+                1,
+                2,
+                39,
+                40,
+                6,
+                41,
+                7,
+                9,
+                23,
+                24,
+                42
+            ]
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 5,
+        "fields": {
+            "name": "Ayrton Senna",
+            "country": "BR",
+            "drives": [
+                22,
+                21,
+                17,
+                3,
+                10,
+                13,
+                18,
+                19,
+                20,
+                25
+            ]
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 6,
+        "fields": {
+            "name": "Gerhard Berger",
+            "country": "AT",
+            "drives": [
+                48,
+                49,
+                29,
+                28,
+                11,
+                13,
+                18,
+                19,
+                43,
+                46,
+                47,
+                44,
+                45
+            ]
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 7,
+        "fields": {
+            "name": "Thierry Boutsen",
+            "country": "BE",
+            "drives": [
+                9
+            ]
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 8,
+        "fields": {
+            "name": "Jean Alesi",
+            "country": "FR",
+            "drives": [
+                15
+            ]
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 9,
+        "fields": {
+            "name": "Satoru Nakajima",
+            "country": "JP",
+            "drives": [
+                17,
+                27,
+                32,
+                26
+            ]
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 10,
+        "fields": {
+            "name": "Keke Rosberg",
+            "country": "FI",
+            "drives": [
+                14
+            ]
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 11,
+        "fields": {
+            "name": "Elio de Angelis",
+            "country": "IT",
+            "drives": [
+                6
+            ]
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 12,
+        "fields": {
+            "name": "Stefan Johansson",
+            "country": "SE",
+            "drives": [
+                8
+            ]
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 13,
+        "fields": {
+            "name": "Michele Arboreto",
+            "country": "IT",
+            "drives": [
+                29,
+                28
+            ]
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 14,
+        "fields": {
+            "name": "Eddie Cheever",
+            "country": "US",
+            "drives": [
+                38,
+                40
+            ]
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 15,
+        "fields": {
+            "name": "Niki Lauda",
+            "country": "AT",
+            "drives": [
+                37
+            ]
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 16,
+        "fields": {
+            "name": "Damon Hill",
+            "country": "GB",
+            "drives": [
+                16,
+                25
+            ]
+        }
+    }
+]

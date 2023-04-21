@@ -1,0 +1,52 @@
+<html>
+
+<head>
+    <title>
+    {{object}} {{object.country.unicode_flag}}
+    </title>
+</head>
+<body>
+    This is a driver detail view page template.
+
+    <p>
+        <a href="{% url 'driver_list' %}">Drivers List</a>
+    </p>
+
+    <h1>{{object}}</h1>
+
+    <p>Country: {{object.country.name}} {{object.country.unicode_flag}}</P>
+
+    <div>
+        <table>
+            <th>
+                <tr>
+                    <td>Year</td>
+                    <td>Team</td>
+                </tr>
+            </th>
+        {% for drive in object.drives_list %}
+            <tr>
+                <td>
+                    <a href="{% url 'season_detail' drive.season.pk %}">{{drive.season}}</a>
+                </td>
+                <td>
+                    <a href="{% url 'constructor_detail' drive.team.slug %}">{{drive.team}}</a>
+                </td>
+            </tr>
+        {% endfor %}
+
+        </table>
+    </div>
+
+    <div class="AddObjectForm">
+        <h3>Add a new drive by {{object}}</h3>
+        <form method="POST">
+        {{form}}
+        {% comment %} <input type="hidden" name="driver" value="{{object.pk}}"> {% endcomment %}
+        {% csrf_token %}
+        <input type="submit" />
+        </form>
+    </div>
+
+</body>
+</html>

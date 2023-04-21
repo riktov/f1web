@@ -1,0 +1,22 @@
+<html>
+
+<head>
+    <title>
+    Season List
+    </title>
+</head>
+<body>
+This is a season list view page template.
+
+    <div>
+        <a href="{% url 'index' %}">Top</a>
+    </div>
+
+<ul>
+{% for season in season_list %}
+    <li><a href="{{season.pk}}">{{season}}</a></li>
+{% endfor %}
+</ul>
+
+</body>
+</html>
