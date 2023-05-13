@@ -1,20 +1,32 @@
+{% load static %}
+
 <html>
 
 <head>
     <title>
     {{object}} {{object.country.unicode_flag}}
     </title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/browse/common.css' %}" />
 </head>
 <body>
-    This is a driver detail view page template.
-
-    <p>
+    <div>
         <a href="{% url 'driver_list' %}">Drivers List</a>
-    </p>
+    </div>
 
-    <h1>{{object}}</h1>
+    <div>
+        <h1>{{object}}</h1>
 
-    <p>Country: {{object.country.name}} {{object.country.unicode_flag}}</P>
+        <div>
+            Country: {{object.country.name}} {{object.country.unicode_flag}}
+        </div>
+    </div>
+
+    <div>
+        <a class="Wikipedia" href="https://en.wikipedia.org/wiki/{{object}}" target=_blank>
+        <img src="https://wikipedia.org/static/favicon/wikipedia.ico">
+        </a>
+    </div>
 
     <div>
         <table>
@@ -42,7 +54,6 @@
         <h3>Add a new drive by {{object}}</h3>
         <form method="POST">
         {{form}}
-        {% comment %} <input type="hidden" name="driver" value="{{object.pk}}"> {% endcomment %}
         {% csrf_token %}
         <input type="submit" />
         </form>

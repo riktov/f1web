@@ -45,5 +45,16 @@
         </table>
     </div>
 
+    {% comment %} can't get the template admin:f1web_car_add to work {% endcomment %}
+    <a href="{% url 'admin:index' %}f1web/car/add" target="_blank">Add Car through Admin</a>
+    
+    <div class="AddObjectForm">
+        <h3>Create a new Car by {{object}}</h3>
+        <form method="POST">
+        {{form}}
+        {% csrf_token %}
+        <input type="submit" />
+        </form>
+    </div>
 </body>
 </html>
