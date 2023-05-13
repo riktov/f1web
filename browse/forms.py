@@ -1,6 +1,6 @@
 """Forms for the browse app"""
 from django import forms
-from f1web.models import Season, DrivingContract
+from f1web.models import Car, Season, DrivingContract
 
 class CreateDriveForm(forms.ModelForm):
     """Form form for creating a new Drive (driver, team, season)"""
@@ -8,7 +8,7 @@ class CreateDriveForm(forms.ModelForm):
         model = DrivingContract
         fields = [ "season", "team", "driver" ]
 
-class CreateDriveForDriverForm(CreateDriveForm):
+class CreateDriveForThisDriverForm(CreateDriveForm):
     """Form form for creating a new Drive for an already specified driver"""
     # https://yu-nix.com/archives/django-form-get-val/
     def __init__(self, *args, **kwargs):
@@ -21,12 +21,19 @@ class CreateDriveForSeasonForm(CreateDriveForm):
         super().__init__(*args, **kwargs)
         self.fields['season'].widget = forms.HiddenInput()
 
-class AddSeasonToCarForm(forms.ModelForm):
-    """Form for adding a new Season to a Car detail"""
+class AddThisCarToSeasonForm(forms.ModelForm):
+    """Form for adding a Car in a detail view to a Season"""
+    #We base it on the Season model only to conveniently get a list of years 
+    # We do not create a Season object
     class Meta:
         model = Season
-        fields = [ "year", "cars" ]
+        fields = [ "year"]
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['year'].widget = forms.HiddenInput()
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     # self.fields['cars'].widget = forms.HiddenInput()
+
+class CreateCarForm(forms.ModelForm):
+    class Meta:
+        model = Car
+        exclude = ['constructor', 'slug']

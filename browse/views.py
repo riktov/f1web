@@ -4,10 +4,9 @@ from django.shortcuts import render
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 # from django.http import HttpResponse
-from django import forms
 
-from f1web.models import Car, Driver, Constructor, Season, Engine, DrivingContract
-from .forms import CreateDriveForDriverForm, CreateDriveForSeasonForm, AddSeasonToCarForm
+from f1web.models import Car, Driver, Constructor, Season, Engine
+from .forms import CreateDriveForThisDriverForm, AddThisCarToSeasonForm, CreateCarForm
 
 
 # Create your views here.
@@ -22,12 +21,12 @@ class DriverDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = CreateDriveForDriverForm(initial = {'driver': self.get_object() })
+        context['form'] = CreateDriveForThisDriverForm(initial = {'driver': self.get_object() })
         return context
     
     def post(self, request, *args, **kwargs):
         """The form will never be initialized to an existing object"""
-        incoming_form = CreateDriveForDriverForm(request.POST, request.FILES)
+        incoming_form = CreateDriveForThisDriverForm(request.POST, request.FILES)
 
         if incoming_form.is_valid():
             # self.object = self.get_object()#this is the driver
@@ -56,15 +55,41 @@ class ConstructorDetailView(DetailView):
     """DetailView for Constructor"""
     model = Constructor
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = CreateCarForm()
+        return context
+    
 class CarDetailView(DetailView):
     """DetailView for Car"""
     model = Car
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = AddSeasonToCarForm()
+        context['form'] = AddThisCarToSeasonForm()
         return context
     
+    def post(self, request, *args, **kwargs):
+        #Unlike CreateDriveForDriverForm, we are not creating a new model object 
+        # (DrivingContract) which is then
+        #hooked up to the existing objects (season, team, driver) with 
+        # DB relational (ForeignKey) objects.
+        #Here we are creating just a DB (ManyToMany) object which added.
+
+        incoming_form = AddThisCarToSeasonForm(request.POST, request.FILES)
+
+        year = request.POST['year']
+        season = Season.objects.get(year = year)
+        this_car = self.get_object()
+        season.cars.add(this_car)
+        season.save()
+
+        # context = self.get_context_data(**kwargs)
+        
+        #we need to get an "object" attribute on this view, the template looks for it    
+        return self.render_to_response(context=context)
+
+
 class CarListView(ListView):
     """ListView for Car"""
     model = Car
@@ -92,5 +117,8 @@ class SeasonDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = AddSeasonToCarForm()
+        context['seasons_list'] = Season.objects.all()
         return context
+
+
+

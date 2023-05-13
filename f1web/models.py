@@ -21,6 +21,8 @@ class Engine(models.Model):
     name = models.CharField(max_length=32, blank=True)
     # displacement = models.IntegerField(default=3000)
     # cylinders = models.IntegerField(default=6)
+    # configuration = inline, flat, v
+    # is_turbo
 
     class Meta:
         ordering = ('maker', 'name',)
@@ -90,6 +92,7 @@ class Car(models.Model):
 
     class Meta:
         ordering = ('constructor', 'name')
+        unique_together = ('constructor', 'name',)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(str(self))
