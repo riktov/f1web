@@ -30,6 +30,9 @@ class Engine(models.Model):
     def __str__(self):
         return self.maker.name + " " + self.name
         # return "%s %s %s cylinder" % (self.maker, self.name, self.cylinders)
+    @property
+    def cars_using(self):
+        return self.car_set.all()
 
 class Constructor(models.Model):
     """A Formula 1 constructor (team)"""
@@ -237,7 +240,7 @@ class Season(models.Model):
 
 
 class Driver(models.Model):
-    """A Driver participates in Drives"""
+    """A Driver"""
     name = models.CharField(max_length=256)
     country = CountryField(null=True)
     slug = models.SlugField(max_length = 64, blank=True, null=True)
