@@ -6,9 +6,6 @@
     </title>
 </head>
 <body>
-<p>
-This is a car list view page template.
-</P>
 
     <div>
         <a href="{% url 'index' %}">Top</a>
@@ -17,9 +14,22 @@ This is a car list view page template.
 <ul>
 {% with last_team="foo" %}
 {% for car in car_list %}
-    <li><a href="{{car.slug}}">{{car}}</a></li>
+    {% comment %} <li><a href="{{car.slug}}">{{car}}</a></li> {% endcomment %}
 {% endfor %}
 {% endwith %}
+</ul>
+
+<h2>Cars grouped by Constructor</h2>
+<ul>
+    {% for key, values in grouped_list.items %}
+    <li><h3>{{key}}</h3>
+    {% for car in values %}
+    <span>
+    <a href="{% url 'car_detail' car.slug %}">{{car.name}}</a>
+    </span>
+    {% endfor %}
+    </li>
+    {% endfor %}
 </ul>
 
 </body>

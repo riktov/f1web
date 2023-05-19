@@ -133,6 +133,21 @@ class CarListView(ListView):
     """ListView for Car"""
     model = Car
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['grouped_list'] = self.grouped_list()
+        return context
+
+    def grouped_list(self):
+        """List of cars grouped by Constructor"""
+        cons = {}
+        for car in Car.objects.all().order_by('season__year'):
+            if car.constructor.name not in cons:
+                cons[car.constructor.name] = []
+            if car not in cons[car.constructor.name]:
+                cons[car.constructor.name].append(car)
+        return cons
+
 class EngineDetailView(DetailView):
     """DetailView for Engine"""
     model = Engine
