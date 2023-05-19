@@ -14,4 +14,6 @@ urlpatterns = [
     path("season/", views.SeasonListView.as_view(), name="season_list"),
     path("engine/<int:pk>/", views.EngineDetailView.as_view(), name="engine_detail"),
     path("engine/", views.EngineListView.as_view(), name="engine_list"),
+    path("enginemaker/<slug:slug>/", views.EngineMakerDetailView.as_view(), name="enginemaker_detail"),
+    # path("enginemaker/", views.EngineMakerListView.as_view(), name="enginemaker_list"),
 ]

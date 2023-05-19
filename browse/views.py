@@ -6,7 +6,7 @@ from django.views.generic.edit import UpdateView
 from django.views.generic.list import ListView
 # from django.http import HttpResponse
 
-from f1web.models import Car, Driver, Constructor, Season, Engine
+from f1web.models import Car, Driver, Constructor, EngineMaker, Season, Engine
 from .forms import CreateDriveForThisDriverForm, AddThisCarToSeasonForm, CreateCarForm
 
 
@@ -156,6 +156,9 @@ class EngineListView(ListView):
     """ListView for Engine"""
     model = Engine
 
+class EngineMakerDetailView(DetailView):
+    model = EngineMaker
+    
 class SeasonListView(ListView):
     """ListView for Season"""
     model = Season

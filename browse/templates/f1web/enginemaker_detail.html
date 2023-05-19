@@ -1,0 +1,27 @@
+<html>
+
+<head>
+    <title>
+    {{object}}
+    </title>
+</head>
+<body>
+    This is an engine maker detail view page template.
+
+    <h1>{{object}}</h1>
+
+    <div class="Objects">
+        <h2>Engines</h2>
+        <ul>
+        {% for engine in object.engine_set.all %}
+        <li><a href="{% url 'engine_detail' engine.id %}">{{engine.name}}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+
+    <form>
+    {{form}}
+    </form>
+
+</body>
+</html>

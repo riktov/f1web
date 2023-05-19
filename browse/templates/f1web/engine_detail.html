@@ -8,7 +8,7 @@
 <body>
     This is an engine detail view page template.
 
-    <h1>{{object}}</h1>
+    <h1><a href="{% url 'enginemaker_detail' object.maker.slug %}">{{object.maker}}</a> {{object.name}}</h1>
 
     <div class="UsedIn">
         <h2>Used in:</h2>

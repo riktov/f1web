@@ -10,6 +10,10 @@ from django_countries.fields import CountryField
 class EngineMaker(models.Model):
     """Engine Maker, examples: Honda, Ford"""
     name = models.CharField(max_length=64)
+    slug = models.SlugField(max_length = 32, blank=True, null=True)
+
+    class Meta:
+        ordering = ('name',)
 
     def __str__(self):
         return str(self.name)
