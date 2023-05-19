@@ -34,12 +34,12 @@ class CarTest(TestCase):
         car2.constructor = footeam
         car3.constructor = footeam
 
-        print(f"FB2: {car2}")
+        # print(f"FB2: {car2}")
         DrivingContract.objects.create(season=s70, driver=bob, team=self.team)
         DrivingContract.objects.create(season=s80, driver=chris, team=self.team)
         DrivingContract.objects.create(season=s90, driver=alex, team=self.team)
 
-        print(car1.constructor)
+        # print(car1.constructor)
 
     def test_car_earliest_season(self):
         """Test that car's earliest season is valid, 
@@ -53,7 +53,6 @@ class CarTest(TestCase):
         self.assertEqual(car2.earliest_season, s70)
 
     def test_car_set_constructor(self):
-        print(f"Team: {self.team}")
         car1 = Car.objects.get(name="FB1")
         car1.constructor = self.team
         
@@ -68,9 +67,33 @@ class CarTest(TestCase):
         #1970 Bob
         line = list[0]
 
-        print(DrivingContract.objects.all())
-        print(line)
-
         self.assertEqual(line[0], s70)
         self.assertEqual(line[1], bob)
 
+class ConstructorTest(TestCase):
+    def setUp(self):
+        self.team = Constructor.objects.create(name="FooBar")
+        
+        alex  = Driver.objects.create(name="Alex")
+        bob   = Driver.objects.create(name="Bob")
+        chris = Driver.objects.create(name="Chris")
+
+        s80 = Season.objects.create(year = 1980)
+        s70 = Season.objects.create(year = 1970)
+        s90 = Season.objects.create(year = 1990)
+
+        c70 = Car.objects.create(name="C70", constructor = self.team)
+        c80 = Car.objects.create(name="C80", constructor = self.team)
+
+        s70.cars.add(c70)
+        s80.cars.add(c80)
+
+        # DrivingContract.objects.create(season=s70, driver=bob, team=self.team)
+        # DrivingContract.objects.create(season=s80, driver=chris, team=self.team)
+        # DrivingContract.objects.create(season=s90, driver=alex, team=self.team)
+    
+    def test_constructor_seasons(self):
+        seasons = self.team.seasons
+        # print(seasons)
+        s70 = Season.objects.get(year=1970)
+        self.assertIn(s70, seasons)

@@ -12,8 +12,13 @@ div.SiteNav {
 }
 
 div.ObjectDetail{
-    margin-left: 7em;
+    margin-left: 5em;
     background-color: beige;
+    padding: 1em;
+}
+
+div.ObjectDetail > h1{
+    margin-top: 0 ;
 }
 
 div.AllObjectsList {

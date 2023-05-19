@@ -2,13 +2,13 @@
 
 <head>
     <title>
-    Driver List
+    Engine List
     </title>
 </head>
 <body>
 
 <p>
-This is a driver list view page template.
+This is a Engine list view page template.
 </p>
 
     <div>
@@ -17,11 +17,8 @@ This is a driver list view page template.
 
 <div class="ObjectList">
     <ul>
-    {% for driver in driver_list %}
-        <li>
-        <a href="{{driver.slug}}">{{driver}}</a>
-        {{driver.country.unicode_flag}}
-        </li>
+    {% for engine in engine_list %}
+        <li><a href="{{engine.id}}">{{engine}}</a></li>
     {% endfor %}
     </ul>
 </div>

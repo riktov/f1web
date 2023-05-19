@@ -52,24 +52,31 @@ class Constructor(models.Model):
         """return all the cars that this Constructor has raced"""
         all_cars = Car.objects.filter(constructor=self)
 
-        cars_with_year = [
+        cars_with_season = [
             car for car in all_cars if car.earliest_season is not None]
-        cars_without_year = [
+        cars_without_season = [
             car for car in all_cars if car.earliest_season is None]
 
-        return sorted(cars_with_year, key=lambda c: c.earliest_season.year) + cars_without_year
+        return sorted(cars_with_season, key=lambda c: c.earliest_season.year) + cars_without_season
 
-    def cars_in_year(self, year):
-        """return all the cars that this Constructor has raced in the specified year"""
-        return Season.objects.get(year=year).cars.filter(constructor=self)
+    def cars_in_season(self, season):
+        """return all the cars that this Constructor has raced in the specified season"""
+        return season.cars.filter(constructor=self)
 
-    def drivers_in_year(self, year):
-        """return all the drivers that have driven for this Constructor in the specified year"""
-        drives = self.drives.get(year=year, team=self)
+    def drivers_in_season(self, season):
+        """return all the drivers that have driven for this Constructor in the specified season"""
+        drives = self.drives.filter(season=season, team=self)
 
         if not drives:
             return []
-        return drives.drivers()
+        return [drive.driver for drive in drives]
+    
+    def seasons(self):
+        return Season.objects.filter(cars__constructor = self).distinct() ;
+#        return [ dc.season for dc in DrivingContract.objects.filter(team=self) ]
+
+    def seasons_and_cars_and_drivers(self):
+        return [(s, s.cars.filter(constructor = self), self.drivers_in_season(s)) for s in self.seasons() ]
 
 class TeamManager(models.Model):
     """The person who manages the Constructor, e.g., Ron Dennis, Bernie Ecclestone"""
@@ -126,21 +133,12 @@ class Car(models.Model):
         seasons_and_drivers = []
 
         #NOTE: constructor is None.
-        print(f"Hey, I am {self}. My team is {self.constructor}.")
         
         drives = DrivingContract.objects.all()
-        print(f"All drives: {drives}")
-
 
         for season in self.season_list:
-
-            print(f"filtered on {season} season and constructor {self.constructor}")
             drives = DrivingContract.objects.filter(season = season, team = self.constructor)
             
-
-            for drive in drives:
-                print(f"{drive}")
-
             line = [
                 season,
                 [ drive.driver for drive in drives ]
@@ -196,24 +194,14 @@ class Season(models.Model):
 
         return team_car_drivers
 
-#################
-
-        # drives = Drive.objects.filter(year=self.year)
-        # for drive in drives:
-        #     team = drive.team
-        #     # year = drive.year
-
-        # c_and_d = [(dr, dr.drivers()) for dr in drives]
-        # return c_and_d
-
     @property
     def previous(self):
-        """The year before this one"""
+        """The season before this one"""
         return Season.objects.filter(year__lt=self.year).last
 
     @property
     def next(self):
-        """The year after this one"""
+        """The season after this one"""
         return Season.objects.filter(year__gt=self.year).first
 
     @property

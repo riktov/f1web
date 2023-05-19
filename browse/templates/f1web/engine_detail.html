@@ -10,9 +10,23 @@
 
     <h1>{{object}}</h1>
 
-    <div>
+    <div class="UsedIn">
+        <h2>Used in:</h2>
         <table>
+            <th>
+                <td>Car</td>
+            </th>
 
+            {% for car in object.cars_using %}
+            <tr>
+                <td><a href="{% url 'car_detail' car.slug %}">{{car}}</a></td>
+                <td>
+                    {% for season in car.season_list %}
+                    {{season}}
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endfor %}
         </table>
     </div>
 

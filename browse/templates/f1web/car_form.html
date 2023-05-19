@@ -14,16 +14,9 @@
         <h1><a href="{% url 'constructor_detail' object.constructor.slug %}">{{object.constructor}}</a> {{object.name}}</h1>
 
         <p>
-        Engine: 
-        {% if object.engine %}
-        <a href="{% url 'engine_detail' object.engine.id %}">{{object.engine}}</a>
-        {% endif %}
+        Engine: {{object.engine}}
         </p>
         <a href="{{object.wikipedia_link}}" target="_blank">Wikipedia</a>
-    </div>
-    
-    <div>
-        <a href="{% url 'admin:f1web_car_change' object.id %}" target="_blank">Edit Car through Admin</a>
     </div>
     
     <div class="SeasonsList">

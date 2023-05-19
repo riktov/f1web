@@ -39,7 +39,7 @@
             </div>
 
             <div>
-                <h3>Cars that drove this year</h3>
+                <h3>Cars that drove this season</h3>
                 <ul>
                     {% for car in object.car_list %}
                     <li><a href="{% url 'car_detail' car.slug %}">{{car}}</a></li>
@@ -48,7 +48,7 @@
             </div>
 
             <div>
-                <h3>Cars and drivers that drove this year</h3>
+                <h3>Cars and drivers that drove this season</h3>
 
                 <table>
                     <th>

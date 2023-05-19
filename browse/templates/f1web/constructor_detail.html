@@ -18,8 +18,9 @@
             <tr>
             <td>Chassis</td>
             <td>Engine</td>
-            <td>Year(s)</td>
+            <td>Seasons(s)</td>
             <td>Driver(s)</td>
+            </tr>
         </th>
         
         {% for car in object.cars %}
@@ -43,10 +44,42 @@
             </tr>
         {% endfor%}
         </table>
+
+        <table>
+            <th>
+            <tr>
+            <td>Season</td>
+            <td>Car(s)</td>
+            <td>Driver(s)</td>
+            </tr>
+            </th>
+            {% for season, cars, drivers in seasons_table %}
+            <tr>
+            <td>
+            <a href="{% url 'season_detail' season.year %}">
+            {{season}}
+            </a>
+            </td>
+            <td>
+            {% for car in cars %}
+            <a href="{% url 'car_detail' car.slug %}">
+            {{car.name}}
+            </a>
+            {% endfor %}
+            </td>
+            <td>
+            {% for driver in drivers %}
+            <span>
+            <a href="{% url 'driver_detail' driver.slug %}">{{driver}}</a>
+            </span>
+            {% endfor %}
+            </td>
+            </tr>
+            {% endfor %}
+        </table>
     </div>
 
-    {% comment %} can't get the template admin:f1web_car_add to work {% endcomment %}
-    <a href="{% url 'admin:index' %}f1web/car/add" target="_blank">Add Car through Admin</a>
+    <a href="{% url 'admin:f1web_car_add' %}" target="_blank">Add Car through Admin</a>
     
     <div class="AddObjectForm">
         <h3>Create a new Car by {{object}}</h3>

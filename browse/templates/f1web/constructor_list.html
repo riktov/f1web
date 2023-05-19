@@ -14,7 +14,10 @@ This is a constructors list view page template.
 
     <ul>
     {% for constructor in constructor_list %}
-        <li><a href="{% url 'constructor_detail' constructor.slug %}">{{constructor}}</a></li>
+        <li>
+        <a href="{% url 'constructor_detail' constructor.slug %}">{{constructor}}</a>
+        {{constructor.country.unicode_flag}}
+        </li>
     {% endfor %}
     </ul>
 
