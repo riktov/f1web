@@ -254,8 +254,8 @@ class DrivingContract(models.Model):
                              on_delete=models.CASCADE, related_name='drives')
     driver = models.ForeignKey(
         Driver, blank=False, null=False, on_delete=models.CASCADE, related_name='drives')
-    car_number = models.IntegerField(null=True, blank=True)
-    # is_lead = models.BooleanField(default=False)
+    # car_number = models.IntegerField(null=True, blank=True)
+    is_lead = models.BooleanField(default=False)
 
     class Meta:
         ordering = ('season', 'team', 'driver',)
