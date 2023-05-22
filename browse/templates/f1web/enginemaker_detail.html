@@ -1,15 +1,34 @@
-<html>
+{% extends "browse/base_org_detail.html" %}
+{% load links %}
 
-<head>
-    <title>
-    {{object}}
-    </title>
-</head>
-<body>
-    This is an engine maker detail view page template.
+{% block head %}
+<title>
+{{object}} - Engine Makers
+</title>
+{% endblock %}
 
+{% block navbar %}
+<a href="{% url 'enginemaker_list' %}">Engine Makers List</a>
+<a href="{% url 'admin:f1web_enginemaker_add' %}" target="_blank" class="AdminLink">Admin Add Engine Maker</a>
+{% endblock %}
+
+{% block orglist_ul %}
+    <ul>
+    {% for enginemaker in enginemaker_list %}
+        <li><a href="{% url 'enginemaker_detail' enginemaker.slug %}">{{enginemaker | nbhyphen }}</a></li>
+    {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block orgdetails %}
     <h1>{{object}}</h1>
 
+    <a href="{{ object.slug | statsf1_engine_maker }}" target="_blank">
+        <img src="https://www.statsf1.com/favicon.ico" />
+    </a>
+{% endblock %}
+
+{% block orgmembers%}
     <div class="Objects">
         <h2>Engines</h2>
         <ul>
@@ -22,6 +41,4 @@
     <form>
     {{form}}
     </form>
-
-</body>
-</html>
+{% endblock %}

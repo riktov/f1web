@@ -1,3 +1,21 @@
+body {
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+table, th, td {
+    border: 1px solid black ;
+    border-collapse: collapse;
+}
+
+table td {
+    padding: 5px ;
+    vertical-align: top;
+}
+
+table th {
+    padding: 3px ;
+}
+
 a.Wikipedia {
     float: left ;
 }
@@ -7,12 +25,13 @@ a.Wikipedia > img {
     height: 16px ;
 }
 
-div.SiteNav {
+div.NavBar {
     background-color: aquamarine;
+    padding: 0.5em ;
 }
 
 div.ObjectDetail{
-    margin-left: 5em;
+    margin-left: 7em;
     background-color: beige;
     padding: 1em;
 }
@@ -22,12 +41,31 @@ div.ObjectDetail > h1{
 }
 
 div.AllObjectsList {
-    width: 5em ;
+    width: 7em ;
     float: left ;
     height: 100% ;
     background-color: coral;
 }
 
+/* Does not work in "quirks mode", requires <!DOCTYPE html> */
+div.AllObjectsList > ul {
+    padding-left: 1em;
+}
+
 div.AllObjectsList li {
     list-style-type: none ;
+}
+
+h2 {
+    margin-bottom: 0;
+}
+
+div.SiteFooter {
+    background-color: black;
+    color:aquamarine;
+}
+
+.MainContent > .Details {
+    padding: 5px ;
+    border: solid 5px goldenrod ;
 }

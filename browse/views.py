@@ -9,6 +9,7 @@ from django.views.generic.list import ListView
 from f1web.models import Car, Driver, Constructor, EngineMaker, Season, Engine
 from .forms import CreateDriveForThisDriverForm, AddThisCarToSeasonForm, CreateCarForm
 
+from . import queries
 
 # Create your views here.
 
@@ -57,10 +58,12 @@ class ConstructorDetailView(DetailView):
     """DetailView for Constructor"""
     model = Constructor
 
+    #TODO: Fix to show drivers not yet linked to car
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = CreateCarForm()
         context['seasons_table'] = self.get_object().seasons_and_cars_and_drivers()
+        context['model_objects_list'] = Constructor.objects.all()
         return context
     
 class CarDetailView(DetailView):
@@ -151,14 +154,24 @@ class CarListView(ListView):
 class EngineDetailView(DetailView):
     """DetailView for Engine"""
     model = Engine
-
+    
 class EngineListView(ListView):
     """ListView for Engine"""
     model = Engine
 
 class EngineMakerDetailView(DetailView):
+    """Detail for for Engine Maker"""
     model = EngineMaker
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['enginemaker_list'] = EngineMaker.objects.all()
+        return context
     
+class EngineMakerListView(ListView):
+    model = EngineMaker
+    #TODO The list of engines (object.engine_set) should be sorted by earliest season
+
 class SeasonListView(ListView):
     """ListView for Season"""
     model = Season
@@ -167,14 +180,10 @@ class SeasonDetailView(DetailView):
     """DetailView for Season"""
     model = Season
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['cars'] = self.object.cars.all()
-    #     return context
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['seasons_list'] = Season.objects.all()
+        context['drivers_table'] = queries.team_car_drivers_for_season(self.get_object())
         return context
 
 

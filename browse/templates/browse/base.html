@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% block head %}{% endblock %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/browse/common.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/browse/admin.css' %}" />
+</head>
+
+<body>
+    <div class="NavBar">
+        <a href="{% url 'index' %}">Top</a>
+        {% block navbar %}{% endblock %}  
+    </div>
+
+    <div class="MainContent">
+        {% block maincontent %}{% endblock %}
+    </div>
+
+    <div class="SiteFooter">
+        <p>F1web by WheelerDev</p>
+    </div>
+</body>
+
+</html>

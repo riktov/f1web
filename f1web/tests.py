@@ -50,7 +50,7 @@ class CarTest(TestCase):
 
         s70 = Season.objects.get(year = 1970)
         car2 = Car.objects.get(name = "FB2")
-        self.assertEqual(car2.earliest_season, s70)
+        self.assertEqual(car2.earliest_season(), s70)
 
     def test_car_set_constructor(self):
         car1 = Car.objects.get(name="FB1")

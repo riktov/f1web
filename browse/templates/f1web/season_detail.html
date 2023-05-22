@@ -1,83 +1,87 @@
-{% load static %}
-
+{% extends "browse/base.html" %}
+{% load links %}
+<!DOCTYPE html>
 <html>
 
-<head>
+{% block head %}
     <title>
     {{object}}
     </title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/browse/common.css' %}" />
-</head>
+{% endblock %}
 
 
-<body>
-    <div class="SiteNav">
-        <a href="{% url 'season_list' %}">List All Seasons</a>
+{% block navbar %}
+    <a href="{% url 'season_list' %}">List All Seasons</a>
+{% endblock %}
+
+{% block maincontent %}
+<div class="AllObjectsList">
+    <ul>
+    {% for season in seasons_list %}
+        <li><a href="{% url 'season_detail' season %}">{{season}}</a></li>
+    {% endfor %}
+    </ul>
+</div>
+
+<div class="ObjectDetail">
+    <h1>{{object}}</h1>
+
+    <a href="{{object | wikipedia_season}}" target="_blank">Wikipedia</a>
+    <div>
+        {% if object.previous %}
+            <a href="{% url 'season_detail' object.previous %}">{{object.previous}}</a>
+        {% endif %}
+
+        {% if object.next %}
+            <a href="{% url 'season_detail' object.next %}">{{object.next}}</a>
+        {% endif %}
     </div>
 
-    <div class="MainContent">
-        <div class="AllObjectsList">
-            <ul>
-            {% for season in seasons_list %}
-                <li><a href="{% url 'season_detail' season %}">{{season}}</a></li>
+    <div>
+        <h3>Cars that drove this season</h3>
+        <p>Sorted Alphabetically</p>
+        <ul>
+            {% for car in object.car_list %}
+            <li>
+                <a href="{% url 'car_detail' car.slug %}">{{car}}</a>
+                {% if car.engine %}
+                <a href="{% url 'engine_detail' car.engine.id %}">{{car.engine.maker}}</a>
+                {% endif %}
+            </li>
             {% endfor %}
-            </ul>
-        </div>
-
-        <div class="ObjectDetail">
-            <h1>{{object}}</h1>
-
-            <a href="{{object.wikipedia_link}}" target="_blank">Wikipedia</a>
-            <div>
-                {% if object.previous %}
-                    <a href="{% url 'season_detail' object.previous %}">{{object.previous}}</a>
-                {% endif %}
-
-                {% if object.next %}
-                    <a href="{% url 'season_detail' object.next %}">{{object.next}}</a>
-                {% endif %}
-            </div>
-
-            <div>
-                <h3>Cars that drove this season</h3>
-                <ul>
-                    {% for car in object.car_list %}
-                    <li><a href="{% url 'car_detail' car.slug %}">{{car}}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-
-            <div>
-                <h3>Cars and drivers that drove this season</h3>
-
-                <table>
-                    <th>
-                        <tr>
-                        <td>Constructor</td>
-                        <td>Car(s)</td>
-                        <td>Driver(s)</td>
-                        </tr>
-                    </th>
-                    {% for cand in object.car_and_driver_list %}
-                        <tr>
-                            <td>
-                            <a href="{% url 'constructor_detail' cand.team.slug %}">{{cand.team}}</a>
-                            </td>
-                            <td>
-                            {% for car in cand.cars %}
-                                {{car.name}} 
-                            {% endfor %}
-                            </td>
-                            <td>
-                            {% for driver in cand.drivers %}
-                                <a href="{% url 'driver_detail' driver.slug %}">{{driver}}</a>
-                            {% endfor %}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </table>
-            </div>
-        </div>
+        </ul>
     </div>
-</body>
-</html>
+
+    <div>
+        <h3>Cars and drivers that drove this season</h3>
+        <p>Sorted by Car Numbers</p>
+        <table>
+            <tr>
+                <th>Constructor</th>
+                <th>Car(s)</th>
+                <th>Driver(s)</th>
+            </tr>
+            {% for row in drivers_table %}
+                <tr>
+                    <td>
+                    <a href="{% url 'constructor_detail' row.team.slug %}">{{row.team}}</a>
+                    </td>
+                    <td>
+                    {% for car in row.cars %}
+                        {{car.name}} 
+                    {% endfor %}
+                    </td>
+                    <td>
+                    {% for driver in row.drivers %}
+                        <a href="{% url 'driver_detail' driver.0.slug %}">{{driver.0}}</a>
+                        {% if driver.1%}
+                        [{{driver.1}}]
+                        {% endif %}<br/>
+                    {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

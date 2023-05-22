@@ -1,13 +1,14 @@
+{% load static %}
+<!DOCTYPE html>
 <html>
 
 <head>
-    <title>
-    Car List
-    </title>
+    <title>Car List</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/browse/common.css' %}" />
 </head>
 <body>
 
-    <div>
+    <div class="NavBar">
         <a href="{% url 'index' %}">Top</a>
     </div>
 

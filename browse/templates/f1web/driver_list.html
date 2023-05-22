@@ -1,17 +1,14 @@
+{% load static %}
 <html>
-
 <head>
     <title>
     Driver List
     </title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/browse/common.css' %}" />
 </head>
 <body>
 
-<p>
-This is a driver list view page template.
-</p>
-
-    <div>
+    <div class="NavBar">
         <a href="{% url 'index' %}">Top</a>
     </div>
 

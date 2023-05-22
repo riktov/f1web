@@ -1,23 +1,28 @@
-<html>
+{% extends "browse/base.html" %}
 
-<head>
+{% block head %}
     <title>
     {{object}}
     </title>
-</head>
-<body>
-    This is an engine detail view page template.
+{% endblock %}
 
+{% block navbar %}
+<a href="{% url 'engine_list' %}">List All Engines</a>
+<a href="{% url 'admin:f1web_engine_change' object.id %}" target="_blank" class="AdminLink">Admin Edit Engine</a>
+{% endblock %}
+
+{% block maincontent %}
     <h1><a href="{% url 'enginemaker_detail' object.maker.slug %}">{{object.maker}}</a> {{object.name}}</h1>
 
     <div class="UsedIn">
         <h2>Used in:</h2>
         <table>
-            <th>
-                <td>Car</td>
-            </th>
+            <tr>
+                <th>Car</th>
+                <th>Season(s)</th>
+            </tr>
 
-            {% for car in object.cars_using %}
+            {% for car in object.car_set.all %}
             <tr>
                 <td><a href="{% url 'car_detail' car.slug %}">{{car}}</a></td>
                 <td>
@@ -33,6 +38,4 @@
     <form>
     {{form}}
     </form>
-
-</body>
-</html>
+{% endblock %}

@@ -1,93 +1,110 @@
-<html>
+{% extends "browse/base_org_detail.html" %}
+{% load links %}
 
-<head>
-    <title>
-    {{object}}
-    </title>
-</head>
-<body>
-    <div>
-        <a href="{% url 'constructor_list' %}">List All Constructors</a>
-    </div>
+{% block head %}
+<title>
+{{object}} - Constructors
+</title>
+{% endblock %}
 
-    <h1>{{object}}</h1>
+{% block navbar %}
+<a href="{% url 'constructor_list' %}">Constructors List</a>
+<a href="{% url 'admin:f1web_constructor_add' %}" target="_blank" class="AdminLink">Admin Add Constructor</a>
+{% endblock %}
 
-    <div class="ObjectsList">
-        <table>
-        <th>
-            <tr>
-            <td>Chassis</td>
-            <td>Engine</td>
-            <td>Seasons(s)</td>
-            <td>Driver(s)</td>
-            </tr>
-        </th>
+{% block orglist_ul %}
+{% for object in model_objects_list %}
+    <li><a href="{% url 'constructor_detail' object.slug %}">{{object}}</a></li>
+{% endfor %}
+{% endblock %}
+
+
+{% block orgdetails %}
+<h1>{{object}}</h1>
+<div>
+    {{object.country.name}} {{object.country.unicode_flag}}
+</div>
+{% endblock %}
+
+{% block orgmembers %}
+<div class="Objects">
+    <h2>Cars</h2>
+    <table>
+        <tr>
+            <th>Chassis</th>
+            <th>Engine</th>
+            <th>Seasons(s)</th>
+        </tr>
         
         {% for car in object.cars %}
-            <tr>
-                <td>
-                    <a href="{% url 'car_detail' car.slug %}">{{car.name}}</a>
-                </td>
-                <td>
-                {% if car.engine %}
-                    <a href="{% url 'engine_detail' car.engine.pk %}">{{car.engine}}</a>
-                {% else %}
-                    --
-                {% endif %}
-                </td>
-
-                <td>
-                {% for season in car.season_list %}
-                    {{season}}
-                {% endfor %}
-                </td>
-            </tr>
-        {% endfor%}
-        </table>
-
-        <table>
-            <th>
-            <tr>
-            <td>Season</td>
-            <td>Car(s)</td>
-            <td>Driver(s)</td>
-            </tr>
-            </th>
-            {% for season, cars, drivers in seasons_table %}
-            <tr>
+        <tr>
             <td>
-            <a href="{% url 'season_detail' season.year %}">
-            {{season}}
-            </a>
+                <a href="{% url 'car_detail' car.slug %}">{{car.name}}</a>
             </td>
             <td>
-            {% for car in cars %}
-            <a href="{% url 'car_detail' car.slug %}">
-            {{car.name}}
-            </a>
+            {% if car.engine %}
+                <a href="{% url 'engine_detail' car.engine.pk %}">{{car.engine}}</a>
+            {% else %}
+                --
+            {% endif %}
+            </td>
+
+            <td>
+            {% for season in car.season_list %}
+                <span>{{season}}</span>
             {% endfor %}
             </td>
+        </tr>
+        {% endfor%}
+    </table>
+    <a href="{% url 'admin:f1web_car_add' %}" target="_blank">Add Car through Admin</a>
+
+    <h2>Seasons and Drivers</h2>
+    <table>
+        <tr>
+            <th>Season</th>
+            <th>Driver(s)</th>
+            <th>Car(s)</th>
+        </tr>
+
+        {% for season, cars, drivers in seasons_table %}
+        <tr>
+            <td>
+                <a href="{% url 'season_detail' season.year %}">
+                {{season}}
+                </a>
+            </td>
+
             <td>
             {% for driver in drivers %}
-            <span>
-            <a href="{% url 'driver_detail' driver.slug %}">{{driver}}</a>
-            </span>
+                <span>
+                <a href="{% url 'driver_detail' driver.slug %}">{{driver}}</a>
+                </span>
             {% endfor %}
             </td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
 
-    <a href="{% url 'admin:f1web_car_add' %}" target="_blank">Add Car through Admin</a>
-    
-    <div class="AddObjectForm">
-        <h3>Create a new Car by {{object}}</h3>
-        <form method="POST">
-        {{form}}
-        {% csrf_token %}
-        <input type="submit" />
-        </form>
-    </div>
-</body>
-</html>
+            <td>
+            {% for car in cars %}
+                <span>
+                <a href="{% url 'car_detail' car.slug %}">
+                {{car.name}}
+                </a>
+                </span>
+            {% endfor %}
+            </td>
+            
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+
+<div class="AddObjectForm">
+    <h3>Create a new Car by {{object}}</h3>
+    <form method="POST">
+    {{form}}
+    {% csrf_token %}
+    <input type="submit" value="Create Car"/>
+    </form>
+</div>
+{% endblock %}

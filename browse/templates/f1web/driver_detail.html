@@ -1,63 +1,58 @@
-{% load static %}
+{% extends "browse/base_org_detail.html" %}
+{% load links %}
 
-<html>
+{% block head %}
+<title>
+{{object}} {{object.country.unicode_flag}}
+</title>
+{% endblock %}
 
-<head>
-    <title>
-    {{object}} {{object.country.unicode_flag}}
-    </title>
+{% block navbar %}
+<a href="{% url 'driver_list' %}">Drivers List</a>
+<a href="{% url 'admin:f1web_driver_add' %}" target="_blank">Admin Add Driver</a>
+{% endblock %}
 
-    <link rel="stylesheet" type="text/css" href="{% static 'css/browse/common.css' %}" />
-</head>
-<body>
+{% block maincontent %}
+<div class="BasicInfo">
+    <h1>{{object}}</h1>
+
     <div>
-        <a href="{% url 'driver_list' %}">Drivers List</a>
+        Country: {{object.country.name}} {{object.country.unicode_flag}}
     </div>
+</div>
 
-    <div>
-        <h1>{{object}}</h1>
+<div>
+    <a class="Wikipedia" href="{{object | wikipedia}}" target=_blank>
+    <img src="https://wikipedia.org/static/favicon/wikipedia.ico">
+    </a>
+    <a href="{{ object.slug | statsf1 }}" target="_blank">Stats F1</a>
+</div>
 
-        <div>
-            Country: {{object.country.name}} {{object.country.unicode_flag}}
-        </div>
-    </div>
-
-    <div>
-        <a class="Wikipedia" href="https://en.wikipedia.org/wiki/{{object}}" target=_blank>
-        <img src="https://wikipedia.org/static/favicon/wikipedia.ico">
-        </a>
-    </div>
-
-    <div>
-        <table>
-            <th>
-                <tr>
-                    <td>Season</td>
-                    <td>Team</td>
-                </tr>
-            </th>
+<div class="RelatedInfoTable">
+    <table>
+        <tr>
+            <th>Season</th>
+            <th>Team</th>
+        </tr>
         {% for drive in object.drives_list %}
-            <tr>
-                <td>
-                    <a href="{% url 'season_detail' drive.season.pk %}">{{drive.season}}</a>
-                </td>
-                <td>
-                    <a href="{% url 'constructor_detail' drive.team.slug %}">{{drive.team}}</a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                <a href="{% url 'season_detail' drive.season.pk %}">{{drive.season}}</a>
+            </td>
+            <td>
+                <a href="{% url 'constructor_detail' drive.team.slug %}">{{drive.team}}</a>
+            </td>
+        </tr>
         {% endfor %}
+    </table>
+</div>
 
-        </table>
-    </div>
-
-    <div class="AddObjectForm">
-        <h3>Add a new drive by {{object}}</h3>
-        <form method="POST">
-        {{form}}
-        {% csrf_token %}
-        <input type="submit" />
-        </form>
-    </div>
-
-</body>
-</html>
+<div class="AddObjectForm">
+    <h3>Add a new drive by {{object}}</h3>
+    <form method="POST">
+    {{form}}
+    {% csrf_token %}
+    <input type="submit" value="Add"/>
+    </form>
+</div>
+{% endblock %}
