@@ -4,7 +4,7 @@ from django.contrib import admin
 # Register your models here.
 
 
-from .models import Car, Constructor, Driver, TeamManager, Engine, EngineMaker, Season, DrivingContract
+from .models import Car, Constructor, Driver, TeamManager, Engine, EngineMaker, Season, DrivingContract, CarNumber
 
 # Autopopulate slugs
 # https://www.w3schools.com/django/django_slug_field.php
@@ -29,6 +29,7 @@ admin.site.register(TeamManager)
 admin.site.register(Season)
 # admin.site.register(Drive)
 admin.site.register(DrivingContract)
+admin.site.register(CarNumber)
 admin.site.register(Engine)
 admin.site.register(EngineMaker)
 

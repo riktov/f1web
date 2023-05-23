@@ -17,6 +17,12 @@ def index(request):
     """View for top page in browse app"""
     return render(request, "browse/index.html", None)
 
+class DetailViewWithObjectList(DetailView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['model_object_list'] = self.model.objects.all()
+        return context
+    
 class DriverDetailView(DetailView):
     """DetailView for Driver"""
     model = Driver
@@ -54,7 +60,7 @@ class ConstructorListView(ListView):
     """ListView for Constructor"""
     model = Constructor
 
-class ConstructorDetailView(DetailView):
+class ConstructorDetailView(DetailViewWithObjectList):
     """DetailView for Constructor"""
     model = Constructor
 
@@ -62,9 +68,21 @@ class ConstructorDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = CreateCarForm()
+        context['cars_table'] = self.get_object().cars_ordered_by_season()
         context['seasons_table'] = self.get_object().seasons_and_cars_and_drivers()
-        context['model_objects_list'] = Constructor.objects.all()
+        # context['model_objects_list'] = self.model.objects.all()
         return context
+    
+    def post(self, request, *args, **kwargs):
+        # create a new Car by this Constructor
+        self.object = self.get_object()
+        context = self.get_context_data(**kwargs)
+        name = request.POST['name']
+        constructor = self.get_object()
+        car = Car(name = name, constructor = constructor)
+        car.save()
+        
+        return self.render_to_response(context=context)
     
 class CarDetailView(DetailView):
     """DetailView for Car"""
@@ -144,7 +162,7 @@ class CarListView(ListView):
     def grouped_list(self):
         """List of cars grouped by Constructor"""
         cons = {}
-        for car in Car.objects.all().order_by('season__year'):
+        for car in self.model.objects.all().order_by('season__year'):#built-in feature of ManyToMany?
             if car.constructor.name not in cons:
                 cons[car.constructor.name] = []
             if car not in cons[car.constructor.name]:
@@ -159,15 +177,10 @@ class EngineListView(ListView):
     """ListView for Engine"""
     model = Engine
 
-class EngineMakerDetailView(DetailView):
+class EngineMakerDetailView(DetailViewWithObjectList):
     """Detail for for Engine Maker"""
     model = EngineMaker
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['enginemaker_list'] = EngineMaker.objects.all()
-        return context
-    
 class EngineMakerListView(ListView):
     model = EngineMaker
     #TODO The list of engines (object.engine_set) should be sorted by earliest season
@@ -176,13 +189,12 @@ class SeasonListView(ListView):
     """ListView for Season"""
     model = Season
 
-class SeasonDetailView(DetailView):
+class SeasonDetailView(DetailViewWithObjectList):
     """DetailView for Season"""
     model = Season
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['seasons_list'] = Season.objects.all()
         context['drivers_table'] = queries.team_car_drivers_for_season(self.get_object())
         return context
 

@@ -62,7 +62,7 @@ class CarTest(TestCase):
         car2 = Car.objects.get(name = "FB2")
         bob = Driver.objects.get(name = "Bob")
         
-        list = car2.seasons_and_drivers_list
+        list = car2.seasons_and_drivers_table
 
         #1970 Bob
         line = list[0]

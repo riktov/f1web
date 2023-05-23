@@ -9,30 +9,32 @@
 
 {% block navbar %}
 <a href="{% url 'driver_list' %}">Drivers List</a>
-<a href="{% url 'admin:f1web_driver_add' %}" target="_blank">Admin Add Driver</a>
+<a href="{% url 'admin:f1web_driver_add' %}" target="_blank" class="AdminLink">Admin Add Driver</a>
 {% endblock %}
 
 {% block maincontent %}
-<div class="BasicInfo">
+<div class="Details">
     <h1>{{object}}</h1>
 
     <div>
-        Country: {{object.country.name}} {{object.country.unicode_flag}}
+        {{object.country.name}} {{object.country.unicode_flag}}
+    </div>
+    <div class="ExternalLinks">
+        <a href="{{object | wikipedia}}" target=_blank><img src="https://wikipedia.org/static/favicon/wikipedia.ico" /></a>
+        <a href="{{ object.slug | statsf1 }}" target="_blank"><img src="https://www.statsf1.com/favicon.ico" /></a>
+        <a href="{% url 'admin:f1web_driver_change' object.id %}" target="_blank" class="AdminLink">Admin Change</a>
     </div>
 </div>
 
-<div>
-    <a class="Wikipedia" href="{{object | wikipedia}}" target=_blank>
-    <img src="https://wikipedia.org/static/favicon/wikipedia.ico">
-    </a>
-    <a href="{{ object.slug | statsf1 }}" target="_blank">Stats F1</a>
-</div>
 
 <div class="RelatedInfoTable">
+    <h2>History</h2>
     <table>
         <tr>
             <th>Season</th>
             <th>Team</th>
+            <th>Lead</th>
+            <th>Edit</th>
         </tr>
         {% for drive in object.drives_list %}
         <tr>
@@ -41,6 +43,13 @@
             </td>
             <td>
                 <a href="{% url 'constructor_detail' drive.team.slug %}">{{drive.team}}</a>
+                {% comment %} <a href="{% url 'admin:f1web_drivingcontract' drive.pk %}">Edit</a>> {% endcomment %}
+            </td>
+            <td>
+                {{drive.is_lead}}
+            </td>
+            <td>
+                {% comment %} <a href="{% url 'admin:f1web_drivingcontract' drive.team.slug %}">Edit</a> {% endcomment %}
             </td>
         </tr>
         {% endfor %}

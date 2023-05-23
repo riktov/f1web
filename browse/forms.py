@@ -6,7 +6,7 @@ class CreateDriveForm(forms.ModelForm):
     """Form form for creating a new Drive (driver, team, season)"""
     class Meta:
         model = DrivingContract
-        fields = [ "season", "team", "driver" ]
+        fields = [ "season", "team", "driver", "is_lead" ]
 
 class CreateDriveForThisDriverForm(CreateDriveForm):
     """Form form for creating a new Drive for an already specified driver"""

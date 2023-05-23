@@ -17,7 +17,7 @@
 {% block maincontent %}
 <div class="AllObjectsList">
     <ul>
-    {% for season in seasons_list %}
+    {% for season in model_object_list %}
         <li><a href="{% url 'season_detail' season %}">{{season}}</a></li>
     {% endfor %}
     </ul>
@@ -41,12 +41,14 @@
         <h3>Cars that drove this season</h3>
         <p>Sorted Alphabetically</p>
         <ul>
-            {% for car in object.car_list %}
+            {% for car in object.cars.all %}
             <li>
-                <a href="{% url 'car_detail' car.slug %}">{{car}}</a>
-                {% if car.engine %}
-                <a href="{% url 'engine_detail' car.engine.id %}">{{car.engine.maker}}</a>
-                {% endif %}
+                <a href="{% url 'car_detail' car.slug %}">
+                    {{car}}
+                    {% if car.engine and not car.constructor.is_factory %}
+                     {{car.engine.maker}}
+                    {% endif %}
+                </a>
             </li>
             {% endfor %}
         </ul>
@@ -60,6 +62,7 @@
                 <th>Constructor</th>
                 <th>Car(s)</th>
                 <th>Driver(s)</th>
+                <th>Numbers</th>
             </tr>
             {% for row in drivers_table %}
                 <tr>
@@ -74,10 +77,12 @@
                     <td>
                     {% for driver in row.drivers %}
                         <a href="{% url 'driver_detail' driver.0.slug %}">{{driver.0}}</a>
-                        {% if driver.1%}
                         [{{driver.1}}]
-                        {% endif %}<br/>
+                        <br/>
                     {% endfor %}
+                    </td>
+                    <td>
+                        {{row.numbers}}
                     </td>
                 </tr>
             {% endfor %}

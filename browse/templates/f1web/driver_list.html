@@ -1,17 +1,12 @@
-{% load static %}
-<html>
-<head>
+{% extends 'browse/base.html' %}
+
+{% block head %}
     <title>
     Driver List
     </title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/browse/common.css' %}" />
-</head>
-<body>
+{% endblock %}
 
-    <div class="NavBar">
-        <a href="{% url 'index' %}">Top</a>
-    </div>
-
+{% block maincontent %}
 <div class="ObjectList">
     <ul>
     {% for driver in driver_list %}
@@ -22,6 +17,4 @@
     {% endfor %}
     </ul>
 </div>
-
-</body>
-</html>
+{% endblock %}

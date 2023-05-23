@@ -16,11 +16,15 @@ table th {
     padding: 3px ;
 }
 
-a.Wikipedia {
+div.ExternalLinks {
+    height: 32px ;
+}
+div.ExternalLinks a {
     float: left ;
+    margin-right: 10px;
 }
 
-a.Wikipedia > img {
+div.ExternalLinks img {
     width: 16px;
     height: 16px ;
 }
@@ -45,6 +49,7 @@ div.AllObjectsList {
     float: left ;
     height: 100% ;
     background-color: coral;
+    padding: 1em ;
 }
 
 /* Does not work in "quirks mode", requires <!DOCTYPE html> */
@@ -65,7 +70,7 @@ div.SiteFooter {
     color:aquamarine;
 }
 
-.MainContent > .Details {
+div.MainContent  div.Details {
     padding: 5px ;
     border: solid 5px goldenrod ;
 }

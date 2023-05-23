@@ -29,3 +29,7 @@ def statsf1_engine_maker(maker):
 @register.filter(name="nbhyphen")
 def nbsp(value):
     return mark_safe("&#8209;".join(str(value).split('-')))
+
+@register.filter(name="to_class_name")
+def to_class_name(value):
+    return value.__class__.__name__

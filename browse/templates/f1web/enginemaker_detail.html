@@ -14,7 +14,7 @@
 
 {% block orglist_ul %}
     <ul>
-    {% for enginemaker in enginemaker_list %}
+    {% for enginemaker in model_object_list %}
         <li><a href="{% url 'enginemaker_detail' enginemaker.slug %}">{{enginemaker | nbhyphen }}</a></li>
     {% endfor %}
     </ul>

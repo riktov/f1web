@@ -13,16 +13,18 @@
 {% endblock %}
 
 {% block orglist_ul %}
-{% for object in model_objects_list %}
+{% for object in model_object_list %}
     <li><a href="{% url 'constructor_detail' object.slug %}">{{object}}</a></li>
 {% endfor %}
 {% endblock %}
 
 
 {% block orgdetails %}
-<h1>{{object}}</h1>
-<div>
-    {{object.country.name}} {{object.country.unicode_flag}}
+<div class="Details">
+    <h1>{{object}}</h1>
+    <div>
+        {{object.country.name}} {{object.country.unicode_flag}}
+    </div>
 </div>
 {% endblock %}
 
@@ -36,7 +38,7 @@
             <th>Seasons(s)</th>
         </tr>
         
-        {% for car in object.cars %}
+        {% for car in cars_table %}
         <tr>
             <td>
                 <a href="{% url 'car_detail' car.slug %}">{{car.name}}</a>
@@ -50,7 +52,7 @@
             </td>
 
             <td>
-            {% for season in car.season_list %}
+            {% for season in car.season_set.all %}
                 <span>{{season}}</span>
             {% endfor %}
             </td>
@@ -65,6 +67,7 @@
             <th>Season</th>
             <th>Driver(s)</th>
             <th>Car(s)</th>
+            <th>Numbers</th>
         </tr>
 
         {% for season, cars, drivers in seasons_table %}
@@ -79,7 +82,7 @@
             {% for driver in drivers %}
                 <span>
                 <a href="{% url 'driver_detail' driver.slug %}">{{driver}}</a>
-                </span>
+                </span><br/>
             {% endfor %}
             </td>
 
@@ -92,6 +95,8 @@
                 </span>
             {% endfor %}
             </td>
+
+            <td>-</td>
             
         </tr>
         {% endfor %}

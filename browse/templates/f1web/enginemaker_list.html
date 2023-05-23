@@ -1,18 +1,1 @@
-{% extends "browse/base_org_list.html" %}
-{% load static %}
-
-{% block head %}
-<title>Engine Makers List</title>
-{% endblock %}
-
-{% block maincontent %}
-<div class="ObjectList">
-    <ul>
-    {% for enginemaker in enginemaker_list %}
-        <li>
-        <a href="{{enginemaker.slug}}">{{enginemaker}}</a>
-        </li>
-    {% endfor %}
-    </ul>
-</div>
-{% endblock %}
+{% extends 'browse/object_list_slug.html' %}

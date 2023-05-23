@@ -9,7 +9,6 @@
 
 {% block navbar %}
 <a href="{% url 'car_list' %}">List All Cars</a>
-<a href="{% url 'admin:f1web_car_change' object.id %}" target="_blank" class="AdminLink">Admin Edit Car</a>
 {% endblock %}
 
 {% block maincontent %}    
@@ -22,14 +21,18 @@
         <a href="{% url 'engine_detail' object.engine.id %}">{{object.engine}}</a>
         {% endif %}
         </p>
-        <a href="{{ object | wikipedia }}" target="_blank">Wikipedia</a>
-        <a href="{{ object | statsf1 }}" target="_blank">Stats F1</a>
+        <hr/>
+        <div class="ExternalLinks">
+            <a href="{{object | wikipedia}}" target=_blank><img src="https://wikipedia.org/static/favicon/wikipedia.ico" /></a>
+            <a href="{{ object.slug | statsf1 }}" target="_blank"><img src="https://www.statsf1.com/favicon.ico" /></a>
+            <a href="{% url 'admin:f1web_car_change' object.id %}" target="_blank" class="AdminLink">Admin Change</a>
+        </div>
     </div>
     
     <div class="SeasonsList">
         <h3>Seasons</h3>
         <ul>
-        {% for season in object.season_list %}
+        {% for season in object.season_set.all %}
             <li><a href="{% url 'season_detail' season.pk %}">{{season}}</a></li>
         {% endfor %}
         <ul>

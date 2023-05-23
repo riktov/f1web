@@ -31,12 +31,21 @@ class Driver(models.Model):
     def drives_list(self):
         return self.drives.all()
 
-    def team_in_season(self, season):
+    def team_in(self, season):
         teams = [dc.team for dc in DrivingContract.objects.filter(driver = self, season=season)]
 
     def car_number_in(self, season, team):
+        #might return multiple, fix it if it happens
         dc = DrivingContract.objects.get(driver = self, season=season, team= team)
-        return dc.car_number
+
+        try:
+            cn = CarNumber.objects.get(season=season, team=team)
+            if dc.is_lead:
+                return cn.number
+            else:
+                return cn.number + 1
+        except CarNumber.DoesNotExist:
+            return None
 
     def __str__(self):
         return str(self.name)
@@ -46,6 +55,7 @@ class Constructor(models.Model):
     name = models.CharField(max_length=64, unique=True, blank=False, null=False)
     country = CountryField(null=True)
     slug = models.SlugField(max_length = 32, blank=True, null=True)
+    is_factory = models.BooleanField(default=False) #Constructor full (season) name
     # predecessor = models.ForeignKey('self', blank=True, null=True, on_delete=models.DO_NOTHING)
 
     class Meta:
@@ -54,10 +64,10 @@ class Constructor(models.Model):
     def __str__(self):
         return str(self.name)
 
-    @property
-    def cars(self):
+    def cars_ordered_by_season(self):
         """return all the cars that this Constructor has raced"""
-        all_cars = Car.objects.filter(constructor=self)
+        all_cars = self.car_set.all()
+        #Car.objects.filter(constructor=self)
 
         cars_with_season = [
             car for car in all_cars if car.earliest_season() is not None]
@@ -72,7 +82,7 @@ class Constructor(models.Model):
 
     def drivers_in_season(self, season):
         """return all the drivers that have driven for this Constructor in the specified season"""
-        drives = self.drives.filter(season=season, team=self)
+        drives = self.drives.filter(season=season)
 
         if not drives:
             return []
@@ -84,18 +94,18 @@ class Constructor(models.Model):
     def seasons_and_cars_and_drivers(self):
         return [(s, s.cars.filter(constructor = self), self.drivers_in_season(s)) for s in self.seasons() ]
     
-    def full_name_in_season(self, season):
-        "Combination of chassis and engine, e.g., McLaren-Honda, Benetton-Ford"
-        return self.name()
+    def full_name(self, season):
+        """Combination of chassis and engine, e.g., McLaren-Honda, Benetton-Ford"""
+        return self.name
 
-    def car_number(self, season):
-        dc = DrivingContract.objects.filter(team = self, season=season, car_number__isnull=False)
-        if dc:
-            num = dc.first().car_number
-            if num % 2 == 0:
-                num = num - 1
-            return num
-        return None
+    def car_numbers(self, season):
+        # cn = CarNumber.objects.get(team = self, season=season)
+        try:
+            cn = self.carnumber_set.get(season=season)
+            return cn.pair()
+        except CarNumber.DoesNotExist:
+            return None
+  
 
 class TeamManager(models.Model):
     """The person who manages the Constructor, e.g., Ron Dennis, Bernie Ecclestone"""
@@ -143,35 +153,30 @@ class Car(models.Model):
         self.slug = slugify(str(self))
         super(Car, self).save(*args, **kwargs)
 
-    @property
-    def season_list(self):
-        """A list of the seasons in which this car raced"""
-        return Season.objects.filter(cars=self)
-
     def earliest_season(self):
         """Return the first season in which this car raced"""
-        seasons = self.season_list
+        seasons = self.season_set.all()
         if seasons:
             return seasons[0]
         return None
 
     @property
-    def seasons_and_drivers_list(self):
-        """Return a list of years and drivers of this car"""
+    def seasons_and_drivers_table(self):
+        """Return a table of years and drivers of this car"""
         seasons_and_drivers = []
 
         #NOTE: constructor is None.
         
         drives = DrivingContract.objects.all()
 
-        for season in self.season_list:
+        for season in self.season_set.all():
             drives = DrivingContract.objects.filter(season = season, team = self.constructor)
             
-            line = [
+            row = [
                 season,
                 [ drive.driver for drive in drives ]
             ]
-            seasons_and_drivers.append(line)
+            seasons_and_drivers.append(row)
 
         return seasons_and_drivers
     
@@ -193,36 +198,12 @@ class Season(models.Model):
         return str(self.year)
 
     @property
-    def car_list(self):
+    def xxxcar_list(self):
         """A list of cars that raced in this season"""
         if self.cars:
             return self.cars.all()
         else:
             return []
-
-    @property
-    def xxxcar_and_driver_list(self):
-        """Return a list of cars and drivers (of all teams) in this season"""
-        teams = [car.constructor for car in self.car_list]
-        team_car_drivers = []
-
-        # drive = self.drives.filter(season=self)
-
-        for team in Constructor.objects.all():
-            try:
-                drives = self.drives.filter(season=self, team=team)
-                if drives:
-                    drivers = [drive.driver for drive in drives]
-                    team_dict = {
-                        "team": team,
-                        "cars": self.car_list.filter(constructor=team),
-                        "drivers": drivers
-                    }
-                    team_car_drivers.append(team_dict)
-            except DrivingContract.DoesNotExist:
-                pass
-
-        return team_car_drivers
 
     @property
     def previous(self):
@@ -236,14 +217,15 @@ class Season(models.Model):
     
     @property 
     def drivers_champion_team(self):
-        teams = [ dc.team for dc in DrivingContract.objects.filter(season=self, driver=self.drivers_champion)]
+        teams = [ dc.team for dc in self.drives.filter(driver=self.drivers_champion)]
+        # teams = [ dc.team for dc in DrivingContract.objects.filter(season=self, driver=self.drivers_champion)]
         return teams[0]
 
     @property
     def is_double_champion(self):
-        #need to compare id. "is" comparison with Constructor objects doesn't work
+        """Did we win the constructor's title and one of our drives won the driver's title?"""
         if self.drivers_champion and self.constructors_champion :
-            return self.drivers_champion_team.id == self.constructors_champion.id
+            return self.drivers_champion_team == self.constructors_champion
         return False
 
 class DrivingContract(models.Model):
@@ -265,8 +247,22 @@ class DrivingContract(models.Model):
         return f"{self.season} for {self.team} by {self.driver}"
 
 class CarNumber(models.Model):
-    """The lead number (lower of two, always odd) assigned to a constructor for one season"""
+    """The lead number (lower of two, always odd except for 0) assigned to a constructor for one season"""
     # Handle Damon Hill #0
     season = models.ForeignKey(Season, blank=False, null=False, on_delete=models.CASCADE)
     team = models.ForeignKey(Constructor, blank=False, null=False, on_delete=models.CASCADE)
-    number = models.IntegerField(null=True, blank=True)
+    number = models.IntegerField(blank=False, null=False)
+
+    class Meta:
+        ordering = ('season', 'number',)
+        unique_together = ('season', 'team', )
+    
+    def __str__(self):
+        return f"{self.season} {self.number} {self.team}"
+    
+    def pair(self):
+        """Return a tuple of the two car numbers"""
+        #damonhill
+        if self.number == 0:
+            return (0, 2,)
+        return(self.number, self.number + 1)

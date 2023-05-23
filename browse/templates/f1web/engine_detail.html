@@ -8,11 +8,15 @@
 
 {% block navbar %}
 <a href="{% url 'engine_list' %}">List All Engines</a>
-<a href="{% url 'admin:f1web_engine_change' object.id %}" target="_blank" class="AdminLink">Admin Edit Engine</a>
 {% endblock %}
 
 {% block maincontent %}
-    <h1><a href="{% url 'enginemaker_detail' object.maker.slug %}">{{object.maker}}</a> {{object.name}}</h1>
+    <div class="Details">
+        <h1><a href="{% url 'enginemaker_detail' object.maker.slug %}">{{object.maker}}</a> {{object.name}}</h1>
+        <div class="ExternalLinks">
+            <a href="{% url 'admin:f1web_engine_change' object.id %}" target="_blank" class="AdminLink">Admin Change</a>
+        </div>
+    </div>
 
     <div class="UsedIn">
         <h2>Used in:</h2>
@@ -26,7 +30,7 @@
             <tr>
                 <td><a href="{% url 'car_detail' car.slug %}">{{car}}</a></td>
                 <td>
-                    {% for season in car.season_list %}
+                    {% for season in car.season_set.all %}
                     {{season}}
                     {% endfor %}
                 </td>
