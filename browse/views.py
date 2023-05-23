@@ -8,7 +8,6 @@ from django.views.generic.list import ListView
 
 from f1web.models import Car, Driver, Constructor, EngineMaker, Season, Engine
 from .forms import CreateDriveForThisDriverForm, AddThisCarToSeasonForm, CreateCarForm
-
 from . import queries
 
 # Create your views here.

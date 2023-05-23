@@ -35,17 +35,17 @@ class Driver(models.Model):
         teams = [dc.team for dc in DrivingContract.objects.filter(driver = self, season=season)]
 
     def car_number_in(self, season, team):
-        #might return multiple, fix it if it happens
-        dc = DrivingContract.objects.get(driver = self, season=season, team= team)
+        dc = self.drives.get(season = season, team=team)
+        # dc = DrivingContract.objects.get(driver = self, season=season, team= team)
 
-        try:
-            cn = CarNumber.objects.get(season=season, team=team)
+        cn = team.car_numbers(season=season)
+        if cn:
             if dc.is_lead:
-                return cn.number
+                return cn[0]
             else:
-                return cn.number + 1
-        except CarNumber.DoesNotExist:
-            return None
+                return cn[1]
+
+        return None
 
     def __str__(self):
         return str(self.name)
@@ -227,6 +227,14 @@ class Season(models.Model):
         if self.drivers_champion and self.constructors_champion :
             return self.drivers_champion_team == self.constructors_champion
         return False
+    
+    def constructors(self):
+        teams_with_cars = { car.constructor for car in self.cars.all() }
+        teams_with_drivers = { dr.team for dr in self.drives.all() }
+        teams_with_numbers = { cn.team for cn in self.carnumber_set.all() }
+
+        return teams_with_cars.union(teams_with_drivers, teams_with_numbers)
+
 
 class DrivingContract(models.Model):
     """A driving gig, containing a season, team, and driver"""
@@ -247,8 +255,8 @@ class DrivingContract(models.Model):
         return f"{self.season} for {self.team} by {self.driver}"
 
 class CarNumber(models.Model):
-    """The lead number (lower of two, always odd except for 0) assigned to a constructor for one season"""
-    # Handle Damon Hill #0
+    """The lead number (lower of two consecutive) assigned to a constructor for one season"""
+    #normally odd, but in some cases even: 1981 Fittipaldi and Alfa Romeo, 1993 Williams (special case)
     season = models.ForeignKey(Season, blank=False, null=False, on_delete=models.CASCADE)
     team = models.ForeignKey(Constructor, blank=False, null=False, on_delete=models.CASCADE)
     number = models.IntegerField(blank=False, null=False)
@@ -265,4 +273,4 @@ class CarNumber(models.Model):
         #damonhill
         if self.number == 0:
             return (0, 2,)
-        return(self.number, self.number + 1)
+        return(self.number, self.number + 1,)

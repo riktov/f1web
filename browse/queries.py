@@ -3,32 +3,28 @@ from f1web.models import DrivingContract
 
 def team_car_drivers_for_season(season):
     """For a Season, return a list of dictionaries containing team, cars, drivers"""
-    teams_with_cars = { car.constructor for car in season.cars.all() }    #set comprehension
-    teams_with_drivers = { drive.team for drive in season.drives.all() }
-
-    teams = teams_with_cars.union(teams_with_drivers)
-    #sort by car number
-
     team_car_drivers = []
 
-    # drive = self.drives.filter(season=self)
-
-    for team in teams:
+    for team in season.constructors():
         try:
             drives = season.drives.filter(team=team)
 
             drivers = [drive.driver for drive in drives]
-            #TODO: sort by car number
             
-            team_dict = {
+            if team.car_numbers(season):
+                drivers.sort(key = lambda d: d.car_number_in(season, team))
+            row = {
                 "team": team,
                 "cars": season.cars.filter(constructor=team),
                 "drivers": [(dr, dr.car_number_in(season, team)) for dr in drivers],
                 "numbers": team.car_numbers(season)
             }
-            team_car_drivers.append(team_dict)
+            team_car_drivers.append(row)
 
         except DrivingContract.DoesNotExist:
             pass
 
-    return team_car_drivers
+    rows_with_car_numbers = sorted([ r for r in team_car_drivers if r["numbers"] ], key = lambda r: r["numbers"][0])
+    rows_without_car_numbers = [ r for r in team_car_drivers if not r["numbers"] ]
+    
+    return rows_with_car_numbers + rows_without_car_numbers
