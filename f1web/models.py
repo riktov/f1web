@@ -18,11 +18,20 @@ class EngineMaker(models.Model):
     def __str__(self):
         return str(self.name)
 
+    def natural_key(self):
+        return (self.name,)
+
+class DriverManager(models.Manager):
+    def get_by_natural_key(self, name):
+        return self.get(name = name)
+    
 class Driver(models.Model):
     """A Driver"""
     name = models.CharField(max_length=256)
     country = CountryField(null=True)
     slug = models.SlugField(max_length = 64, blank=True, null=True)
+
+    objects = DriverManager()
 
     class Meta:
         ordering = ('name',)
@@ -50,6 +59,9 @@ class Driver(models.Model):
     def __str__(self):
         return str(self.name)
     
+    def natural_key(self):
+        return (self.name,)
+    
 class Constructor(models.Model):
     """A Formula 1 constructor (team)"""
     name = models.CharField(max_length=64, unique=True, blank=False, null=False)
@@ -64,6 +76,9 @@ class Constructor(models.Model):
     def __str__(self):
         return str(self.name)
 
+    def natural_key(self):
+        return (self.name,)
+    
     def cars_ordered_by_season(self):
         """return all the cars that this Constructor has raced"""
         all_cars = self.car_set.all()
@@ -131,6 +146,9 @@ class Engine(models.Model):
         return self.maker.name + " " + self.name
         # return "%s %s %s cylinder" % (self.maker, self.name, self.cylinders)
 
+    def natural_key(self):
+        return (self.maker.name, self.name)
+
 class Car(models.Model):
     """A Formula 1 Car"""
     name = models.CharField(max_length=64, blank=False)
@@ -145,6 +163,9 @@ class Car(models.Model):
             return self.constructor.name + " " + self.name
         return self.name
 
+    def natural_key(self):
+        return (self.constructor.name, self.name)
+    
     class Meta:
         ordering = ('constructor', 'name')
         unique_together = ('constructor', 'name',)
