@@ -155,10 +155,10 @@ class CarListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['grouped_list'] = self.grouped_list()
+        context['grouped_list'] = self.list_by_constructor()
         return context
 
-    def grouped_list(self):
+    def list_by_constructor(self):
         """List of cars grouped by Constructor"""
         cons = {}
         for car in self.model.objects.all().order_by('season__year'):#built-in feature of ManyToMany?
@@ -171,7 +171,14 @@ class CarListView(ListView):
 class EngineDetailView(DetailView):
     """DetailView for Engine"""
     model = Engine
-    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        cars = self.get_object().car_set.all()
+        context['cars_grouped_by_season'] = queries.cars_grouped_by_season(cars)
+        return context
+
 class EngineListView(ListView):
     """ListView for Engine"""
     model = Engine

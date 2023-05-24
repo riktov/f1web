@@ -28,3 +28,18 @@ def team_car_drivers_for_season(season):
     rows_without_car_numbers = [ r for r in team_car_drivers if not r["numbers"] ]
     
     return rows_with_car_numbers + rows_without_car_numbers
+
+def cars_grouped_by_season(cars):
+    dict = {}
+
+    for car in cars:
+        earliest = car.earliest_season()
+        if earliest not in dict:
+            dict[earliest] = []
+        dict[earliest].append(car)
+
+    seasons = sorted(dict.keys(), key=lambda s:s.year)
+
+    table = [[s, dict[s]] for s in seasons]
+
+    return table

@@ -1,4 +1,5 @@
 {% extends "browse/base.html" %}
+{% load sort %}
 
 {% block head %}
     <title>
@@ -20,13 +21,33 @@
 
     <div class="UsedIn">
         <h2>Used in:</h2>
+        
+        <h3>By season</h3>
+        <table>
+        <tr>
+        <th>Season</th>
+        <th>Cars</th>
+        </tr>
+        {% for row in cars_grouped_by_season %}
+        <tr>
+            <td>{{row.0}}</td>
+            <td>
+                {% for car in row.1 %}
+                <a href="{% url 'car_detail' car.slug %}">{{car}}</a></br>
+                {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}        
+        </table>
+        <h3>By car ID</h3>
         <table>
             <tr>
                 <th>Car</th>
                 <th>Season(s)</th>
             </tr>
 
-            {% for car in object.car_set.all %}
+            {% with cars_by_season=object.car_set.all %}
+            {% for car in cars_by_season %}
             <tr>
                 <td><a href="{% url 'car_detail' car.slug %}">{{car}}</a></td>
                 <td>
@@ -36,6 +57,7 @@
                 </td>
             </tr>
             {% endfor %}
+            {% endwith %}
         </table>
     </div>
 
