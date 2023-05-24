@@ -33,7 +33,7 @@
         <tr>
             <th>Season</th>
             <th>Team</th>
-            <th>Lead</th>
+            <th>#1</th>
             <th>Edit</th>
         </tr>
         {% for drive in object.drives_list %}
@@ -46,14 +46,12 @@
                 {% comment %} <a href="{% url 'admin:f1web_drivingcontract' drive.pk %}">Edit</a>> {% endcomment %}
             </td>
             <td>
-                <input type="checkbox"
                 {% if drive.is_lead %}
-                checked="True"
+                +
                 {% endif %}
-                />
             </td>
             <td>
-                <a href="{% url 'admin:f1web_drivingcontract_change' drive.id %}">Edit</a>
+                <a href="{% url 'admin:f1web_drivingcontract_change' drive.id %}" target="_blank">Edit</a>
             </td>
         </tr>
         {% endfor %}
