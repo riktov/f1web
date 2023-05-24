@@ -82,7 +82,11 @@
                     {% endfor %}
                     </td>
                     <td>
+                        {% if row.numbers %}
                         {{row.numbers}}
+                        {% else %}
+                        -
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

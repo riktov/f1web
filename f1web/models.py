@@ -248,11 +248,14 @@ class DrivingContract(models.Model):
     is_lead = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ('season', 'team', 'driver',)
+        ordering = ('season', 'team', '-is_lead', 'driver',)
         unique_together = ('season', 'team', 'driver')
 
     def __str__(self):
-        return f"{self.season} for {self.team} by {self.driver}"
+        lead = ''
+        if self.is_lead:
+            lead = '+'
+        return f"{self.season} for {self.team} by {self.driver}{lead}" 
 
 class CarNumber(models.Model):
     """The lead number (lower of two consecutive) assigned to a constructor for one season"""
