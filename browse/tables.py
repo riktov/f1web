@@ -1,4 +1,4 @@
-"""Queries that a are too complex to place directly in Views or Models"""
+"""tables that are created in views and passed to templates"""
 from f1web.models import DrivingContract
 
 def team_car_drivers_for_season(season):

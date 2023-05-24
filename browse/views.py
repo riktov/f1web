@@ -8,7 +8,7 @@ from django.views.generic.list import ListView
 
 from f1web.models import Car, Driver, Constructor, EngineMaker, Season, Engine
 from .forms import CreateDriveForThisDriverForm, AddThisCarToSeasonForm, CreateCarForm
-from . import queries
+from . import tables
 
 # Create your views here.
 
@@ -176,7 +176,7 @@ class EngineDetailView(DetailView):
         context = super().get_context_data(**kwargs)
 
         cars = self.get_object().car_set.all()
-        context['cars_grouped_by_season'] = queries.cars_grouped_by_season(cars)
+        context['cars_grouped_by_season'] = tables.cars_grouped_by_season(cars)
         return context
 
 class EngineListView(ListView):
@@ -201,7 +201,7 @@ class SeasonDetailView(DetailViewWithObjectList):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['drivers_table'] = queries.team_car_drivers_for_season(self.get_object())
+        context['drivers_table'] = tables.team_car_drivers_for_season(self.get_object())
         return context
 
 
