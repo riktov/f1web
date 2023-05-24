@@ -5,19 +5,7 @@
         "fields": {
             "name": "Nelson Piquet",
             "country": "BR",
-            "drives": [
-                35,
-                1,
-                2,
-                30,
-                31,
-                5,
-                4,
-                27,
-                32,
-                33,
-                34
-            ]
+            "slug": "nelson-piquet"
         }
     },
     {
@@ -26,18 +14,7 @@
         "fields": {
             "name": "Alain Prost",
             "country": "FR",
-            "drives": [
-                38,
-                37,
-                36,
-                14,
-                8,
-                3,
-                10,
-                12,
-                15,
-                16
-            ]
+            "slug": "alain-prost"
         }
     },
     {
@@ -46,15 +23,7 @@
         "fields": {
             "name": "Nigel Mansell",
             "country": "GB",
-            "drives": [
-                5,
-                4,
-                7,
-                11,
-                12,
-                23,
-                24
-            ]
+            "slug": "nigel-mansell"
         }
     },
     {
@@ -63,19 +32,7 @@
         "fields": {
             "name": "Riccardo Patrese",
             "country": "IT",
-            "drives": [
-                1,
-                2,
-                39,
-                40,
-                6,
-                41,
-                7,
-                9,
-                23,
-                24,
-                42
-            ]
+            "slug": "riccardo-patrese"
         }
     },
     {
@@ -84,18 +41,7 @@
         "fields": {
             "name": "Ayrton Senna",
             "country": "BR",
-            "drives": [
-                22,
-                21,
-                17,
-                3,
-                10,
-                13,
-                18,
-                19,
-                20,
-                25
-            ]
+            "slug": "ayrton-senna"
         }
     },
     {
@@ -104,21 +50,7 @@
         "fields": {
             "name": "Gerhard Berger",
             "country": "AT",
-            "drives": [
-                48,
-                49,
-                29,
-                28,
-                11,
-                13,
-                18,
-                19,
-                43,
-                46,
-                47,
-                44,
-                45
-            ]
+            "slug": "gerhard-berger"
         }
     },
     {
@@ -127,9 +59,7 @@
         "fields": {
             "name": "Thierry Boutsen",
             "country": "BE",
-            "drives": [
-                9
-            ]
+            "slug": "thierry-boutsen"
         }
     },
     {
@@ -138,9 +68,7 @@
         "fields": {
             "name": "Jean Alesi",
             "country": "FR",
-            "drives": [
-                15
-            ]
+            "slug": "jean-alesi"
         }
     },
     {
@@ -149,12 +77,7 @@
         "fields": {
             "name": "Satoru Nakajima",
             "country": "JP",
-            "drives": [
-                17,
-                27,
-                32,
-                26
-            ]
+            "slug": "satoru-nakajima"
         }
     },
     {
@@ -163,9 +86,7 @@
         "fields": {
             "name": "Keke Rosberg",
             "country": "FI",
-            "drives": [
-                14
-            ]
+            "slug": "keke-rosberg"
         }
     },
     {
@@ -174,9 +95,7 @@
         "fields": {
             "name": "Elio de Angelis",
             "country": "IT",
-            "drives": [
-                6
-            ]
+            "slug": "elio-de-angelis"
         }
     },
     {
@@ -185,21 +104,16 @@
         "fields": {
             "name": "Stefan Johansson",
             "country": "SE",
-            "drives": [
-                8
-            ]
+            "slug": "stefan-johansson"
         }
     },
     {
         "model": "f1web.driver",
         "pk": 13,
         "fields": {
-            "name": "Michele Arboreto",
+            "name": "Michele Alboreto",
             "country": "IT",
-            "drives": [
-                29,
-                28
-            ]
+            "slug": "michele-alboreto"
         }
     },
     {
@@ -208,10 +122,7 @@
         "fields": {
             "name": "Eddie Cheever",
             "country": "US",
-            "drives": [
-                38,
-                40
-            ]
+            "slug": "eddie-cheever"
         }
     },
     {
@@ -220,9 +131,7 @@
         "fields": {
             "name": "Niki Lauda",
             "country": "AT",
-            "drives": [
-                37
-            ]
+            "slug": "niki-lauda"
         }
     },
     {
@@ -231,10 +140,358 @@
         "fields": {
             "name": "Damon Hill",
             "country": "GB",
-            "drives": [
-                16,
-                25
-            ]
+            "slug": "damon-hill"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 17,
+        "fields": {
+            "name": "Michael Andretti",
+            "country": "US",
+            "slug": "michael-andretti"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 18,
+        "fields": {
+            "name": "Stefano Modena",
+            "country": "IT",
+            "slug": "stefano-modena"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 19,
+        "fields": {
+            "name": "Mika Häkkinen",
+            "country": "FI",
+            "slug": "mika-hakkinen"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 20,
+        "fields": {
+            "name": "Johnny Dumfries",
+            "country": "GB",
+            "slug": "johnny-dumfries"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 21,
+        "fields": {
+            "name": "Teo Fabi",
+            "country": "IT",
+            "slug": "teo-fabi"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 22,
+        "fields": {
+            "name": "Michael Schumacher",
+            "country": "DE",
+            "slug": "michael-schumacher"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 23,
+        "fields": {
+            "name": "René Arnoux",
+            "country": "FR",
+            "slug": "rene-arnoux"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 24,
+        "fields": {
+            "name": "Johnny Herbert",
+            "country": "GB",
+            "slug": "johnny-herbert"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 25,
+        "fields": {
+            "name": "Martin Brundle",
+            "country": "GB",
+            "slug": "martin-brundle"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 26,
+        "fields": {
+            "name": "Ivan Capelli",
+            "country": "IT",
+            "slug": "ivan-capelli"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 27,
+        "fields": {
+            "name": "Marc Surer",
+            "country": "CH",
+            "slug": "marc-surer"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 28,
+        "fields": {
+            "name": "Gianni Morbidelli",
+            "country": "IT",
+            "slug": "gianni-morbidelli"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 29,
+        "fields": {
+            "name": "Alessandro Nannini",
+            "country": "IT",
+            "slug": "alessandro-nannini"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 30,
+        "fields": {
+            "name": "Mika Salo",
+            "country": "FI",
+            "slug": "mika-salo"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 31,
+        "fields": {
+            "name": "Aguri Suzuki",
+            "country": "JP",
+            "slug": "aguri-suzuki"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 32,
+        "fields": {
+            "name": "Philippe Alliot",
+            "country": "FR",
+            "slug": "philippe-alliot"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 33,
+        "fields": {
+            "name": "David Coulthard",
+            "country": "GB",
+            "slug": "david-coulthard"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 34,
+        "fields": {
+            "name": "Eddie Irvine",
+            "country": "GB",
+            "slug": "eddie-irvine"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 35,
+        "fields": {
+            "name": "Heinz-Harald Frentzen",
+            "country": "DE",
+            "slug": "heinz-harald-frentzen"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 36,
+        "fields": {
+            "name": "Ralf Schumacher",
+            "country": "DE",
+            "slug": "ralf-schumacher"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 37,
+        "fields": {
+            "name": "Jacques Villeneuve",
+            "country": "CA",
+            "slug": "jacques-villeneuve"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 38,
+        "fields": {
+            "name": "Rubens Barichello",
+            "country": "BR",
+            "slug": "rubens-barichello"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 39,
+        "fields": {
+            "name": "Toranosuke Takagi",
+            "country": "JP",
+            "slug": "toranosuke-takagi"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 40,
+        "fields": {
+            "name": "Maurício Gugelmin",
+            "country": "BR",
+            "slug": "mauricio-gugelmin"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 41,
+        "fields": {
+            "name": "Mark Blundell",
+            "country": "GB",
+            "slug": "mark-blundell"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 42,
+        "fields": {
+            "name": "Jan Magnussen",
+            "country": "DK",
+            "slug": "jan-magnussen"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 44,
+        "fields": {
+            "name": "Ricardo Zonta",
+            "country": "BR",
+            "slug": "ricardo-zonta"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 45,
+        "fields": {
+            "name": "Alessandro Zanardi",
+            "country": "IT",
+            "slug": "alessandro-zanardi"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 46,
+        "fields": {
+            "name": "Pedro Diniz",
+            "country": "BR",
+            "slug": "pedro-diniz"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 47,
+        "fields": {
+            "name": "David Brabham",
+            "country": "GB",
+            "slug": "david-brabham"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 48,
+        "fields": {
+            "name": "Andrea de Cesaris",
+            "country": "IT",
+            "slug": "andrea-de-cesaris"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 49,
+        "fields": {
+            "name": "Derek Warwick",
+            "country": "GB",
+            "slug": "derek-warwick"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 50,
+        "fields": {
+            "name": "Martin Donnelly",
+            "country": "GB",
+            "slug": "martin-donnelly"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 51,
+        "fields": {
+            "name": "John Watson",
+            "country": "GB",
+            "slug": "john-watson"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 52,
+        "fields": {
+            "name": "Eric van de Poele",
+            "country": "BE",
+            "slug": "eric-van-de-poele"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 53,
+        "fields": {
+            "name": "Alan Jones",
+            "country": "AU",
+            "slug": "alan-jones"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 54,
+        "fields": {
+            "name": "Patrick Tambay",
+            "country": "FR",
+            "slug": "patrick-tambay"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 55,
+        "fields": {
+            "name": "Jonathan Palmer",
+            "country": "GB",
+            "slug": "jonathan-palmer"
+        }
+    },
+    {
+        "model": "f1web.driver",
+        "pk": 56,
+        "fields": {
+            "name": "Bertrand Gachot",
+            "country": "BE",
+            "slug": "bertrand-gachot"
         }
     }
 ]

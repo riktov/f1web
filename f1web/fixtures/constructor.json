@@ -4,7 +4,8 @@
         "pk": 1,
         "fields": {
             "name": "McLaren",
-            "country": "GB"
+            "country": "GB",
+            "slug": "mclaren"
         }
     },
     {
@@ -12,7 +13,8 @@
         "pk": 2,
         "fields": {
             "name": "Ferrari",
-            "country": "IT"
+            "country": "IT",
+            "slug": "ferrari"
         }
     },
     {
@@ -20,7 +22,8 @@
         "pk": 3,
         "fields": {
             "name": "Brabham",
-            "country": "GB"
+            "country": "GB",
+            "slug": "brabham"
         }
     },
     {
@@ -28,7 +31,8 @@
         "pk": 4,
         "fields": {
             "name": "Williams",
-            "country": "GB"
+            "country": "GB",
+            "slug": "williams"
         }
     },
     {
@@ -36,7 +40,8 @@
         "pk": 5,
         "fields": {
             "name": "Lotus",
-            "country": "GB"
+            "country": "GB",
+            "slug": "lotus"
         }
     },
     {
@@ -44,7 +49,8 @@
         "pk": 6,
         "fields": {
             "name": "Benetton",
-            "country": "GB"
+            "country": "GB",
+            "slug": "benetton"
         }
     },
     {
@@ -52,7 +58,8 @@
         "pk": 7,
         "fields": {
             "name": "Tyrrell",
-            "country": "GB"
+            "country": "GB",
+            "slug": "tyrrell"
         }
     },
     {
@@ -60,7 +67,8 @@
         "pk": 8,
         "fields": {
             "name": "Renault",
-            "country": "FR"
+            "country": "FR",
+            "slug": "renault"
         }
     },
     {
@@ -68,13 +76,125 @@
         "pk": 9,
         "fields": {
             "name": "Arrows",
-            "country": "GB"
+            "country": "GB",
+            "slug": "arrows"
         }
     },
     {
         "model": "f1web.constructor",
+        "pk": 10,
+        "fields": {
+            "name": "Zakspeed",
+            "country": "DE",
+            "slug": "zakspeed"
+        }
+    },
+    {
+        "model": "f1web.constructor",
+        "pk": 11,
+        "fields": {
+            "name": "Ligier",
+            "country": "FR",
+            "slug": "ligier"
+        }
+    },
+    {
+        "model": "f1web.constructor",
+        "pk": 12,
+        "fields": {
+            "name": "Minardi",
+            "country": "IT",
+            "slug": "minardi"
+        }
+    },
+    {
+        "model": "f1web.constructor",
+        "pk": 13,
+        "fields": {
+            "name": "Alfa Romeo",
+            "country": "IT",
+            "slug": "alfa-romeo"
+        }
+    },
+    {
+        "model": "f1web.constructor",
+        "pk": 14,
+        "fields": {
+            "name": "Footwork",
+            "country": "GB",
+            "slug": "footwork"
+        }
+    },
+    {
+        "model": "f1web.constructor",
+        "pk": 15,
         "fields": {
             "name": "Jordan",
-            "country": "GB"
+            "country": "GB",
+            "slug": "jordan"
         }
-    }]
+    },
+    {
+        "model": "f1web.constructor",
+        "pk": 16,
+        "fields": {
+            "name": "BAR",
+            "country": "GB",
+            "slug": "bar"
+        }
+    },
+    {
+        "model": "f1web.constructor",
+        "pk": 17,
+        "fields": {
+            "name": "Sauber",
+            "country": "CH",
+            "slug": "sauber"
+        }
+    },
+    {
+        "model": "f1web.constructor",
+        "pk": 18,
+        "fields": {
+            "name": "Stewart",
+            "country": "GB",
+            "slug": "stewart"
+        }
+    },
+    {
+        "model": "f1web.constructor",
+        "pk": 19,
+        "fields": {
+            "name": "Scuderia Italia",
+            "country": "IT",
+            "slug": "scuderia-italia"
+        }
+    },
+    {
+        "model": "f1web.constructor",
+        "pk": 20,
+        "fields": {
+            "name": "Larousse",
+            "country": "FR",
+            "slug": "larousse"
+        }
+    },
+    {
+        "model": "f1web.constructor",
+        "pk": 21,
+        "fields": {
+            "name": "Prost",
+            "country": "FR",
+            "slug": "prost"
+        }
+    },
+    {
+        "model": "f1web.constructor",
+        "pk": 22,
+        "fields": {
+            "name": "Simtek",
+            "country": "GB",
+            "slug": "simtek"
+        }
+    }
+]
