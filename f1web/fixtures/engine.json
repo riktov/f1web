@@ -3,7 +3,9 @@
         "model": "f1web.engine",
         "pk": 1,
         "fields": {
-            "maker": 1,
+            "maker": [
+                "porsche-tag"
+            ],
             "name": "V6 Turbo"
         }
     },
@@ -11,7 +13,9 @@
         "model": "f1web.engine",
         "pk": 2,
         "fields": {
-            "maker": 2,
+            "maker": [
+                "bmw"
+            ],
             "name": "inline 4 Turbo"
         }
     },
@@ -19,7 +23,9 @@
         "model": "f1web.engine",
         "pk": 4,
         "fields": {
-            "maker": 5,
+            "maker": [
+                "ferrari"
+            ],
             "name": "V6 Turbo"
         }
     },
@@ -27,15 +33,19 @@
         "model": "f1web.engine",
         "pk": 6,
         "fields": {
-            "maker": 6,
-            "name": "CV V8 NA 3.5l"
+            "maker": [
+                "judd"
+            ],
+            "name": "CV V8 90° 3.5l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 7,
         "fields": {
-            "maker": 7,
+            "maker": [
+                "honda"
+            ],
             "name": "V6 Turbo"
         }
     },
@@ -43,31 +53,39 @@
         "model": "f1web.engine",
         "pk": 8,
         "fields": {
-            "maker": 7,
-            "name": "V10 NA 3.5l"
+            "maker": [
+                "honda"
+            ],
+            "name": "V10 3.5l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 9,
         "fields": {
-            "maker": 7,
-            "name": "V12 NA 3.5l"
+            "maker": [
+                "honda"
+            ],
+            "name": "V12 3.5l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 10,
         "fields": {
-            "maker": 3,
-            "name": "V10 NA 3.5l"
+            "maker": [
+                "renault"
+            ],
+            "name": "V10 3.5l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 11,
         "fields": {
-            "maker": 3,
+            "maker": [
+                "renault"
+            ],
             "name": "V6 Turbo"
         }
     },
@@ -75,15 +93,19 @@
         "model": "f1web.engine",
         "pk": 12,
         "fields": {
-            "maker": 4,
-            "name": "Cosworth DFZ/DFR V8 NA 3.5l"
+            "maker": [
+                "ford"
+            ],
+            "name": "Cosworth DFZ/DFR V8 3.5l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 13,
         "fields": {
-            "maker": 4,
+            "maker": [
+                "ford"
+            ],
             "name": "Cosworth HB V8 3.5l"
         }
     },
@@ -91,15 +113,19 @@
         "model": "f1web.engine",
         "pk": 14,
         "fields": {
-            "maker": 8,
-            "name": "3512 V12 NA 3.5l"
+            "maker": [
+                "lamborghini"
+            ],
+            "name": "3512 V12 3.5l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 15,
         "fields": {
-            "maker": 4,
+            "maker": [
+                "ford"
+            ],
             "name": "Cosworth EC V8 3.5l"
         }
     },
@@ -107,23 +133,29 @@
         "model": "f1web.engine",
         "pk": 16,
         "fields": {
-            "maker": 3,
-            "name": "V10 NA 3.0l"
+            "maker": [
+                "renault"
+            ],
+            "name": "V10 3.0l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 17,
         "fields": {
-            "maker": 5,
-            "name": "V12 NA 3.5l"
+            "maker": [
+                "ferrari"
+            ],
+            "name": "V12 3.5l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 18,
         "fields": {
-            "maker": 4,
+            "maker": [
+                "ford"
+            ],
             "name": "Cosworth GBA V6 Turbo"
         }
     },
@@ -131,15 +163,19 @@
         "model": "f1web.engine",
         "pk": 19,
         "fields": {
-            "maker": 5,
-            "name": "V10 NA 3.0l"
+            "maker": [
+                "ferrari"
+            ],
+            "name": "V10 3.0l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 20,
         "fields": {
-            "maker": 4,
+            "maker": [
+                "ford"
+            ],
             "name": "Cosworth DFV V8 3.0l"
         }
     },
@@ -147,119 +183,149 @@
         "model": "f1web.engine",
         "pk": 21,
         "fields": {
-            "maker": 9,
-            "name": "V10 NA 3.5l"
+            "maker": [
+                "peugeot"
+            ],
+            "name": "V10 3.5l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 22,
         "fields": {
-            "maker": 10,
-            "name": "(Renault) V10 NA 3.0l"
+            "maker": [
+                "mecachrome"
+            ],
+            "name": "(Renault) V10 3.0l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 23,
         "fields": {
-            "maker": 11,
-            "name": "OX11 V10 NA 3.0l"
+            "maker": [
+                "yamaha"
+            ],
+            "name": "OX11 V10 3.0l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 24,
         "fields": {
-            "maker": 12,
-            "name": "(Renault) V10 NA 3.0l"
+            "maker": [
+                "playlife"
+            ],
+            "name": "(Renault) V10 3.0l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 25,
         "fields": {
-            "maker": 13,
-            "name": "Ilmor V10 NA 3.0l"
+            "maker": [
+                "mercedes-benz"
+            ],
+            "name": "Ilmor V10 3.0l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 26,
         "fields": {
-            "maker": 14,
-            "name": "V10 NA 3.5l"
+            "maker": [
+                "hart"
+            ],
+            "name": "V10 3.5l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 27,
         "fields": {
-            "maker": 15,
-            "name": "MF-351 V10 NA 3.5l"
+            "maker": [
+                "mugen-honda"
+            ],
+            "name": "MF-351 V10 3.5l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 28,
         "fields": {
-            "maker": 11,
-            "name": "OX99 V12 NA 3.5l"
+            "maker": [
+                "yamaha"
+            ],
+            "name": "OX99 V12 3.5l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 29,
         "fields": {
-            "maker": 6,
-            "name": "V10 NA 3.5l"
+            "maker": [
+                "judd"
+            ],
+            "name": "GV V10 3.5l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 30,
         "fields": {
-            "maker": 5,
-            "name": "V12 NA 3.0l"
+            "maker": [
+                "ferrari"
+            ],
+            "name": "V12 3.0l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 31,
         "fields": {
-            "maker": 5,
-            "name": "Flat-12 NA 3.0l"
+            "maker": [
+                "ferrari"
+            ],
+            "name": "Flat-12 3.0l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 32,
         "fields": {
-            "maker": 9,
-            "name": "V10 NA 3.0l"
+            "maker": [
+                "peugeot"
+            ],
+            "name": "V10 3.0l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 33,
         "fields": {
-            "maker": 15,
-            "name": "MF-310 V10 NA 3.0l"
+            "maker": [
+                "mugen-honda"
+            ],
+            "name": "MF-310 V10 3.0l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 34,
         "fields": {
-            "maker": 16,
-            "name": "(Renault) V10 NA 3.0l"
+            "maker": [
+                "supertec"
+            ],
+            "name": "(Renault) V10 3.0l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 35,
         "fields": {
-            "maker": 4,
+            "maker": [
+                "ford"
+            ],
             "name": "Cosworth CR V10 3.0l"
         }
     },
@@ -267,15 +333,19 @@
         "model": "f1web.engine",
         "pk": 36,
         "fields": {
-            "maker": 17,
-            "name": "(Ferrari) V10 NA 3.0l"
+            "maker": [
+                "petronas"
+            ],
+            "name": "(Ferrari) V10 3.0l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 37,
         "fields": {
-            "maker": 18,
+            "maker": [
+                "zakspeed"
+            ],
             "name": "inline 4 Turbo"
         }
     },
@@ -283,31 +353,39 @@
         "model": "f1web.engine",
         "pk": 38,
         "fields": {
-            "maker": 2,
-            "name": "V10 NA 3.0l"
+            "maker": [
+                "bmw"
+            ],
+            "name": "V10 3.0l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 39,
         "fields": {
-            "maker": 21,
-            "name": "2175 V10 NA 3.5l"
+            "maker": [
+                "ilmor"
+            ],
+            "name": "2175 V10 3.5l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 40,
         "fields": {
-            "maker": 11,
-            "name": "OX10 V10 NA 3.5l"
+            "maker": [
+                "yamaha"
+            ],
+            "name": "(Judd) OX10 V10 3.5l"
         }
     },
     {
         "model": "f1web.engine",
         "pk": 41,
         "fields": {
-            "maker": 20,
+            "maker": [
+                "megatron"
+            ],
             "name": "(BMW) inline 4 Turbo"
         }
     },
@@ -315,8 +393,30 @@
         "model": "f1web.engine",
         "pk": 42,
         "fields": {
-            "maker": 11,
-            "name": "OX10C V10 NA 3.0l"
+            "maker": [
+                "yamaha"
+            ],
+            "name": "OX10C V10 3.0l"
+        }
+    },
+    {
+        "model": "f1web.engine",
+        "pk": 43,
+        "fields": {
+            "maker": [
+                "judd"
+            ],
+            "name": "EV V8 76° 3.5l"
+        }
+    },
+    {
+        "model": "f1web.engine",
+        "pk": 44,
+        "fields": {
+            "maker": [
+                "alfaromeo"
+            ],
+            "name": "1260 V12 60° 3.0l"
         }
     }
 ]
