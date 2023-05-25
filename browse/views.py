@@ -206,3 +206,6 @@ class SeasonDetailView(DetailViewWithObjectList):
 
 
 
+def countries_view(request):
+    countries_with_constructors = { c.country for c in Constructor.objects.all() }
+    return render(request, "browse/countries.html", {"country_list": countries_with_constructors})
