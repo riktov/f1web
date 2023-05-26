@@ -64,7 +64,7 @@
                 <a href="{% url 'car_detail' car.slug %}">
                     {{car}}
                     {% if car.engine and not car.constructor.is_factory %}
-                     {{car.engine.maker}}
+                    {{car.engine.maker}}
                     {% endif %}
                 </a>
             </li>
@@ -87,18 +87,22 @@
                     <td id="{{row.team.slug}}">
                     <a href="{% url 'constructor_detail' row.team.slug %}">{{row.team}}</a>
                     </td>
+
                     <td>
                     {% for car in row.cars %}
                         {{car.name}} 
                     {% endfor %}
                     </td>
+
                     <td>
                     {% for driver in row.drivers %}
-                        <a href="{% url 'driver_detail' driver.0.slug %}">{{driver.0}}</a>
+                        <a href="{% url 'driver_detail' driver.0.slug %}">{{driver.0}}</a>{% if driver.2%}+{% endif %}
+
                         [{{driver.1}}]
                         <br/>
                     {% endfor %}
                     </td>
+
                     <td>
                         {% if row.numbers %}
                         {{row.numbers}}
