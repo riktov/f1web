@@ -40,6 +40,7 @@
         <tr>
             <td>
                 <a href="{% url 'season_detail' drive.season.pk %}">{{drive.season}}</a>
+                {% if drive.is_champion %}&#128081;{% endif %}
             </td>
             <td>
                 <a href="{% url 'constructor_detail' drive.team.slug %}">{{drive.team}}</a>

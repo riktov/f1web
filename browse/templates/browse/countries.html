@@ -1,0 +1,9 @@
+{% extends 'browse/base.html' %}
+
+{% block maincontent %}
+<h2>Countries</h2>
+
+{% for country in country_list %}
+{{country.name}}<br/>
+{% endfor %}
+{% endblock %}

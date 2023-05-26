@@ -13,9 +13,11 @@
 {% endblock %}
 
 {% block orglist_ul %}
+<ul>
 {% for object in model_object_list %}
     <li><a href="{% url 'constructor_detail' object.slug %}">{{object}}</a></li>
 {% endfor %}
+</ul>
 {% endblock %}
 
 
@@ -73,9 +75,10 @@
         {% for season, cars, drivers in seasons_table %}
         <tr>
             <td>
-                <a href="{% url 'season_detail' season.year %}">
+                <a href="{% url 'season_detail' season.year %}#{{object.slug}}">
                 {{season}}
                 </a>
+                {% if season.constructors_champion == object %}&#128081;{% endif %}
             </td>
 
             <td>

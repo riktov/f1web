@@ -26,7 +26,25 @@
 <div class="ObjectDetail">
     <h1>{{object}}</h1>
 
-    <a href="{{object | wikipedia_season}}" target="_blank">Wikipedia</a>
+    <div id="champions">
+    Driver's Champion: 
+    {% if object.drivers_champion %}
+    <a href="{% url 'driver_detail' object.drivers_champion.slug %}">{{object.drivers_champion}}</a>
+    {% endif %}
+    <br/>
+    Constructor's Champion: 
+    {% if object.constructors_champion %}
+    <a href="{% url 'constructor_detail' object.constructors_champion.slug %}">{{object.constructors_champion}}</a><br/>
+    {% endif %}
+    </div>
+
+
+    <div class="ExternalLinks">
+        <a href="{{object | wikipedia_season }}" target=_blank><img src="https://wikipedia.org/static/favicon/wikipedia.ico" /></a>
+        <a href="{{ object.year | statsf1 }}" target="_blank"><img src="https://www.statsf1.com/favicon.ico" /></a>
+        <a href="{% url 'admin:f1web_season_change' object %}" target="_blank" class="AdminLink">Admin Change</a>
+    </div>
+
     <div>
         {% if object.previous %}
             <a href="{% url 'season_detail' object.previous %}">{{object.previous}}</a>
@@ -46,7 +64,7 @@
                 <a href="{% url 'car_detail' car.slug %}">
                     {{car}}
                     {% if car.engine and not car.constructor.is_factory %}
-                     {{car.engine.maker}}
+                    {{car.engine.maker}}
                     {% endif %}
                 </a>
             </li>
@@ -66,21 +84,25 @@
             </tr>
             {% for row in drivers_table %}
                 <tr>
-                    <td>
+                    <td id="{{row.team.slug}}">
                     <a href="{% url 'constructor_detail' row.team.slug %}">{{row.team}}</a>
                     </td>
+
                     <td>
                     {% for car in row.cars %}
                         {{car.name}} 
                     {% endfor %}
                     </td>
+
                     <td>
                     {% for driver in row.drivers %}
-                        <a href="{% url 'driver_detail' driver.0.slug %}">{{driver.0}}</a>
+                        <a href="{% url 'driver_detail' driver.0.slug %}">{{driver.0}}</a>{% if driver.2%}+{% endif %}
+
                         [{{driver.1}}]
                         <br/>
                     {% endfor %}
                     </td>
+
                     <td>
                         {% if row.numbers %}
                         {{row.numbers}}

@@ -13,6 +13,13 @@
         <li>
         <a href="{{driver.slug}}">{{driver}}</a>
         {{driver.country.unicode_flag}}
+        {% comment %} {% if driver.season_range %}
+            {% if driver.season_range.0 == driver.season_range.1 %}
+                {{driver.season_range.0}}
+            {% else %}
+                {{driver.season_range.0}}-{{driver.season_range.1}}
+            {% endif %}
+        {% endif %} {% endcomment %}
         </li>
     {% endfor %}
     </ul>

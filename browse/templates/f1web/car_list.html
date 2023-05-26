@@ -1,25 +1,10 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
+{% extends 'browse/base.html' %}
 
-<head>
-    <title>Car List</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/browse/common.css' %}" />
-</head>
-<body>
+{% block head %}
+<title>Car List</title>
+{% endblock %}
 
-    <div class="NavBar">
-        <a href="{% url 'index' %}">Top</a>
-    </div>
-
-<ul>
-{% with last_team="foo" %}
-{% for car in car_list %}
-    {% comment %} <li><a href="{{car.slug}}">{{car}}</a></li> {% endcomment %}
-{% endfor %}
-{% endwith %}
-</ul>
-
+{% block maincontent %}
 <h2>Cars grouped by Constructor</h2>
 <ul>
     {% for key, values in grouped_list.items %}
@@ -32,6 +17,4 @@
     </li>
     {% endfor %}
 </ul>
-
-</body>
-</html>
+{% endblock %}

@@ -54,7 +54,7 @@ div.AllObjectsList {
 
 /* Does not work in "quirks mode", requires <!DOCTYPE html> */
 div.AllObjectsList > ul {
-    padding-left: 1em;
+    padding-left: 0;
 }
 
 div.AllObjectsList li {

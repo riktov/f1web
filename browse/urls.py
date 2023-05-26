@@ -16,4 +16,6 @@ urlpatterns = [
     path("engine/", views.EngineListView.as_view(), name="engine_list"),
     path("enginemaker/<slug:slug>/", views.EngineMakerDetailView.as_view(), name="enginemaker_detail"),
     path("enginemaker/", views.EngineMakerListView.as_view(), name="enginemaker_list"),
+
+    path("country/", views.countries_view, name="country_list"),
 ]
