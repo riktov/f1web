@@ -34,7 +34,13 @@ class Driver(models.Model):
     objects = DriverManager()
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('slug',)
+
+    def __str__(self):
+        return str(self.name)
+    
+    def natural_key(self):
+        return (self.name,)
 
     @property
     def drives_list(self):
@@ -42,6 +48,12 @@ class Driver(models.Model):
 
     def team_in(self, season):
         teams = [dc.team for dc in DrivingContract.objects.filter(driver = self, season=season)]
+
+    def is_lead_in(self, season, team):
+        dcs = self.drives.filter(season = season, team=team)
+        if dcs:
+            return dcs[0].is_lead
+        return False
 
     def car_number_in(self, season, team):
         dc = self.drives.get(season = season, team=team)
@@ -55,12 +67,18 @@ class Driver(models.Model):
                 return cn[1]
 
         return None
-
-    def __str__(self):
-        return str(self.name)
     
-    def natural_key(self):
-        return (self.name,)
+    @property 
+    def seasons(self):
+        return { dr.season for dr in self.drives.all() }
+    
+    @property
+    def season_range(self):
+        se = self.seasons
+        if se:
+            ss = sorted(se, key=lambda s:s.year)
+            return(ss[0], ss[-1])
+        return None
     
 class Constructor(models.Model):
     """A Formula 1 constructor (team)"""
@@ -107,7 +125,7 @@ class Constructor(models.Model):
         return Season.objects.filter(cars__constructor = self).distinct() 
 
     def seasons_and_cars_and_drivers(self):
-        return [(s, s.cars.filter(constructor = self), self.drivers_in_season(s)) for s in self.seasons() ]
+        return [(s, self.car_set.filter(season=s), self.drivers_in_season(s)) for s in self.seasons() ]
     
     def full_name(self, season):
         """Combination of chassis and engine, e.g., McLaren-Honda, Benetton-Ford"""
@@ -277,6 +295,10 @@ class DrivingContract(models.Model):
         if self.is_lead:
             lead = '+'
         return f"{self.season} for {self.team} by {self.driver}{lead}" 
+    
+    @property
+    def is_champion(self):
+        return self.season.drivers_champion == self.driver
 
 class CarNumber(models.Model):
     """The lead number (lower of two consecutive) assigned to a constructor for one season"""
