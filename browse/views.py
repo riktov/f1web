@@ -75,11 +75,11 @@ class ConstructorDetailView(DetailViewWithObjectList):
     def post(self, request, *args, **kwargs):
         # create a new Car by this Constructor
         self.object = self.get_object()
-        context = self.get_context_data(**kwargs)
         name = request.POST['name']
         constructor = self.get_object()
         car = Car(name = name, constructor = constructor)
         car.save()
+        context = self.get_context_data(**kwargs)
         
         return self.render_to_response(context=context)
     
