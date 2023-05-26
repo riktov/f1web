@@ -6,11 +6,17 @@ from django_countries.fields import CountryField
 
 # Create your models here.
 
+class NameModelManager(models.Manager):
+    def get_by_natural_key(self, name):
+        return self.get(name = name)
+    
 ### Models which do not reference other f1web models
 class EngineMaker(models.Model):
     """Engine Maker, examples: Honda, Ford"""
     name = models.CharField(max_length=64)
-    slug = models.SlugField(max_length = 32, blank=True, null=True)
+    slug = models.SlugField(max_length = 32, blank=True, null=True, unique=True)
+
+    objects = NameModelManager()
 
     class Meta:
         ordering = ('name',)
@@ -21,17 +27,14 @@ class EngineMaker(models.Model):
     def natural_key(self):
         return (self.name,)
 
-class DriverManager(models.Manager):
-    def get_by_natural_key(self, name):
-        return self.get(name = name)
-    
+ 
 class Driver(models.Model):
     """A Driver"""
     name = models.CharField(max_length=256)
     country = CountryField(null=True)
-    slug = models.SlugField(max_length = 64, blank=True, null=True)
+    slug = models.SlugField(max_length = 64, blank=True, null=True, unique=True)
 
-    objects = DriverManager()
+    objects = NameModelManager()
 
     class Meta:
         ordering = ('name',)
@@ -70,6 +73,8 @@ class Constructor(models.Model):
     is_factory = models.BooleanField(default=False) #Constructor full (season) name
     # predecessor = models.ForeignKey('self', blank=True, null=True, on_delete=models.DO_NOTHING)
 
+    objects = NameModelManager()
+    
     class Meta:
         ordering = ('name',)
 
@@ -181,21 +186,20 @@ class Car(models.Model):
             return seasons[0]
         return None
 
-    @property
     def seasons_and_drivers_table(self):
         """Return a table of years and drivers of this car"""
         seasons_and_drivers = []
 
         #NOTE: constructor is None.
         
-        drives = DrivingContract.objects.all()
+        # drives = DrivingContract.objects.all()
 
         for season in self.season_set.all():
-            drives = DrivingContract.objects.filter(season = season, team = self.constructor)
+            # drives = season.drives.filter(team = self.constructor)
             
             row = [
                 season,
-                [ drive.driver for drive in drives ]
+                [ drive.driver for drive in season.drives.filter(team = self.constructor) ]
             ]
             seasons_and_drivers.append(row)
 
