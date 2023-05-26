@@ -16,7 +16,7 @@ def team_car_drivers_for_season(season):
             row = {
                 "team": team,
                 "cars": season.cars.filter(constructor=team),
-                "drivers": [(dr, dr.car_number_in(season, team)) for dr in drivers],
+                "drivers": [(dr, dr.car_number_in(season, team), dr.is_lead_in(season, team)) for dr in drivers],
                 "numbers": team.car_numbers(season)
             }
             team_car_drivers.append(row)
