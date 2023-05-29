@@ -1,4 +1,5 @@
 {% load static %}
+{% load model_names %}
 <!DOCTYPE html>
 <html>
 
@@ -14,7 +15,7 @@
         {% block navbar %}{% endblock %}  
     </div>
 
-    <div class="MainContent">
+    <div class="MainContent {{object | to_class_name}} {{object_list.0 | to_class_name}}">
         {% block maincontent %}{% endblock %}
     </div>
 

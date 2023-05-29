@@ -161,13 +161,19 @@ class CarListView(ListView):
     def list_by_constructor(self):
         """List of cars grouped by Constructor"""
         cons = {}
+        #why does this return multiple instances of the same car if it appears in multiple_years?
+        for car in Car.objects.all().order_by('season__year'):
+            if car.constructor not in cons:
+                cons[car.constructor] = []
+            if car not in cons[car.constructor]:#cars appear only once, regardless of how many seasons
+                cons[car.constructor].append(car)
+        
+        cons_keys = list(cons.keys())
+        cons_keys.sort(key=lambda c: c.name)
 
-        for car in Car.objects.all().order_by('season__year'):#built-in feature of ManyToMany?
-            if car.constructor and car.constructor.name not in cons:
-                cons[car.constructor.name] = []
-            if car not in cons[car.constructor.name]:
-                cons[car.constructor.name].append(car)
-        return cons
+        cars_grouped = [{'constructor':c, 'cars':cons[c]} for c in cons_keys]
+        #now take the keys in cons, sort alphabetically, and create a list from the dictionary
+        return cars_grouped
 
 class EngineDetailView(DetailView):
     """DetailView for Engine"""

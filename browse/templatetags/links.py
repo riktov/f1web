@@ -18,7 +18,7 @@ def wikipedia_season(obj):
 @register.filter(name='statsf1')
 def statsf1(car):
     """StatsF1 replaces slashes with dashes, unlike Wikipedia"""
-    slug = slugify(str(car).replace('/', ' '))
+    slug = slugify(str(car).replace('/', '-'))
     return f"https://www.statsf1.com/en/{slug}.aspx"
 
 @register.filter(name='statsf1_engine_maker')
@@ -29,7 +29,3 @@ def statsf1_engine_maker(maker):
 @register.filter(name="nbhyphen")
 def nbsp(value):
     return mark_safe("&#8209;".join(str(value).split('-')))
-
-@register.filter(name="to_class_name")
-def to_class_name(value):
-    return value.__class__.__name__

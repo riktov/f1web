@@ -5,11 +5,11 @@
 {% endblock %}
 
 {% block maincontent %}
-<h2>Cars grouped by Constructor</h2>
+<h2>Cars grouped by Constructor, Sorted Alphabetically</h2>
 <ul>
-    {% for key, values in grouped_list.items %}
-    <li><h3>{{key}}</h3>
-    {% for car in values %}
+    {% for line in grouped_list %}
+    <li><h3>{{line.constructor}}</h3>
+    {% for car in line.cars %}
     <span>
     <a href="{% url 'car_detail' car.slug %}">{{car.name}}</a>
     </span>
