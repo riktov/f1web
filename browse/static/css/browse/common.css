@@ -40,9 +40,18 @@ div.ObjectDetail{
     padding: 1em;
 }
 
+div.MainContent.Season div.ObjectDetail {
+    width: 5em ;
+}
+
+div.MainContent.EngineMaker div.ObjectDetail,
+div.MainContent.Constructor div.ObjectDetail {
+    margin-left: 9em ;
+}
 div.ObjectDetail > h1{
     margin-top: 0 ;
 }
+
 
 div.AllObjectsList {
     width: 7em ;
@@ -50,6 +59,10 @@ div.AllObjectsList {
     height: 100% ;
     background-color: coral;
     padding: 1em ;
+}
+
+div.MainContent.Season div.AllObjectsList {
+    width: 3em ;
 }
 
 /* Does not work in "quirks mode", requires <!DOCTYPE html> */

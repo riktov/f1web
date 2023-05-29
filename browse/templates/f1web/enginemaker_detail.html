@@ -23,9 +23,7 @@
 {% block orgdetails %}
     <h1>{{object}}</h1>
 
-    <a href="{{ object.slug | statsf1_engine_maker }}" target="_blank">
-        <img src="https://www.statsf1.com/favicon.ico" />
-    </a>
+    <a href="{{ object.slug | statsf1_engine_maker }}" target="_blank"><img src="https://www.statsf1.com/favicon.ico" /></a>
 {% endblock %}
 
 {% block orgmembers%}
