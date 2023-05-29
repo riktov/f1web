@@ -7,7 +7,7 @@ from django.views.generic.list import ListView
 # from django.http import HttpResponse
 
 from f1web.models import Car, Driver, Constructor, EngineMaker, Season, Engine
-from .forms import CreateDriveForThisDriverForm, AddThisCarToSeasonForm, CreateCarForm
+from . forms import CreateDriveForThisDriverForm, AddThisCarToSeasonForm, CreateCarForm
 from . import tables
 
 # Create your views here.
@@ -17,6 +17,7 @@ def index(request):
     return render(request, "browse/index.html", None)
 
 class DetailViewWithObjectList(DetailView):
+    """An abstract view for a single object which always includes a list of other objects of the same class"""
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['model_object_list'] = self.model.objects.all()
@@ -63,7 +64,6 @@ class ConstructorDetailView(DetailViewWithObjectList):
     """DetailView for Constructor"""
     model = Constructor
 
-    #TODO: Fix to show drivers not yet linked to car
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = CreateCarForm()
@@ -161,8 +161,9 @@ class CarListView(ListView):
     def list_by_constructor(self):
         """List of cars grouped by Constructor"""
         cons = {}
-        for car in self.model.objects.all().order_by('season__year'):#built-in feature of ManyToMany?
-            if car.constructor.name not in cons:
+
+        for car in Car.objects.all().order_by('season__year'):#built-in feature of ManyToMany?
+            if car.constructor and car.constructor.name not in cons:
                 cons[car.constructor.name] = []
             if car not in cons[car.constructor.name]:
                 cons[car.constructor.name].append(car)
