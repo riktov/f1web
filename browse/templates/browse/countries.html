@@ -4,6 +4,16 @@
 <h2>Countries</h2>
 
 {% for country in country_list %}
-{{country.name}}<br/>
+<h3>{{country.0}}</h3>
+<h4>Constructors</h4>
+{% for cons in country.1 %}
+{{cons}} 
 {% endfor %}
+
+<h4>Drivers</h4>
+{% for dr in country.2 %}
+{{dr}} 
+{% endfor %}
+{% endfor %}
+
 {% endblock %}

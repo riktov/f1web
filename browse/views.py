@@ -215,4 +215,11 @@ class SeasonDetailView(DetailViewWithObjectList):
 
 def countries_view(request):
     countries_with_constructors = { c.country for c in Constructor.objects.all() }
-    return render(request, "browse/countries.html", {"country_list": countries_with_constructors})
+    countries_with_drivers = { c.country for c in Driver.objects.all() }
+
+    all_countries = countries_with_constructors.union(countries_with_drivers)
+
+    all_countries = sorted(list(all_countries), key = lambda c: c.name)
+
+    countries_grouped = [ (c.name, Constructor.objects.filter(country = c), Driver.objects.filter(country = c)) for c in all_countries ]
+    return render(request, "browse/countries.html", {"country_list": countries_grouped})
