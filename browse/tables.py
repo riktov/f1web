@@ -35,20 +35,24 @@ def team_car_drivers_for_season(season):
     return rows_with_car_numbers + rows_without_car_numbers
 
 def cars_grouped_by_season(cars):
-    """For a Car, return a list of seasons"""
+    """Sort a list of cars by season. If a car has no season, place at end of list"""
     cars_dict = {}
+    cars_without_seasons = []
 
     for car in cars:
         earliest = car.earliest_season()
-        if earliest not in cars_dict:
-            cars_dict[earliest] = []
-        cars_dict[earliest].append(car)
+        if earliest is None:
+            cars_without_seasons.append(car)
+        else:
+            if earliest not in cars_dict:
+                cars_dict[earliest] = []
+            cars_dict[earliest].append(car)
 
     seasons = sorted(cars_dict.keys(), key=lambda s:s.year)
 
     table = [[s, cars_dict[s]] for s in seasons]
 
-    return table
+    return table + [[None, [car]] for car in cars_without_seasons]
 
 def season_drivers_for_car(car):
     """For a Car, return a list of seasons in which it ran, containing season and drivers"""
