@@ -17,7 +17,8 @@ def wikipedia_season(obj):
     
 @register.filter(name='statsf1')
 def statsf1(car):
-    """StatsF1 replaces slashes with dashes, unlike Wikipedia"""
+    """Returns the StatsF1 link for a car"""
+    # StatsF1 replaces slashes with dashes, unlike Wikipedia which allows slashes
     slug = slugify(str(car).replace('/', '-'))
     return f"https://www.statsf1.com/en/{slug}.aspx"
 
