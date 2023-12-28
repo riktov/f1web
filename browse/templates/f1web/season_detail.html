@@ -1,5 +1,7 @@
 {% extends "browse/base.html" %}
 {% load links %}
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 
@@ -7,6 +9,8 @@
     <title>
     {{object}}
     </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/season.js' %}"></script> 
 {% endblock %}
 
 
@@ -27,17 +31,25 @@
     <h1>{{object}}</h1>
 
     <div id="champions">
-    Driver's Champion: 
-    {% if object.drivers_champion %}
-    <a href="{% url 'driver_detail' object.drivers_champion.slug %}">{{object.drivers_champion}}</a>
-    {% endif %}
-    <br/>
-    Constructor's Champion: 
-    {% if object.constructors_champion %}
-    <a href="{% url 'constructor_detail' object.constructors_champion.slug %}">{{object.constructors_champion}}</a><br/>
-    {% endif %}
+        Driver's Champion: 
+        {% if object.drivers_champion %}
+        <a href="{% url 'driver_detail' object.drivers_champion.slug %}">{{object.drivers_champion}}</a>
+        {% endif %}
+        <br/>
+        Constructor's Champion: 
+        {% if object.constructors_champion %}
+        <a href="{% url 'constructor_detail' object.constructors_champion.slug %}">{{object.constructors_champion}}</a><br/>
+        {% endif %}
+
+        New Rules:
+        <ul>
+        {% for rule in rules %}
+            <li>{{rule}}</li>
+        {% endfor %}
+        </ul>
     </div>
 
+    <hr>
 
     <div class="ExternalLinks">
         <a href="{{object | wikipedia_season }}" target=_blank><img src="https://wikipedia.org/static/favicon/wikipedia.ico" /></a>
@@ -63,6 +75,8 @@
             <li>
                 <a href="{% url 'car_detail' car.slug %}">
                     {{car}}
+                    {% comment %} TODO: fix for Arrows Arrows, which is not a constructor  {% endcomment %}
+                    {% comment %} and make this a car Model method {% endcomment %}
                     {% if car.engine and not car.constructor.is_factory %}
                     {{car.engine.maker}}
                     {% endif %}
@@ -74,7 +88,7 @@
 
     <div>
         <h3>Cars and drivers that drove this season</h3>
-        <p>Sorted by Car Numbers</p>
+        <p>Sorted by Car Numbers <span class="EditToggle" onClick="toggleEdit()">[Edit]</span></p>
         <table>
             <tr>
                 <th>Constructor</th>
@@ -85,6 +99,7 @@
             {% for row in drivers_table %}
                 <tr>
                     <td id="{{row.team.slug}}">
+                    {{row.team.country.unicode_flag}} 
                     <a href="{% url 'constructor_detail' row.team.slug %}">{{row.team}}</a>
                     </td>
 
@@ -96,18 +111,30 @@
 
                     <td>
                     {% for driver in row.drivers %}
-                        <a href="{% url 'driver_detail' driver.0.slug %}">{{driver.0}}</a>{% if driver.2%}+{% endif %}
+                        {{driver.0.country.unicode_flag}} 
+                        <a href="{% url 'driver_detail' driver.0.slug %}">{{driver.0}}</a>{% if driver.2 %}+{% endif %}
 
                         [{{driver.1}}]
                         <br/>
                     {% endfor %}
+                        <div class="AddDrivesForm">
+                            <form method="POST">
+                                {{row.form_drives.as_p}}
+                                {% csrf_token %}
+                                <input type="submit" value="Add"/>
+                            </form>
+                        </div>
                     </td>
 
                     <td>
                         {% if row.numbers %}
                         {{row.numbers}}
                         {% else %}
-                        -
+                        <form method="POST">
+                            {{row.form.as_p}}
+                            {% csrf_token %}
+                            <input type="submit" value="Add"/>
+                        </form>
                         {% endif %}
                     </td>
                 </tr>

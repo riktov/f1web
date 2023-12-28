@@ -35,24 +35,32 @@
             <th>Team</th>
             <th>#1</th>
             <th>Edit</th>
+            <th>Number</th>
         </tr>
         {% for drive in object.drives_list %}
         <tr>
             <td>
-                <a href="{% url 'season_detail' drive.season.pk %}">{{drive.season}}</a>
+                <a href="{% url 'season_detail' drive.season.pk %}#{{drive.team.slug}}">{{drive.season}}</a>
                 {% if drive.is_champion %}&#128081;{% endif %}
             </td>
             <td>
-                <a href="{% url 'constructor_detail' drive.team.slug %}">{{drive.team}}</a>
+                {{drive.team.country.unicode_flag}} <a href="{% url 'constructor_detail' drive.team.slug %}#{{drive.season}}">{{drive.team}}</a>
                 {% comment %} <a href="{% url 'admin:f1web_drivingcontract' drive.pk %}">Edit</a>> {% endcomment %}
             </td>
             <td>
                 {% if drive.is_lead %}
                 +
                 {% endif %}
+                {% if drive.is_maybe_lead %}
+                ?
+                {% endif %}
             </td>
             <td>
                 <a href="{% url 'admin:f1web_drivingcontract_change' drive.id %}" target="_blank">Edit</a>
+            </td>
+
+            <td>
+                {{drive.number}}
             </td>
         </tr>
         {% endfor %}

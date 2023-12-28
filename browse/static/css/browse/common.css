@@ -41,7 +41,7 @@ div.ObjectDetail{
 }
 
 div.MainContent.Season div.ObjectDetail {
-    width: 5em ;
+    margin-left: 5em ;
 }
 
 div.MainContent.EngineMaker div.ObjectDetail,
