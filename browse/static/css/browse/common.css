@@ -1,5 +1,7 @@
 body {
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ;
+    font-size: 14px;
+    
 }
 
 table, th, td {
@@ -41,7 +43,7 @@ div.ObjectDetail{
 }
 
 div.MainContent.Season div.ObjectDetail {
-    width: 5em ;
+    margin-left: 5em ;
 }
 
 div.MainContent.EngineMaker div.ObjectDetail,
