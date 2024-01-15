@@ -7,6 +7,7 @@ from django_countries.fields import CountryField
 # Create your models here.
 
 class NameModelManager(models.Manager):
+    """model manager for various model classes, allows getting by name"""
     def get_by_natural_key(self, name):
         return self.get(name = name)
     
@@ -47,7 +48,7 @@ class Driver(models.Model):
 
     @property
     def drives_list(self):
-        return self.drives.all()
+        return self.drives.all() # type: ignore
 
     def team_in(self, season):
         teams = [dc.team for dc in DrivingContract.objects.filter(driver = self, season=season)]
@@ -130,10 +131,15 @@ class Constructor(models.Model):
         return Season.objects.filter(cars__constructor = self).distinct() 
 
     def seasons_and_cars_and_drivers(self):
-        return [(s, self.car_set.filter(season=s), self.drivers_in_season(s)) for s in self.seasons() ]
+        return [(s, self.car_set.filter(season=s), self.drivers_in_season(s), self.car_numbers(s)) for s in self.seasons() ]
     
     def full_name(self, season):
         """Combination of chassis and engine, e.g., McLaren-Honda, Benetton-Ford"""
+        # For factory constructors we can omit the engine. 
+        # We currently do this in the season detail page template, based on the is_factory flag
+        # But there are also some non-factories that built their own engines for some seasons.
+        # So we should also check if the constructor name is the same as the engine maker name
+        # and omit the engine if so.
         return self.name
 
     def car_numbers(self, season):
@@ -228,7 +234,7 @@ class Season(models.Model):
     """Season contains only cars, because we can get everything else ---
     teams, drivers, etc., from cars
     """
-    year = models.IntegerField(
+    year = models.PositiveSmallIntegerField(
         primary_key=True, default=1980, blank=False, unique=True)
     cars = models.ManyToManyField(Car, blank=True)
     drivers_champion = models.ForeignKey(Driver, null=True, blank=True, on_delete=models.SET_NULL)
@@ -239,14 +245,6 @@ class Season(models.Model):
 
     def __str__(self):
         return str(self.year)
-
-    @property
-    def xxxcar_list(self):
-        """A list of cars that raced in this season"""
-        if self.cars:
-            return self.cars.all()
-        else:
-            return []
 
     @property
     def previous(self):
@@ -260,6 +258,7 @@ class Season(models.Model):
     
     @property 
     def drivers_champion_team(self):
+        """The team that reigning driver's champion drove for in the previous season"""
         teams = [ dc.team for dc in self.drives.filter(driver=self.drivers_champion)]
         # teams = [ dc.team for dc in DrivingContract.objects.filter(season=self, driver=self.drivers_champion)]
         return teams[0]
@@ -303,24 +302,55 @@ class DrivingContract(models.Model):
     @property
     def is_champion(self):
         return self.season.drivers_champion == self.driver
+    
+    @property
+    def number(self):
+        car_number = CarNumber.objects.get(team = self.team, season = self.season)
+        if car_number:
+            if self.is_lead:
+                return car_number.pair()[0]
+            else:
+                return car_number.pair()[1]
+        else:
+            return None
+    
+    @property
+    def is_maybe_lead(self):
+        teammate_drives = DrivingContract.objects.filter(season = self.season, team = self.team).exclude(driver = self.driver)
+        teammate_leads = teammate_drives.filter(is_lead = True)
+        return not self.is_lead and len(teammate_leads) < 1
+        # return teammate_drives
+        # return true if none of these is_lead
+
 
 class CarNumber(models.Model):
     """The lead number (lower of two consecutive) assigned to a constructor for one season"""
-    #normally odd, but in some cases even: 1981 Fittipaldi and Alfa Romeo, 1993 Williams (special case)
+    #normally odd from 0 to 11, then even after skipping 13
     season = models.ForeignKey(Season, blank=False, null=False, on_delete=models.CASCADE)
     team = models.ForeignKey(Constructor, blank=False, null=False, on_delete=models.CASCADE)
-    number = models.IntegerField(blank=False, null=False)
+    number = models.PositiveSmallIntegerField(blank=False, null=False)
 
     class Meta:
         ordering = ('season', 'number',)
-        unique_together = ('season', 'team', )
+        unique_together = [['season', 'number'], ['season', 'team']]
     
     def __str__(self):
         return f"{self.season} {self.number} {self.team}"
     
     def pair(self):
         """Return a tuple of the two car numbers"""
-        #damonhill
+        #Damon Hill
         if self.number == 0:
             return (0, 2,)
         return(self.number, self.number + 1,)
+    
+class Rule(models.Model):
+    """A rule which affects the cars or engines"""
+    season = models.ForeignKey(Season, blank=False, null=False, on_delete=models.DO_NOTHING)
+    description = models.TextField(blank=False)
+
+    def __str__(self):
+        return f"{self.season} {self.description}"
+
+    class Meta:
+         ordering = ('season',)

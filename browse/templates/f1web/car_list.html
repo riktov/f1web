@@ -8,7 +8,7 @@
 <h2>Cars grouped by Constructor, Sorted Alphabetically</h2>
 <ul>
     {% for line in grouped_list %}
-    <li><h3>{{line.constructor}}</h3>
+    <li><h3><a href="{% url 'constructor_detail' line.constructor.slug %}">{{line.constructor}}</a></h3>
     {% for car in line.cars %}
     <span>
     <a href="{% url 'car_detail' car.slug %}">{{car.name}}</a>

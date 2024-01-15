@@ -72,9 +72,9 @@
             <th>Numbers</th>
         </tr>
 
-        {% for season, cars, drivers in seasons_table %}
+        {% for season, cars, drivers, numbers in seasons_table %}
         <tr>
-            <td>
+            <td id={{season}}>
                 <a href="{% url 'season_detail' season.year %}#{{object.slug}}">
                 {{season}}
                 </a>
@@ -84,7 +84,7 @@
             <td>
             {% for driver in drivers %}
                 <span>
-                <a href="{% url 'driver_detail' driver.slug %}">{{driver}}</a>
+                {{driver.country.unicode_flag}} <a href="{% url 'driver_detail' driver.slug %}">{{driver}}</a>
                 </span><br/>
             {% endfor %}
             </td>
@@ -99,7 +99,11 @@
             {% endfor %}
             </td>
 
-            <td>-</td>
+            <td>
+            {% if numbers %}
+                {{numbers.0}}, {{numbers.1}}
+            {% else %} - {% endif%}
+            </td>
             
         </tr>
         {% endfor %}

@@ -6,8 +6,8 @@ from django.views.generic.edit import UpdateView
 from django.views.generic.list import ListView
 # from django.http import HttpResponse
 
-from f1web.models import Car, Driver, Constructor, EngineMaker, Season, Engine
-from . forms import CreateDriveForThisDriverForm, AddThisCarToSeasonForm, CreateCarForm
+from f1web.models import Car, Driver, Constructor, DrivingContract, EngineMaker, Season, Engine, CarNumber
+from . forms import CreateDriveForThisDriverForm, AddThisCarToSeasonForm, CreateCarForm, CreateNumberForm
 from . import tables
 
 # Create your views here.
@@ -76,8 +76,14 @@ class ConstructorDetailView(DetailViewWithObjectList):
         # create a new Car by this Constructor
         self.object = self.get_object()
         name = request.POST['name']
+
+        engine = None
+        engine_id = request.POST['engine']
+        if engine_id is not '':
+            engine = Engine.objects.get(pk = int(engine_id))
+
         constructor = self.get_object()
-        car = Car(name = name, constructor = constructor)
+        car = Car(name = name, constructor = constructor, engine = engine)
         car.save()
         context = self.get_context_data(**kwargs)
         
@@ -116,7 +122,7 @@ class CarDetailView(DetailView):
         #we need to get an "object" attribute on this view, the template looks for it    
         return self.render_to_response(context=context)
 
-class CarUpdateView(UpdateView):
+class xxCarUpdateView(UpdateView):
     model = Car
     fields = []
 
@@ -183,6 +189,8 @@ class EngineDetailView(DetailView):
         context = super().get_context_data(**kwargs)
 
         cars = self.get_object().car_set.all()
+
+        #FIX Attribute error if none of the cars have seasons
         context['cars_grouped_by_season'] = tables.cars_grouped_by_season(cars)
         return context
 
@@ -209,10 +217,53 @@ class SeasonDetailView(DetailViewWithObjectList):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['drivers_table'] = tables.team_car_drivers_for_season(self.get_object())
+        context['rules'] = [ rule.description for rule in self.object.rule_set.all() ]
         return context
 
+    def post(self, request, *args, **kwargs):
+        #Unlike CreateDriveForDriverForm, we are not creating a new model object 
+        # (DrivingContract) which is then
+        #hooked up to the existing objects (season, team, driver) with 
+        # DB relational (ForeignKey) objects.
+        #Here we are creating just a DB (ManyToMany) object which added.
 
+        self.object = self.get_object()
+        this_year = self.get_object()
+        context = self.get_context_data(**kwargs)
+
+        team_id = request.POST['team']
+
+        if 'number' in request.POST:
+            incoming_form = CreateNumberForm(request.POST, request.FILES)
+
+            number = request.POST['number']
+            team = Constructor.objects.get(pk=team_id)
+
+            number_obj = CarNumber(season = this_year, team=team, number=number)
+            number_obj.save()
+
+        if 'driver' in request.POST:
+            # incoming_form = CreateNumberForm(request.POST, request.FILES)
+
+            driver_id = request.POST['driver']
+            team = Constructor.objects.get(pk=team_id)
+            driver = Driver.objects.get(pk=driver_id)
+            is_lead = 'is_lead' in request.POST and request.POST['is_lead'] == 'on'
+
+            drive_obj = DrivingContract(season = this_year, team=team, driver=driver, is_lead=is_lead)
+            drive_obj.save()
+
+        # we need to get the context again before refreshing
+        context = self.get_context_data(**kwargs)
+        return self.render_to_response(context=context)
 
 def countries_view(request):
     countries_with_constructors = { c.country for c in Constructor.objects.all() }
-    return render(request, "browse/countries.html", {"country_list": countries_with_constructors})
+    countries_with_drivers = { c.country for c in Driver.objects.all() }
+
+    all_countries = countries_with_constructors.union(countries_with_drivers)
+
+    all_countries = sorted(list(all_countries), key = lambda c: c.name)
+
+    countries_grouped = [ (c, Constructor.objects.filter(country = c), Driver.objects.filter(country = c)) for c in all_countries ]
+    return render(request, "browse/countries.html", {"country_list": countries_grouped})

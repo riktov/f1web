@@ -3,7 +3,31 @@
 {% block maincontent %}
 <h2>Countries</h2>
 
-{% for country in country_list %}
-{{country.name}}<br/>
-{% endfor %}
+    {% for country in country_list %}
+        <div id="{{country.0.code}}">
+        <h3>{{country.0.unicode_flag}} {{country.0.name}}</h3>
+            <table>
+
+            <tr>
+                <th>Constructors</th>
+                <th>Drivers</th>
+            </tr>
+
+            <tr>
+                <td>
+                {% for cons in country.1 %}
+                <a href="{% url 'constructor_detail' cons.slug %}">{{cons}}</a></br>
+                {% endfor %}
+                </td>
+
+                <td>
+                {% for dr in country.2 %}
+                <a href="{% url 'driver_detail' dr.slug %}">{{dr}}</a></br>
+                {% endfor %}
+                </td>
+            </tr>
+            </table>
+        </div>
+    {% endfor %}
+
 {% endblock %}
