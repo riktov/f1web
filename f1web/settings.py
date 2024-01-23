@@ -25,7 +25,7 @@ SECRET_KEY = 'NelsonPiquet-1982-MikaHakkinen-1996'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.2.205', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -126,3 +126,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+STATIC_ROOT = '/home/pi/projects/django_static/f1web'
