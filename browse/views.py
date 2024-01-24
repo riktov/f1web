@@ -79,7 +79,7 @@ class ConstructorDetailView(DetailViewWithObjectList):
 
         engine = None
         engine_id = request.POST['engine']
-        if engine_id is not '':
+        if engine_id != '':
             engine = Engine.objects.get(pk = int(engine_id))
 
         constructor = self.get_object()
@@ -267,3 +267,21 @@ def countries_view(request):
 
     countries_grouped = [ (c, Constructor.objects.filter(country = c), Driver.objects.filter(country = c)) for c in all_countries ]
     return render(request, "browse/countries.html", {"country_list": countries_grouped})
+
+def numbers_view(request):
+    numbers = set([cn.number for cn in CarNumber.objects.filter(season__lt=1996)])
+
+    seasons = Season.objects.filter(year__lt=1996)
+
+    table = []
+
+    for s in seasons:
+        row = []
+
+        carnums = {cn.number:cn for cn in CarNumber.objects.filter(season = s)}
+
+        for num in numbers:
+            row.append(carnums.get(num))
+    
+        table.append({"season":s, "numbers":row})
+    return render(request, "browse/numbers.html", {"table": table, "numbers":numbers})

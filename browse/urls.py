@@ -18,4 +18,5 @@ urlpatterns = [
     path("enginemaker/", views.EngineMakerListView.as_view(), name="enginemaker_list"),
 
     path("country/", views.countries_view, name="country_list"),
+    path("number/", views.numbers_view, name="number_list"),
 ]

@@ -1,0 +1,29 @@
+<html>
+
+<head>
+    <title>
+    Numbers List
+    </title>
+</head>
+
+<body>
+   <h1>Table of numbers by season</h1>
+
+   <table>
+    <tr>
+        <th>SEASON</th>
+        {% for num in numbers %}
+            <th>{{num}}</th>
+        {% endfor %}
+    </tr>
+    {% for row in table %}
+        <tr>
+        <th><a href="{% url 'season_detail' row.season.pk %}">{{row.season}}</a></th>
+        {% for col in row.numbers %}
+            <td>{{col.team}}</td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+   </table>
+</body>
+</html>
