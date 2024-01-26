@@ -255,8 +255,8 @@ class Season(models.Model):
     def next(self):
         """The season after this one"""
         return Season.objects.filter(year__gt=self.year).first
-    
-    @property 
+ 
+    @property
     def drivers_champion_team(self):
         """The team that reigning driver's champion drove for in the previous season"""
         teams = [ dc.team for dc in self.drives.filter(driver=self.drivers_champion)]
@@ -269,7 +269,7 @@ class Season(models.Model):
         if self.drivers_champion and self.constructors_champion :
             return self.drivers_champion_team == self.constructors_champion
         return False
-    
+
     def constructors(self):
         teams_with_cars = { car.constructor for car in self.cars.all() }
         teams_with_drivers = { dr.team for dr in self.drives.all() }
@@ -329,6 +329,7 @@ class CarNumber(models.Model):
     season = models.ForeignKey(Season, blank=False, null=False, on_delete=models.CASCADE)
     team = models.ForeignKey(Constructor, blank=False, null=False, on_delete=models.CASCADE)
     number = models.PositiveSmallIntegerField(blank=False, null=False)
+    span = models.PositiveSmallIntegerField(default=2)
 
     class Meta:
         ordering = ('season', 'number',)
@@ -342,6 +343,8 @@ class CarNumber(models.Model):
         #Damon Hill
         if self.number == 0:
             return (0, 2,)
+        if self.span == 1:
+            return(self.number)
         return(self.number, self.number + 1,)
     
 class Rule(models.Model):

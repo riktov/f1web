@@ -13,7 +13,10 @@ def wikipedia(obj):
 def wikipedia_season(obj):
     """Returns the Wikipedia link for this Formula 1 Season"""
     this_year = obj.year
-    return f"https://en.wikipedia.org/wiki/{this_year}_Formula_One_World_Championship"
+    if this_year < 1981:
+        return f"https://en.wikipedia.org/wiki/{this_year}_Formula_One_season"
+    else:
+        return f"https://en.wikipedia.org/wiki/{this_year}_Formula_One_World_Championship"
     
 @register.filter(name='statsf1')
 def statsf1(car):

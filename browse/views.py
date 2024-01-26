@@ -258,6 +258,7 @@ class SeasonDetailView(DetailViewWithObjectList):
         return self.render_to_response(context=context)
 
 def countries_view(request):
+    """A view of all countries with drivers and constructors"""
     countries_with_constructors = { c.country for c in Constructor.objects.all() }
     countries_with_drivers = { c.country for c in Driver.objects.all() }
 
@@ -269,6 +270,7 @@ def countries_view(request):
     return render(request, "browse/countries.html", {"country_list": countries_grouped})
 
 def numbers_view(request):
+    """A view of all the car numbers by season"""
     numbers = set([cn.number for cn in CarNumber.objects.filter(season__lt=1996)])
 
     seasons = Season.objects.filter(year__lt=1996)
