@@ -31,5 +31,9 @@ def statsf1_engine_maker(maker):
 
 # https://djangosnippets.org/snippets/2842/
 @register.filter(name="nbhyphen")
-def nbsp(value):
+def nbhyphen(value):
     return mark_safe("&#8209;".join(str(value).split('-')))
+
+@register.filter(name="nbsp")
+def nbsp(value):
+    return mark_safe("&nbsp;".join(str(value).split(' ')))
