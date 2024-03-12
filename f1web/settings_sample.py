@@ -135,4 +135,5 @@ STATIC_ROOT = '/home/pi/projects/django_static/f1web'
 # https://stackoverflow.com/a/74964354/316698
 
 #USE_X_FORWARDED_HOST = True
-FORCE_SCRIPT_NAME = '/f1web' 
+FORCE_SCRIPT_NAME = '/f1web'
+
