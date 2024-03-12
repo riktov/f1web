@@ -5,4 +5,7 @@ function toggleEdit() {
     $(".AddDrivesForm").toggle() ;
 }
 
-document.onload = toggleEdit ;
+window.onload = function(){
+    console.log("calling onload") ;
+    toggleEdit() ;
+}
