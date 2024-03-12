@@ -24,8 +24,9 @@ SECRET_KEY = 'NelsonPiquet-1982-MikaHakkinen-1996'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['192.168.2.205', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['192.168.2.205', 'localhost', '127.0.0.1', 'riktov.clear-net.jp']
 
 
 # Application definition
@@ -120,7 +121,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+#STATIC_URL = 'static/'
+STATIC_URL = '/static/f1web/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -129,3 +131,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 STATIC_ROOT = '/home/pi/projects/django_static/f1web'
+
+# https://stackoverflow.com/a/74964354/316698
+
+#USE_X_FORWARDED_HOST = True
+FORCE_SCRIPT_NAME = '/f1web' 
