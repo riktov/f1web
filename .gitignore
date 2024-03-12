@@ -4,3 +4,4 @@
 requirements-dev.txt
 .local
 f1web_db.sqbpro
+f1web/settings.py
