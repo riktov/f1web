@@ -1,27 +1,33 @@
 <html>
-This is the Browse app.
+    <head>
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>F1Web Browser Home Page</title>
+    </head>
+    <body>
+    This is the Browse app.
 
-    <ul>
-        <li>
-            <a href="{% url 'constructor_list' %}">Constructors</a>
-        </li>
-        <li>
-            <a href="{% url 'car_list' %}">Cars</a>
-        </li>
-        <li>
-            <a href="{% url 'engine_list' %}">Engines</a>
-        </li>
-        <li>
-            <a href="{% url 'driver_list' %}">Drivers</a>
-        </li>
-        <li>
-            <a href="{% url 'season_list' %}">Seasons</a>
-        </li>
-        <li>
-            <a href="{% url 'country_list' %}">Countries</a>
-        </li>
-        <li>
-            <a href="{% url 'number_list' %}">Car Numbers</a>
-        </li>
-    </ul>
+        <ul>
+            <li>
+                <a href="{% url 'constructor_list' %}">Constructors</a>
+            </li>
+            <li>
+                <a href="{% url 'car_list' %}">Cars</a>
+            </li>
+            <li>
+                <a href="{% url 'engine_list' %}">Engines</a>
+            </li>
+            <li>
+                <a href="{% url 'driver_list' %}">Drivers</a>
+            </li>
+            <li>
+                <a href="{% url 'season_list' %}">Seasons</a>
+            </li>
+            <li>
+                <a href="{% url 'country_list' %}">Countries</a>
+            </li>
+            <li>
+                <a href="{% url 'number_list' %}">Car Numbers</a>
+            </li>
+        </ul>
+    </body>
 </html>
