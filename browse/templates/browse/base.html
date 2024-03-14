@@ -1,5 +1,7 @@
 {% load static %}
 {% load model_names %}
+{% load user_agents %}
+
 <!DOCTYPE html>
 <html>
 
@@ -7,6 +9,12 @@
     {% block head %}{% endblock %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/browse/common.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/browse/admin.css' %}" />
+
+    {% if request|is_mobile %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/browse/common_mobile.css' %}" />
+    {% endif %}
+
+
 
     <meta name="viewport" content="width=device-width,initial-scale=1″ />
 </head>

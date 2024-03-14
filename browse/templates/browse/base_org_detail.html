@@ -1,4 +1,6 @@
 {% extends "browse/base.html" %}
+{% load user_agents %}
+
 {% comment %} 
 This is for "organizations" like Constructor, Engine Maker with few items that 
 do not change from season to season. Unlike drivers and cars.
@@ -6,11 +8,13 @@ It features the navigation column on the left listing all objects of the class
 {% endcomment %}
 
 {% block maincontent %}
+
+{% if not request|is_mobile %}
 <div class="AllObjectsList">
     {% block orglist_ul %}
     {% endblock %}
 </div>
-
+{% endif %}
 <div class="ObjectDetail">
     <div class="OrgDetails">
         {% block orgdetails %}

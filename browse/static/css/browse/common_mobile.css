@@ -1,0 +1,10 @@
+div.MainContent.Constructor div.ObjectDetail,
+div.MainContent.Season div.ObjectDetail,
+div.MainContent.EngineMaker div.ObjectDetail
+{
+    margin-left: 0;
+}
+
+div.ObjectDetail {
+    margin-left: 0;
+}

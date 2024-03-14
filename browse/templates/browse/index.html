@@ -1,4 +1,13 @@
+{% load static %}
+
 <html>
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/browse/common.css' %}" />
+</head>
+
+<body>
 This is the Browse app.
 
     <ul>
@@ -24,4 +33,5 @@ This is the Browse app.
             <a href="{% url 'number_list' %}">Car Numbers</a>
         </li>
     </ul>
+</body>
 </html>

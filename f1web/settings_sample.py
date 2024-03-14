@@ -20,13 +20,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'NelsonPiquet-1982-MikaHakkinen-1996'
+SECRET_KEY = 'YourSecretKey'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 DEBUG = False
 
-ALLOWED_HOSTS = ['192.168.2.205', 'localhost', '127.0.0.1', 'riktov.clear-net.jp']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django_extensions',
+    'django_user_agents',
 
     'f1web.apps.F1WebConfig',
     'browse.apps.BrowseConfig'
@@ -130,7 +131,7 @@ STATIC_URL = '/static/f1web/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-STATIC_ROOT = '/home/pi/projects/django_static/f1web'
+STATIC_ROOT = '/path/on/server/to/static'
 
 # https://stackoverflow.com/a/74964354/316698
 
