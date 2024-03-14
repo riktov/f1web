@@ -37,7 +37,7 @@
     <div id="champions">
         Driver's Champion: 
         {% if object.drivers_champion %}
-        <a href="{% url 'driver_detail' object.drivers_champion.slug %}">{{object.drivers_champion}}</a>
+        <a href="{% url 'driver_detail' object.drivers_champion.slug %}">{{object.drivers_champion}} ({{object.drivers_champion_team}})</a>
         {% endif %}
         <br/>
         Constructor's Champion: 

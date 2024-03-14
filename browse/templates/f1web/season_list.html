@@ -1,56 +1,48 @@
-<html>
+{% extends "browse/base.html" %}
 
-<head>
+{% block head %}
     <title>
     Season List
     </title>
-    <head>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/>
-</head>
-</head>
+{% endblock%}
 
-<body>
-    <div>
-        <a href="{% url 'index' %}">Top</a>
-    </div>
-
+{% block maincontent %}
     <div class="ListContent">
-    <table>
-    <th>
-        <tr>
-        <td>Season</td>        
-        <td>Driver</td>
-        <td>+</td>       
-        <td>Constructor</td>        
-        </tr>
-    </th>
+        <table>
+        <th>
+            <tr>
+            <td>Season</td>        
+            <td>Driver</td>
+            <td>+</td>       
+            <td>Constructor</td>        
+            </tr>
+        </th>
 
-    {% for season in object_list %}
-        <tr>
-            <td>
-            <a href="{{season.pk}}">{{season}}</a>
-            </td>
-            <td>
-            {% if season.drivers_champion %}
-                <a href="{% url 'driver_detail' season.drivers_champion.slug %}">{{season.drivers_champion}}</a>
-                ({{season.drivers_champion_team}})
-            {% endif %}
-            </td>
-            <td>
-            {% if season.drivers_champion %}
-                {% if season.is_double_champion %}
-                    *
-                {% endif %}                
-            {% endif %}
-            </td>
-            <td>
-            {% if season.constructors_champion %}
-                <a href="{% url 'constructor_detail' season.constructors_champion.slug %}">{{season.constructors_champion}}</a>
-            {% endif %}
-            </td>
-        </tr>
-    {% endfor %}
-    </table>
+        {% for season in object_list %}
+            <tr>
+                <td>
+                <a href="{{season.pk}}">{{season}}</a>
+                </td>
+                <td>
+                {% if season.drivers_champion %}
+                    <a href="{% url 'driver_detail' season.drivers_champion.slug %}">{{season.drivers_champion}}</a>
+                    ({{season.drivers_champion_team}})
+                {% endif %}
+                </td>
+                <td>
+                {% if season.drivers_champion %}
+                    {% if season.is_double_champion %}
+                        *
+                    {% endif %}                
+                {% endif %}
+                </td>
+                <td>
+                {% if season.constructors_champion %}
+                    <a href="{% url 'constructor_detail' season.constructors_champion.slug %}">{{season.constructors_champion}}</a>
+                {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
     </div>
-</body>
-</html>
+{% endblock %}

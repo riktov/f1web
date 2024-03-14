@@ -1,14 +1,13 @@
+{% extends "browse/base.html" %}
 {% load static %}
 
-<html>
+{% block head %}
+<title>F1 Database</title>
+{% endblock %}
 
-<head>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/browse/common.css' %}" />
-</head>
+{% block maincontent %}
 
-<body>
-This is the Browse app.
+<h3>F1 Database</h3>
 
     <ul>
         <li>
@@ -33,5 +32,4 @@ This is the Browse app.
             <a href="{% url 'number_list' %}">Car Numbers</a>
         </li>
     </ul>
-</body>
-</html>
+{% endblock %}
