@@ -30,13 +30,17 @@
 
     <div>
         {% for transfer in previously %}
-            Previously <a href="{% url 'constructor_detail' transfer.previous.slug %}">{{transfer.previous}}</a> prior to {{transfer.season}}
+            Previously <a href="{% url 'constructor_detail' transfer.previous.slug %}">{{transfer.previous}}</a>
+             prior to <a href="{% url 'season_detail' transfer.season %}">{{transfer.season}}</a>
         {% endfor %}
     </div>
 
     <div>
         {% for transfer in subsequently %}
-            Became <a href="{% url 'constructor_detail' transfer.new.slug %}">{{transfer.new}}</a> in {{transfer.season}}
+            Became <a href="{% url 'constructor_detail' transfer.new.slug %}">
+            {{transfer.new}}
+            </a> in 
+            <a href="{% url 'season_detail' transfer.season %}">{{transfer.season}}</a>
         {% endfor %}
     </div>
 </div>

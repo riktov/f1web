@@ -6,7 +6,7 @@ from django.views.generic.edit import UpdateView
 from django.views.generic.list import ListView
 # from django.http import HttpResponse
 
-from f1web.models import Car, Driver, Constructor, DrivingContract, EngineMaker, Season, Engine, CarNumber
+from f1web.models import Car, ConstructorTransfer, Driver, Constructor, DrivingContract, EngineMaker, Season, Engine, CarNumber
 from . forms import CreateDriveForThisDriverForm, AddThisCarToSeasonForm, CreateCarForm, CreateNumberForm
 from . import tables
 
@@ -220,6 +220,7 @@ class SeasonDetailView(DetailViewWithObjectList):
         context = super().get_context_data(**kwargs)
         context['drivers_table'] = tables.team_car_drivers_for_season(self.get_object())
         context['rules'] = [ rule.description for rule in self.object.rule_set.all() ]
+        context['transfers'] = ConstructorTransfer.objects.filter(season = self.get_object())
         return context
 
     def post(self, request, *args, **kwargs):

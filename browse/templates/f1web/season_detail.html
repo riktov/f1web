@@ -51,6 +51,13 @@
             <li>{{rule}}</li>
         {% endfor %}
         </ul>
+
+        Constructors:
+        <ul>
+        {% for transfer in transfers %}
+            <li>{{transfer.previous}} becomes {{transfer.new}}</li>
+        {% endfor %}
+        </ul>
     </div>
 
     <hr>
