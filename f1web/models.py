@@ -357,3 +357,14 @@ class Rule(models.Model):
 
     class Meta:
          ordering = ('season',)
+
+class ConstructorTransfer(models.Model):
+    previous = models.ForeignKey(Constructor, blank=False, null=False, on_delete=models.DO_NOTHING, related_name='subsequently')
+    new = models.ForeignKey(Constructor, blank=False, null=False, on_delete=models.DO_NOTHING, related_name='previously')
+    season = models.ForeignKey(Season, blank=False, null=False, on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return f"{self.previous} to {self.new} in {self.season}"
+    
+    class Meta:
+         ordering = ('season',)

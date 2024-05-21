@@ -27,8 +27,21 @@
     <div>
         {{object.country.name}} {{object.country.unicode_flag}}
     </div>
+
+    <div>
+        {% for transfer in previously %}
+            Previously <a href="{% url 'constructor_detail' transfer.previous.slug %}">{{transfer.previous}}</a> prior to {{transfer.season}}
+        {% endfor %}
+    </div>
+
+    <div>
+        {% for transfer in subsequently %}
+            Became <a href="{% url 'constructor_detail' transfer.new.slug %}">{{transfer.new}}</a> in {{transfer.season}}
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
+
 
 {% block orgmembers %}
 <div class="Objects">

@@ -35,7 +35,7 @@ def champ_gets_number1(this_season, prev_season):
     return number_one
 
 def numbers_1996(this_season, prev_season):
-    # Reigning driver's champion gets #1 on his current car
+    # From 1996, Reigning driver's champion gets #1 on his current car
     # All other teams get numbers based on constructor's standings        
     this_season = Season.objects.get(year=year)
     prev_season = this_season.prev
