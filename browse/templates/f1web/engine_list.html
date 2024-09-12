@@ -1,1 +1,23 @@
-{% extends 'browse/object_list.html' %}
+{% extends 'browse/base.html' %}
+{% load sort %}
+{% block head %}
+<title>Engine List</title>
+{% endblock %}
+
+{% block maincontent %}
+<h2>Engines grouped by Maker, Sorted by Earliest Season</h2>
+<ul>
+    {% for line in grouped_list %}
+    <li>
+        <h3><a href="{% url 'enginemaker_detail' line.maker.slug %}">{{line.maker}}</a></h3>
+        <ul>
+        {% for engine in line.engines|sort_by_season %}
+            <li>
+            <a href="{% url 'engine_detail' engine.pk %}">{{engine.name}}</a>
+            </li>
+        {% endfor %}
+        </ul>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

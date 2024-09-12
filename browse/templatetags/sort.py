@@ -6,6 +6,7 @@ from django.utils.text import slugify
 register = template.Library()
 
 @register.filter(name='sort_by_season')
-def cars_by_season(cars_queryset):
-    """Returns the Wikipedia link for this object"""
-    return sorted(cars_queryset, key=lambda c: c.earliest_season())
+def sort_by_season(queryset):
+    """Sort by season; Can be used for cars or engines or anything that has an earliest_season() method."""
+    return sorted(queryset, key=lambda c: c.earliest_season())
+

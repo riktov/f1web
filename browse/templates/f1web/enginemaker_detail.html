@@ -1,5 +1,6 @@
 {% extends "browse/base_org_detail.html" %}
 {% load links %}
+{% load sort %}
 
 {% block head %}
 <title>
@@ -30,7 +31,7 @@
     <div class="Objects">
         <h2>Engines</h2>
         <ul>
-        {% for engine in object.engine_set.all %}
+        {% for engine in object.engine_set.all|sort_by_season %}
         <li><a href="{% url 'engine_detail' engine.id %}">{{engine.name}}</a></li>
         {% endfor %}
         </ul>

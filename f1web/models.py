@@ -177,6 +177,12 @@ class Engine(models.Model):
 
     def natural_key(self):
         return (self.maker.name, self.name)
+    
+    def earliest_season(self):
+        seasons = [car.earliest_season() for car in self.car_set.all() if car.earliest_season() ]
+        if seasons:
+            return sorted(seasons)[0]
+        return None
 
 class Car(models.Model):
     """A Formula 1 Car"""
@@ -245,6 +251,20 @@ class Season(models.Model):
 
     def __str__(self):
         return str(self.year)
+
+
+    def __lt__(self, other):
+        return self.year < other.year
+    
+    def __gt__(self, other):
+        return self.year > other.year
+    
+    def __eq__(self, other):
+        return self.year == other.year
+
+    #seems this is also needed if we add the above
+    def __hash__(self):
+        return self.year
 
     @property
     def previous(self):

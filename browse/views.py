@@ -200,6 +200,29 @@ class EngineListView(ListView):
     """ListView for Engine"""
     model = Engine
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['grouped_list'] = self.list_by_enginemaker()
+        return context
+    
+    def list_by_enginemaker(self):
+        engines_of = {}
+
+        for em in EngineMaker.objects.all():
+            engines = [e for e in em.engine_set.all()]  
+
+            #This can be sorted by season with a template tag
+            engines_of[em] = engines
+        
+        emakers_keys = list(engines_of.keys())
+        emakers_keys.sort(key=lambda em: em.name)
+
+        engines_grouped = [{'maker':em, 'engines':engines_of[em]} for em in emakers_keys]
+        #now take the keys in cons, sort alphabetically, and create a list from the dictionary
+        return engines_grouped
+
+
+    
 class EngineMakerDetailView(DetailViewWithObjectList):
     """Detail for for Engine Maker"""
     model = EngineMaker
