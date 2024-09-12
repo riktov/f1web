@@ -57,6 +57,9 @@
         {% for transfer in transfers %}
             <li>{{transfer.previous}} becomes {{transfer.new}}</li>
         {% endfor %}
+        {% for dep in departing %}
+            <li>{{dep}} leaves</li>
+        {% endfor %}
         </ul>
     </div>
 

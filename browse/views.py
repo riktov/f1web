@@ -220,7 +220,21 @@ class SeasonDetailView(DetailViewWithObjectList):
         context = super().get_context_data(**kwargs)
         context['drivers_table'] = tables.team_car_drivers_for_season(self.get_object())
         context['rules'] = [ rule.description for rule in self.object.rule_set.all() ]
-        context['transfers'] = ConstructorTransfer.objects.filter(season = self.get_object())
+
+
+        transfers = ConstructorTransfer.objects.filter(season = self.get_object())
+        context['transfers'] = transfers
+
+        this_season_teams = [ car.constructor for car in self.object.cars.all() ]
+        prev_season_teams = [ car.constructor for car in self.object.previous().cars.all() ]
+
+        departing = [ cons for cons in prev_season_teams if cons not in this_season_teams]
+        transferring_out = [ trans.previous for trans in transfers]
+
+        departing = [ cons for cons in departing if cons not in transferring_out ]
+
+        context['departing'] = departing 
+        
         return context
 
     def post(self, request, *args, **kwargs):
