@@ -6,8 +6,7 @@
     </title>
 {% endblock %}
 
-{% block navbar %}<a href="/admin/f1web/driver/add" target="_blank" class="AdminLink">Admin Add Driver</a>{% endblock %}  
-
+{% block navbar %}<a href="{% url 'admin:f1web_driver_add' %}" target="_blank" class="AdminLink">Admin Add Driver</a>{% endblock %}  
 {% block maincontent %}
 
 <div class="ObjectList">

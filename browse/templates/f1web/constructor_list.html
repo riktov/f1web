@@ -13,7 +13,7 @@
 <body>
     <div class="NavBar">
         <a href="{% url 'index' %}">Top</a>
-        {% block navbar %}<a href="/admin/f1web/constructor/add" target="_blank" class="AdminLink">Admin Add Constructor</a>{% endblock %}  
+        {% block navbar %}<a href="{% url 'admin:f1web_constructor_add' %}" target="_blank" class="AdminLink">Admin Add Constructor</a>{% endblock %}  
     </div>
 
 
