@@ -22,6 +22,7 @@ class CarTest(TestCase):
         car2 = Car.objects.create(name = "FB2", constructor = self.team, engine=engine2)
         car3 = Car.objects.create(name = "FB3", constructor = self.team, engine=engine3)
         car4 = Car.objects.create(name = "FB4", constructor = self.team, engine=engine4)
+        car5 = Car.objects.create(name = "FB5", constructor = self.team, engine=engine3)
 
         s70 = Season.objects.create(year = 1970)
         s80 = Season.objects.create(year = 1980)
@@ -42,7 +43,11 @@ class CarTest(TestCase):
         DrivingContract.objects.create(season=s90, driver=alex, team=self.team)
 
         # print(car1.constructor)
+        self.car_with_no_season = car4
 
+
+        self.engine_in_multiple_cars = engine3
+        
 
 
     def test_car_earliest_season(self):
@@ -57,8 +62,7 @@ class CarTest(TestCase):
         self.assertEqual(car2.earliest_season(), s70)
     
     def test_car_earliest_season_none(self):
-        car_with_no_season = Car.objects.get(name="FB4")
-        self.assertIsNone(car_with_no_season.earliest_season())
+        self.assertIsNone(self.car_with_no_season.earliest_season())
 
 
     def test_car_set_constructor(self):
@@ -81,12 +85,19 @@ class CarTest(TestCase):
         self.assertEqual(season, s70)
         self.assertIn(bob, driver_list)
 
-    def test_engine_earliest_season_car_with_none_earliest_season(self):
-        e3 = Engine.objects.get(name="e3")
-        print(e3.car_set.all())
-        season = e3.earliest_season()
-        self.assertIsNotNone(season)
+    def test_engine_earliest_season_car_with_no_season(self):
+        """An engine used only in a car with no season
+        is reported as not having an earliest season"""
+        eng = self.car_with_no_season.engine
+        season = eng.earliest_season()
+        self.assertIsNone(season)
 
+    def test_engine_earliest_season_car_with_no_season_and_car_with_season(self):
+        """An engine used in one car with a season and another with no season
+        is reported as used in the the season of the first car, without causing an error
+        on the second car"""
+        season = self.engine_in_multiple_cars.earliest_season()
+        self.assertIsNotNone(season)
 
 class ConstructorTest(TestCase):
     def setUp(self):
