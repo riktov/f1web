@@ -2,7 +2,7 @@
 from django.test import TestCase
 
 # Create your tests here.
-from f1web.models import Car, Season, Driver, DrivingContract, Constructor
+from f1web.models import Car, Engine, EngineMaker, Season, Driver, DrivingContract, Constructor
 
 class CarTest(TestCase):
     "class for testing Car model"
@@ -11,13 +11,20 @@ class CarTest(TestCase):
 
         self.team = Constructor.objects.create(name="FooBar")
 
-        car1 = Car.objects.create(name = "FB1", constructor = self.team)
-        car2 = Car.objects.create(name = "FB2", constructor = self.team)
-        car3 = Car.objects.create(name = "FB3", constructor = self.team)
-        car4 = Car.objects.create(name = "FB4", constructor = self.team)
+        enginemaker = EngineMaker.objects.create(name="Empire")
 
-        s80 = Season.objects.create(year = 1980)
+        engine1 = Engine.objects.create(name="e1", maker=enginemaker)
+        engine2 = Engine.objects.create(name="e2", maker=enginemaker)
+        engine3 = Engine.objects.create(name="e3", maker=enginemaker)
+        engine4 = Engine.objects.create(name="e4", maker=enginemaker)
+
+        car1 = Car.objects.create(name = "FB1", constructor = self.team, engine=engine1)
+        car2 = Car.objects.create(name = "FB2", constructor = self.team, engine=engine2)
+        car3 = Car.objects.create(name = "FB3", constructor = self.team, engine=engine3)
+        car4 = Car.objects.create(name = "FB4", constructor = self.team, engine=engine4)
+
         s70 = Season.objects.create(year = 1970)
+        s80 = Season.objects.create(year = 1980)
         s90 = Season.objects.create(year = 1990)
 
         s90.cars.add(car2)
@@ -36,6 +43,8 @@ class CarTest(TestCase):
 
         # print(car1.constructor)
 
+
+
     def test_car_earliest_season(self):
         """Test that car's earliest season is valid, 
         regardless of how they are ordered in the DB"""
@@ -46,6 +55,11 @@ class CarTest(TestCase):
         s70 = Season.objects.get(year = 1970)
         car2 = Car.objects.get(name = "FB2")
         self.assertEqual(car2.earliest_season(), s70)
+    
+    def test_car_earliest_season_none(self):
+        car_with_no_season = Car.objects.get(name="FB4")
+        self.assertIsNone(car_with_no_season.earliest_season())
+
 
     def test_car_set_constructor(self):
         car1 = Car.objects.get(name="FB1")
@@ -66,6 +80,13 @@ class CarTest(TestCase):
         driver_list = line[1]
         self.assertEqual(season, s70)
         self.assertIn(bob, driver_list)
+
+    def test_engine_earliest_season_car_with_none_earliest_season(self):
+        e3 = Engine.objects.get(name="e3")
+        print(e3.car_set.all())
+        season = e3.earliest_season()
+        self.assertIsNotNone(season)
+
 
 class ConstructorTest(TestCase):
     def setUp(self):
@@ -94,3 +115,13 @@ class ConstructorTest(TestCase):
         # print(seasons)
         s70 = Season.objects.get(year=1970)
         self.assertIn(s70, seasons)
+
+class EngineTest(TestCase):
+    def setUp(self):
+        e1 = Engine.objects.create(name="Engine 1")
+        e2 = Engine.objects.create(name="Engine 2")
+
+        self.c1 = Car.objects.create(name="Car 1", engine=e1)
+        self.c2 = Car.objects.create(name="Car 2", engine=e2)
+    
+
