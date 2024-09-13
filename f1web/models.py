@@ -179,7 +179,8 @@ class Engine(models.Model):
         return (self.maker.name, self.name)
     
     def earliest_season(self):
-        seasons = [car.earliest_season() for car in self.car_set.all() if car.earliest_season() ]
+        seasons = [car.earliest_season() for car in self.car_set.all() if car.earliest_season() is not None ]
+
         if seasons:
             return sorted(seasons)[0]
         return None
