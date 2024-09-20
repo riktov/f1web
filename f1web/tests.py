@@ -4,6 +4,8 @@ from django.test import TestCase
 # Create your tests here.
 from f1web.models import Car, Engine, EngineMaker, Season, Driver, DrivingContract, Constructor
 
+from browse.templatetags import sort as templatetag_sort
+
 class CarTest(TestCase):
     "class for testing Car model"
     def setUp(self):
@@ -47,6 +49,8 @@ class CarTest(TestCase):
 
 
         self.engine_in_multiple_cars = engine3
+        self.engine_with_no_season = engine4
+        self.engine_with_season = engine2
         
 
 
@@ -98,6 +102,15 @@ class CarTest(TestCase):
         on the second car"""
         season = self.engine_in_multiple_cars.earliest_season()
         self.assertIsNotNone(season)
+    
+    def test_sort_earliest_seasons(self):
+        """A collection of engines can be sorted by earliest_season, even if one of the engines has no seasons;
+        in this case it will be placed at the beginning"""
+        result = templatetag_sort.sort_by_season([self.engine_with_season, self.engine_with_no_season])
+
+        self.assertIsNone(self.engine_with_no_season.earliest_season())
+        self.assertIs(result[0], self.engine_with_no_season)
+        self.assertIs(result[1], self.engine_with_season) 
 
 class ConstructorTest(TestCase):
     def setUp(self):
