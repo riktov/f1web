@@ -261,7 +261,7 @@ class Season(models.Model):
         return self.year > other.year
     
     def __eq__(self, other):
-        return self.year == other.year
+        return other and self.year == other.year
 
     #seems this is also needed if we add the above
     def __hash__(self):
