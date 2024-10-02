@@ -48,7 +48,7 @@ class CarTest(TestCase):
         self.car_with_no_season = car4
 
 
-        self.engine_in_multiple_cars = engine3
+        self.engine_in_multiple_cars = engine3  #in car 3 which has one season, and car 4 which has no seasons
         self.engine_with_no_season = engine4
         self.engine_with_season = engine2
         
@@ -102,6 +102,7 @@ class CarTest(TestCase):
         on the second car"""
         season = self.engine_in_multiple_cars.earliest_season()
         self.assertIsNotNone(season)
+        self.assertEqual(season.year, 1990)
     
     def test_sort_earliest_seasons(self):
         """A collection of engines can be sorted by earliest_season, even if one of the engines has no seasons;
