@@ -8,11 +8,6 @@ from pprint import pp
 
 WIKIPEDIA_BASE_URL = "https://en.wikipedia.org/wiki/"
 
-COL_CAR = 5 
-COL_TEAM = 0
-XCOL_CAR=999
-
-
 def parse_team_or_driver(tr):
     return [ s for s in tr.strings if s != ' ' and s != '\n']
     return tr.string
@@ -24,7 +19,13 @@ def parse_head_row(tr):
     return parse_team_or_driver(tr[1])
 
 def parse_driver(td):
-    pass
+    country = td.contents[0]
+    driver = td.contents[2]
+    return {
+        "name":driver.get_text(' ', strip=True),
+        "country": country.find('a')['title'],
+    }
+    return td.get_text(' ', strip=True)
 
 def blank_entry():
     return {
@@ -53,7 +54,6 @@ def scrape_season_cars(article_name):
     tbody = table.find('tbody')
 
     headings = table.find("thead")
-    print(headings)
     entries = []
 
     this_entry = blank_entry()
@@ -70,7 +70,7 @@ def scrape_season_cars(article_name):
             # print(tds)
 
             if len(span_flags) == 0:
-                print("This is a row without a flag.")
+                # print("This is a row without a flag.")
                 continue  
 
             if len(span_flags) > 1:
@@ -84,40 +84,41 @@ def scrape_season_cars(article_name):
                 td_entrant = tds[0]
                 entrant = td_entrant.get_text(' ', strip=True)
 
-                print("\nEntrant:", entrant)
+                # print("\nEntrant:", entrant)
                 this_entry["entrant"] = entrant
                 
                 td_constructor = tds[1]
                 #We want only the chassis constructor; "McLaren", not "McLaren-Honda"
                 constructor = td_constructor.contents[0].string
-                print("Constructor:", constructor)
+                # print("Constructor:", constructor)
                 this_entry["constructor"] = constructor
 
                 td_cars = tds[2]
                 cars = [ elem.string for elem in td_cars]
-                print(cars)
+                # print(cars)
                 cars = [ str(c).strip() for c in cars if c != '\n' and c is not None]
                 
                 this_entry["cars"] = cars
-                print("Cars:", cars)
+                # print("Cars:", cars)
 
             td_rounds = tds[-1]
             rounds = td_rounds.get_text(' ', strip=True)
             
             td_driver = tds[-2]
-            driver = td_driver.get_text(' ', strip=True)
-
+            driver = parse_driver(td_driver)
+            
             number = None
 
-            if len(tds) > 2:
+            # if multiple drivers share a number, it is only on the first of the lines
+            if len(tds) > 2: #number, name, rounds
                 td_number = tds[-3]
                 num_text = td_number.get_text(' ', strip=True)
                 num_text = re.sub(r"\D", "", num_text) 
                 number = int(num_text)
-            else:
+            else: #only name and rounds, so use the same number
                 number = prev_number
             
-            print("Driver:", driver)
+            # print("Driver:", driver)
 
             driver_info = {
                 "driver": driver,
@@ -130,5 +131,5 @@ def scrape_season_cars(article_name):
     return entries
 
 if __name__ == "__main__":
-    specs = scrape_season_cars("1994_Formula_One_World_Championship")
+    specs = scrape_season_cars("1993_Formula_One_World_Championship")
     pp(specs)
