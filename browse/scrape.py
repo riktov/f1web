@@ -19,8 +19,9 @@ def parse_head_row(tr):
     return parse_team_or_driver(tr[1])
 
 def parse_driver(td):
-    country = td.contents[0]
-    driver = td.contents[2]
+    country = td.find("span", attrs={"class":"flagicon"})
+    driver = country.next_sibling.next_sibling
+
     return {
         "name":driver.get_text(' ', strip=True),
         "country": country.find('a')['title'],
@@ -131,5 +132,5 @@ def scrape_season_cars(article_name):
     return entries
 
 if __name__ == "__main__":
-    specs = scrape_season_cars("1993_Formula_One_World_Championship")
+    specs = scrape_season_cars("1989_Formula_One_World_Championship")
     pp(specs)
