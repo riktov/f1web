@@ -262,7 +262,7 @@ class SeasonDetailView(DetailViewWithObjectList):
         
         context['new_entrants'] = new_entrants 
 
-        context['driver_histories'] = [ tables.driver_history(dr, self.object) for dr in self.object.drivers()]
+        context['driver_histories'] = [ [dr] + dr.history(self.object) for dr in self.object.drivers()]
         return context
 
     def post(self, request, *args, **kwargs):

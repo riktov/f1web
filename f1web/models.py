@@ -85,6 +85,37 @@ class Driver(models.Model):
             return(ss[0], ss[-1])
         return None
     
+    def history(self, season):
+        """Return
+        this season's team
+        total seasons (including this one) in F1
+        total seasons (up to this one) in this team. So earlier stints do not count
+        previous team, if applicable
+        """
+        this_season_teams = [ dc.team for dc in self.drives.all() if dc.season == season ]
+        
+        prev_seasons= [ s for s in self.seasons if s < season ]
+
+        if not prev_seasons:
+            #rookie
+            return [ this_season_teams, None , 1, 1]
+        
+        last_season = sorted(prev_seasons)[-1]
+        last_season_teams = [dc.team for dc in self.drives.all() if dc.season == last_season]
+
+        if len(last_season_teams) == 1 and len(this_season_teams) == 1 and  last_season_teams[0] == this_season_teams[0]:
+            #same as last season
+            #better to find common in the two
+            se = season
+            current_stint = 1 
+            while se.previous() and DrivingContract.objects.filter(driver=self, season=se.previous(), team=this_season_teams[0]):
+                current_stint = current_stint + 1
+                se = se.previous()
+            return [ this_season_teams, None, current_stint, len(prev_seasons) + 1]
+
+        #moved from another team
+        return [ this_season_teams, last_season_teams,  1, len(prev_seasons) +1 ]
+
 class Constructor(models.Model):
     """A Formula 1 constructor (team)"""
     name = models.CharField(max_length=64, unique=True, blank=False, null=False)
@@ -312,6 +343,7 @@ class DrivingContract(models.Model):
         Driver, blank=False, null=False, on_delete=models.CASCADE, related_name='drives')
     # car_number = models.IntegerField(null=True, blank=True)
     is_lead = models.BooleanField(default=False)
+    starting_round = models.SmallIntegerField(default=1)
 
     class Meta:
         ordering = ('season', 'team', '-is_lead', 'driver',)
