@@ -70,7 +70,8 @@ class Driver(models.Model):
     
     @property 
     def seasons(self):
-        return { dr.season for dr in self.drives.all() }
+        #return a Set, not an array!
+        return { dr.season for dr in self.drives.all() }    
     
     @property
     def season_range(self):
