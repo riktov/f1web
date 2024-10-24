@@ -85,6 +85,10 @@ class Driver(models.Model):
             return(ss[0], ss[-1])
         return None
     
+    def last_drive_before(self, season):
+        last_season = sorted([dr.season for dr in self.drives.filter(season__lt = season)])[-1]
+        return sorted(self.drives.filter(season=last_season), key=lambda x: x.starting_round)[-1]
+
     def history(self, season):
         """Return
         this season's team
@@ -92,7 +96,7 @@ class Driver(models.Model):
         total seasons (up to this one) in this team. So earlier stints do not count
         previous team, if applicable
         """
-        this_season_teams = [ dc.team for dc in self.drives.all() if dc.season == season ]
+        this_season_teams = [ dc.team for dc in self.drives.filter(season = season) ]
         
         prev_seasons= [ s for s in self.seasons if s < season ]
 
@@ -100,15 +104,18 @@ class Driver(models.Model):
             #rookie
             return [ this_season_teams, None , 1, 1]
         
+
         last_season = sorted(prev_seasons)[-1]
-        last_season_teams = [dc.team for dc in self.drives.all() if dc.season == last_season]
+        last_season_drives  = sorted([dc for dc in self.drives.filter(season = last_season)], key= lambda x: x.starting_round)
+        last_season_teams = [dc.team for dc in last_season_drives]
+        
 
         if len(last_season_teams) == 1 and len(this_season_teams) == 1 and  last_season_teams[0] == this_season_teams[0]:
             #same as last season
             #better to find common in the two
             se = season
             current_stint = 1 
-            while se.previous() and DrivingContract.objects.filter(driver=self, season=se.previous(), team=this_season_teams[0]):
+            while se.previous() and self.drives.filter(season=se.previous(), team=this_season_teams[0]):
                 current_stint = current_stint + 1
                 se = se.previous()
             return [ this_season_teams, None, current_stint, len(prev_seasons) + 1]
@@ -353,7 +360,7 @@ class DrivingContract(models.Model):
         lead = ''
         if self.is_lead:
             lead = '+'
-        return f"{self.season} for {self.team} by {self.driver}{lead}" 
+        return f"{self.season} ({self.starting_round}-) for {self.team} by {self.driver}{lead}" 
     
     @property
     def is_champion(self):
