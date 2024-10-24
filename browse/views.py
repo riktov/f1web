@@ -253,11 +253,16 @@ class SeasonDetailView(DetailViewWithObjectList):
 
         departing = [ cons for cons in prev_season_teams if cons not in this_season_teams]
         transferring_out = [ trans.previous for trans in transfers]
-
-        departing = [ cons for cons in departing if cons not in transferring_out ]
-
+        departing = { cons for cons in departing if cons not in transferring_out }
         context['departing'] = departing 
         
+        new_entrants = [ cons for cons in this_season_teams if cons not in prev_season_teams ]
+        transferring_in = [ trans.new for trans in transfers]
+        new_entrants = { cons for cons in new_entrants if cons not in transferring_in }
+        
+        context['new_entrants'] = new_entrants 
+
+        context['driver_histories'] = [ tables.driver_history(dr, self.object) for dr in self.object.drivers()]
         return context
 
     def post(self, request, *args, **kwargs):
