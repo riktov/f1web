@@ -128,6 +128,7 @@
 </div>
 
 
+{% if user.is_authenticated %}
 <div class="AddObjectForm">
     <h3>Create a new Car by {{object}}</h3>
     <form method="POST">
@@ -136,4 +137,5 @@
     <input type="submit" value="Create Car"/>
     </form>
 </div>
+{% endif %}
 {% endblock %}

@@ -67,6 +67,8 @@
     </table>
 </div>
 
+
+{% if user.is_authenticated %}
 <div class="AddObjectForm">
     <h3>Add a new drive by {{object}}</h3>
     <form method="POST">
@@ -75,4 +77,5 @@
     <input type="submit" value="Add"/>
     </form>
 </div>
+{% endif %}
 {% endblock %}
