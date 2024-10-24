@@ -170,10 +170,10 @@
             </tr>
             {% for drh in driver_histories %}
             <tr>
-                <td>{{drh.0}}</td>
+                <td><a href="{% url 'driver_detail' drh.0.slug %}">{{drh.0}}</a></td>
                 <td>
                 {% for team in drh.1%}
-                    {{team}},
+                    {{team}}
                 {% endfor %}
                 </td>
                 {% if drh.4 > 1 %}
