@@ -298,7 +298,9 @@ class Season(models.Model):
         teams_with_numbers = { cn.team for cn in self.carnumber_set.all() }
 
         return teams_with_cars.union(teams_with_drivers, teams_with_numbers)
-
+    
+    def drivers(self):
+        return { dc.driver for dc in self.drives.all()}
 
 class DrivingContract(models.Model):
     """A driving gig, containing a season, team, and driver"""

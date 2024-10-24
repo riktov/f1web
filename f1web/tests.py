@@ -2,6 +2,7 @@
 from django.test import TestCase
 
 # Create your tests here.
+from browse.tables import driver_history
 from f1web.models import Car, Engine, EngineMaker, Season, Driver, DrivingContract, Constructor
 
 from browse.templatetags import sort as templatetag_sort
@@ -149,4 +150,24 @@ class EngineTest(TestCase):
         self.c1 = Car.objects.create(name="Car 1", engine=e1)
         self.c2 = Car.objects.create(name="Car 2", engine=e2)
     
+class DriverTest(TestCase):
+    def setUp(self):
+        
+        d1 = Driver.objects.create(name="Driver 1")
 
+        s90 = Season.objects.create(year = 1990)
+        s91 = Season.objects.create(year = 1991)
+        s92 = Season.objects.create(year = 1992)
+
+        c1 = Constructor.objects.create(name="Constructor 1")
+
+        self.dc90 = DrivingContract.objects.create(driver=d1, season=s90, team=c1)
+        self.dc91 = DrivingContract.objects.create(driver=d1, season=s91, team=c1)
+    
+    def test_stint(self):
+        driver = self.dc91.driver
+        season = self.dc91.season
+        hist = driver_history(driver, season)
+        
+        self.assertIsNotNone(hist)
+        self.assertEquals(hist[1], 2)

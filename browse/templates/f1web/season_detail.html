@@ -60,6 +60,9 @@
         {% for dep in departing %}
             <li>{{dep}} leaves</li>
         {% endfor %}
+        {% for ent in new_entrants %}
+            <li>{{ent}} joins</li>
+        {% endfor %}
         </ul>
     </div>
 
@@ -155,5 +158,39 @@
             {% endfor %}
         </table>
     </div>
+
+    <div>
+        <h3>Driver histories</h3>
+        <table>
+            <tr>
+                <th>Driver</th>
+                <th>Team</th>
+                <th>From/Year</th>
+                <th>Year in F1</th>
+            </tr>
+            {% for drh in driver_histories %}
+            <tr>
+                <td>{{drh.0}}</td>
+                <td>
+                {% for team in drh.1%}
+                    {{team}},
+                {% endfor %}
+                </td>
+                {% if drh.4 > 1 %}
+                    {% if drh.2 %}
+                        <td>{{drh.2.0}}</td>
+                    {% else %}
+                        <td>{{drh.3}}</td>
+                    {% endif%}
+                    <td>{{drh.4}}</td>    
+                {% else%}
+                    <td colspan="3">rookie</td>
+                {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
 </div>
 {% endblock %}

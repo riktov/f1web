@@ -57,3 +57,35 @@ def cars_grouped_by_season(cars):
 def season_drivers_for_car(car):
     """For a Car, return a list of seasons in which it ran, containing season and drivers"""
     pass
+
+def driver_history(driver, season):
+    """Return
+    driver
+    this season's team
+    total seasons (including this one) in F1
+    total seasons (up to this one) in this team. So earlier stints do not count
+    previous team, if applicable
+    """
+    this_season_teams = [dc.team for dc in DrivingContract.objects.filter(driver=driver, season=season)]
+    
+    prev_seasons= [ s for s in driver.seasons if s < season ]
+
+    if not prev_seasons:
+        #rookie
+        return [ driver, this_season_teams, None , 1, 1]
+    
+    last_season = sorted(prev_seasons)[-1]
+    last_season_teams = [dc.team for dc in DrivingContract.objects.filter(driver=driver, season=last_season)]
+
+    if len(last_season_teams) == 1 and len(this_season_teams) == 1 and  last_season_teams[0] == this_season_teams[0]:
+        #same as last season
+        #better to find common in the two
+        se = season
+        current_stint = 1 
+        while se.previous() and DrivingContract.objects.filter(driver=driver, season=se.previous(), team=this_season_teams[0]):
+            current_stint = current_stint + 1
+            se = se.previous()
+        return [ driver, this_season_teams, None, current_stint, len(prev_seasons) + 1]
+
+    #moved from another team
+    return [ driver, this_season_teams, last_season_teams,  1, len(prev_seasons) +1 ]
