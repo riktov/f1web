@@ -45,6 +45,10 @@ class Driver(models.Model):
     
     def natural_key(self):
         return (self.name,)
+    
+    @property
+    def drives_list(self):
+        return self.drives.all() # type: ignore
 
     def team_in(self, season):
         teams = [dc.team for dc in DrivingContract.objects.filter(driver = self, season=season)]
