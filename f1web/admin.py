@@ -25,7 +25,7 @@ class CarNumberAdmin(admin.ModelAdmin):
     list_display = ("season", "team",)
 
 class DrivingContractAdmin(admin.ModelAdmin):
-    list_display = ("season", "driver", "team",)
+    list_display = ("season", "driver", "team", "starting_round")
 
 # class ConstructorTransferAdmin(admin.ModelAdmin):
 #     list_display = ("season", "previous", "new")
