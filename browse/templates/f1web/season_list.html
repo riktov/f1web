@@ -14,7 +14,8 @@
             <td>Season</td>        
             <td>Driver</td>
             <td>+</td>       
-            <td>Constructor</td>        
+            <td>Constructor</td>
+            <td>Constructors</td>       
             </tr>
         </th>
 
@@ -40,6 +41,9 @@
                 {% if season.constructors_champion %}
                     <a href="{% url 'constructor_detail' season.constructors_champion.slug %}">{{season.constructors_champion}}</a>
                 {% endif %}
+                </td>
+                <td>
+                {{season.constructors | length}}
                 </td>
             </tr>
         {% endfor %}
