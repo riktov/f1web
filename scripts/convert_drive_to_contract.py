@@ -7,7 +7,7 @@ def run():
 
     for driver in drivers:
         print(driver)
-        drives = driver.drives_list
+        drives = driver.drives.all()
         
         for drive in drives:
             contract = DrivingContract(season = drive.year, team = drive.team, driver=driver)
