@@ -30,6 +30,8 @@ class DriverDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = CreateDriveForThisDriverForm(initial = {'driver': self.get_object() })
+        context['drives_list'] = self.get_object().drives.all().order_by('season', 'starting_round')
+        
         return context
     
     def post(self, request, *args, **kwargs):

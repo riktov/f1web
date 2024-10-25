@@ -34,10 +34,11 @@
             <th>Season</th>
             <th>Team</th>
             <th>#1</th>
-            <th>Edit</th>
             <th>Number</th>
+            <th>Rounds</th>
+            <th>Edit</th>
         </tr>
-        {% for drive in object.drives_list %}
+        {% for drive in drives_list %}
         <tr>
             <td>
                 <a href="{% url 'season_detail' drive.season.pk %}#{{drive.team.slug}}">{{drive.season}}</a>
@@ -55,12 +56,17 @@
                 ?
                 {% endif %}
             </td>
-            <td>
-                <a href="{% url 'admin:f1web_drivingcontract_change' drive.id %}" target="_blank">Edit</a>
-            </td>
 
             <td>
                 {{drive.number}}
+            </td>
+
+            <td>
+                {{drive.starting_round}}-
+            </td>
+
+            <td>
+                <a href="{% url 'admin:f1web_drivingcontract_change' drive.id %}" target="_blank">Edit</a>
             </td>
         </tr>
         {% endfor %}

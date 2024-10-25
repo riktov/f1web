@@ -47,8 +47,9 @@ class Driver(models.Model):
         return (self.name,)
     
     @property
-    def drives_list(self):
-        return self.drives.all() # type: ignore
+    def xxdrives_list(self):
+        return self.drives.all().order_by('starting_round').order_by('season')
+        # return self.drives.all().order_by('team') # type: ignore
 
     def team_in(self, season):
         teams = [dc.team for dc in DrivingContract.objects.filter(driver = self, season=season)]
@@ -109,7 +110,7 @@ class Driver(models.Model):
             return [ this_season_teams, None , 1, 1]
 
         prev_seasons = { dr.season for dr in self.drives.filter(season__lt = season) }
-        
+
         # continuing from previous season
         if last_drive.team in this_season_teams:
             se = season
