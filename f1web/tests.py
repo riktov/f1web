@@ -152,21 +152,26 @@ class EngineTest(TestCase):
 class DriverTest(TestCase):
     def setUp(self):
         
-        d1 = Driver.objects.create(name="Driver 1")
+        self.driver = Driver.objects.create(name="Driver 1")
 
-        s90 = Season.objects.create(year = 1990)
-        s91 = Season.objects.create(year = 1991)
-        s92 = Season.objects.create(year = 1992)
+        self.s90 = Season.objects.create(year = 1990)
+        self.s91 = Season.objects.create(year = 1991)
+        self.s92 = Season.objects.create(year = 1992)
 
         c1 = Constructor.objects.create(name="Constructor 1")
+        c2 = Constructor.objects.create(name="Constructor 2")
 
-        self.dc90 = DrivingContract.objects.create(driver=d1, season=s90, team=c1)
-        self.dc91 = DrivingContract.objects.create(driver=d1, season=s91, team=c1)
+        DrivingContract.objects.create(driver=self.driver, season=self.s90, team=c1)
+        DrivingContract.objects.create(driver=self.driver, season=self.s91, team=c1)
+        self.dc90_2 = DrivingContract.objects.create(driver=self.driver, season=self.s90, team=c2, starting_round=11)
+        
     
     def test_stint(self):
-        driver = self.dc91.driver
-        season = self.dc91.season
-        hist = driver.history(season)
+        hist = self.driver.history(self.s91)
         
         self.assertIsNotNone(hist)
         self.assertEquals(hist[2], 2)
+    
+    def test_last_drive(self):
+        self.assertEqual(self.driver.last_drive_before(self.s91), self.dc90_2)
+        
