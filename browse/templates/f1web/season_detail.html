@@ -169,6 +169,7 @@
                 <th>Year in F1</th>
             </tr>
             {% for drh in driver_histories %}
+            {% with from_or_year=drh.2 %}
             <tr>
                 <td><a href="{% url 'driver_detail' drh.0.slug %}">{{drh.0}}</a></td>
                 <td>
@@ -176,18 +177,22 @@
                     {{team}}
                 {% endfor %}
                 </td>
+
                 {% if drh.4 > 1 %}
+                    <td>
                     {% if drh.2 %}
-                        <td>{{drh.2.0}}</td>
+                        {{drh.2}}
                     {% else %}
-                        <td>{{drh.3}}</td>
+                        {{drh.3}}
                     {% endif%}
+                    </td>
                     <td>{{drh.4}}</td>    
                 {% else%}
                     <td colspan="3">rookie</td>
                 {% endif %}
                 </td>
             </tr>
+            {% endwith %}
             {% endfor %}
         </table>
     </div>

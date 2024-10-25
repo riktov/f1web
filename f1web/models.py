@@ -86,42 +86,41 @@ class Driver(models.Model):
         return None
     
     def last_drive_before(self, season):
-        last_season = sorted([dr.season for dr in self.drives.filter(season__lt = season)])[-1]
-        return sorted(self.drives.filter(season=last_season), key=lambda x: x.starting_round)[-1]
+        prev_season_drives = self.drives.filter(season__lt = season)
+        if not prev_season_drives:
+            return None
+        
+        return prev_season_drives.order_by('starting_round').order_by('season').last()
 
     def history(self, season):
         """Return
-        this season's team
-        total seasons (including this one) in F1
+        this season's team(s)
+        team at the end of previous season, if different
         total seasons (up to this one) in this team. So earlier stints do not count
-        previous team, if applicable
+        total seasons (including this one) in F1
         """
-        this_season_teams = [ dc.team for dc in self.drives.filter(season = season) ]
+        this_season_teams = [ dr.team for dr in self.drives.filter(season = season).order_by('starting_round') ]
         
-        prev_seasons= [ s for s in self.seasons if s < season ]
+        # prev_seasons = {dr.season for dr in self.drives.filter(season__lt = season)}
+        last_drive = self.last_drive_before(season)
 
-        if not prev_seasons:
+        if not last_drive:
             #rookie
             return [ this_season_teams, None , 1, 1]
-        
 
-        last_season = sorted(prev_seasons)[-1]
-        last_season_drives  = sorted([dc for dc in self.drives.filter(season = last_season)], key= lambda x: x.starting_round)
-        last_season_teams = [dc.team for dc in last_season_drives]
+        prev_seasons = { dr.season for dr in self.drives.filter(season__lt = season) }
         
-
-        if len(last_season_teams) == 1 and len(this_season_teams) == 1 and  last_season_teams[0] == this_season_teams[0]:
-            #same as last season
-            #better to find common in the two
+        # continuing from previous season
+        if last_drive.team in this_season_teams:
             se = season
             current_stint = 1 
-            while se.previous() and self.drives.filter(season=se.previous(), team=this_season_teams[0]):
+            while se.previous() and self.drives.filter(season=se.previous(), team=last_drive.team):
                 current_stint = current_stint + 1
                 se = se.previous()
             return [ this_season_teams, None, current_stint, len(prev_seasons) + 1]
 
         #moved from another team
-        return [ this_season_teams, last_season_teams,  1, len(prev_seasons) +1 ]
+        return [ this_season_teams, last_drive.team,  1, len(prev_seasons) +1 ]
 
 class Constructor(models.Model):
     """A Formula 1 constructor (team)"""
