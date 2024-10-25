@@ -91,7 +91,7 @@ class Driver(models.Model):
         if not prev_season_drives:
             return None
         
-        return prev_season_drives.order_by('starting_round').order_by('season').last()
+        return prev_season_drives.order_by('season', 'starting_round').last()
 
     def history(self, season):
         """Return
