@@ -51,7 +51,9 @@ def scrape_season_cars(article_name):
     #     sect_hed = sect_hed_td
 
     mw_heading = sect_hed.parent
-    table = mw_heading.findNextSibling(attrs={"class":"wikitable"})
+    # 1982 wraps the table within a table without the wikitable class
+    table = mw_heading.findNextSibling("table")
+    # table = mw_heading.findNextSibling(attrs={"class":"wikitable"})
     tbody = table.find('tbody')
 
     headings = table.find("thead")
@@ -107,7 +109,7 @@ def scrape_season_cars(article_name):
             
             td_driver = tds[-2]
             driver = parse_driver(td_driver)
-            
+
             number = None
 
             # if multiple drivers share a number, it is only on the first of the lines
@@ -132,5 +134,5 @@ def scrape_season_cars(article_name):
     return entries
 
 if __name__ == "__main__":
-    specs = scrape_season_cars("1989_Formula_One_World_Championship")
+    specs = scrape_season_cars("1992_Formula_One_World_Championship")
     pp(specs)
