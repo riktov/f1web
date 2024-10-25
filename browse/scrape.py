@@ -37,7 +37,7 @@ def blank_entry():
 def element_joined_strings(elem):
     return ' '.join([s for s in elem.stripped_strings])
 
-def scrape_season_cars(article_name):
+def scrape_season(article_name):
     url = WIKIPEDIA_BASE_URL + article_name
 
     f = urllib.request.urlopen(url)   
@@ -132,5 +132,5 @@ def scrape_season_cars(article_name):
     return entries
 
 if __name__ == "__main__":
-    specs = scrape_season_cars("1989_Formula_One_World_Championship")
+    specs = scrape_season("1989_Formula_One_World_Championship")
     pp(specs)

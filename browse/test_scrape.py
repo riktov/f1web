@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from browse.scrape import scrape_season_cars
+from browse.scrape import scrape_season
 
 
 class ScrapeTest(TestCase):
@@ -13,7 +13,7 @@ class ScrapeTest(TestCase):
 
     def test_valid_constructors(self):
         for season in self.seasons:
-            specs = scrape_season_cars(season)
+            specs = scrape_season(season)
             for constructor in specs:
                 self.assertIsNotNone(constructor['constructor'])
                 self.assertIsNotNone(constructor['cars'])
