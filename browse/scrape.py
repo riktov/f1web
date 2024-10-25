@@ -85,16 +85,20 @@ def scrape_season(article_name):
                 # tds = span_flags[0].parent.parent
 
                 td_entrant = tds[0]
-                entrant = td_entrant.get_text(' ', strip=True)
-
+                entrant_name = td_entrant.get_text(' ', strip=True)
+                entrant_country = td_entrant.contents[0].contents[0]
+                country_name = entrant_country.find('a')['title']
                 # print("\nEntrant:", entrant)
-                this_entry["entrant"] = entrant
+                this_entry["entrant"] = entrant_name
                 
                 td_constructor = tds[1]
                 #We want only the chassis constructor; "McLaren", not "McLaren-Honda"
                 constructor = td_constructor.contents[0].string
                 # print("Constructor:", constructor)
-                this_entry["constructor"] = constructor
+                this_entry["constructor"] = {
+                    'name': constructor,
+                    'country': country_name
+                }
 
                 td_cars = tds[2]
                 cars = [ elem.string for elem in td_cars]
