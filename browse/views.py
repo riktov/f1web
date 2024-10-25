@@ -238,7 +238,12 @@ class SeasonListView(ListView):
 class SeasonDetailView(DetailViewWithObjectList):
     """DetailView for Season"""
     model = Season
-
+    def get_object(self) :
+        if 'fetchwiki' in self.request.GET:
+            sea = super().get_object()
+            #fetch data and write to database
+        return super().get_object()
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['drivers_table'] = tables.team_car_drivers_for_season(self.get_object())
