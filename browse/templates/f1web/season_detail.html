@@ -121,9 +121,15 @@
                     </td>
 
                     <td>
+                    {% if row.cars %}
                     {% for car in row.cars %}
                         {{car.name}} 
                     {% endfor %}
+                    {% else %}
+                        <a href="{% url 'season_detail' object%}?fetchwiki&season={{object}}&constructor={{row.team}}&field=car">
+                        Wiki fetch
+                        </p>
+                    {% endif %}
                     </td>
 
                     <td>
