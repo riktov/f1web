@@ -4,7 +4,6 @@ import re
 import urllib.request
 from bs4 import BeautifulSoup
 from bs4 import element
-from pprint import pp
 
 WIKIPEDIA_BASE_URL = "https://en.wikipedia.org/wiki/"
 
@@ -143,5 +142,9 @@ def scrape_season(year):
     return entries
 
 if __name__ == "__main__":
-    specs = scrape_season(1989)
-    pp(specs)
+    specs = scrape_season(1990)
+    try:
+        from pprint import pp
+        pp(specs)
+    except ModuleNotFoundError:
+        print(specs)
