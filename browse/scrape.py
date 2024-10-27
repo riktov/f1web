@@ -37,8 +37,13 @@ def blank_entry():
 def element_joined_strings(elem):
     return ' '.join([s for s in elem.stripped_strings])
 
-def scrape_season(article_name):
-    url = WIKIPEDIA_BASE_URL + article_name
+def scrape_season(year):
+    season_name = "season"
+
+    if year > 1980:
+        season_name = "World_Championship"
+
+    url = f"{WIKIPEDIA_BASE_URL}{year}_Formula_One_{season_name}"
 
     f = urllib.request.urlopen(url)   
     soup = BeautifulSoup(f, "html.parser")
@@ -138,5 +143,5 @@ def scrape_season(article_name):
     return entries
 
 if __name__ == "__main__":
-    specs = scrape_season("1989_Formula_One_World_Championship")
+    specs = scrape_season(1989)
     pp(specs)
