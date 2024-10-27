@@ -6,6 +6,7 @@ from django.views.generic.edit import UpdateView
 from django.views.generic.list import ListView
 # from django.http import HttpResponse
 
+from browse.scrape import scrape_season
 from f1web.models import Car, ConstructorTransfer, Driver, Constructor, DrivingContract, EngineMaker, Season, Engine, CarNumber
 from . forms import CreateDriveForThisDriverForm, AddThisCarToSeasonForm, CreateCarForm, CreateNumberForm
 from . import tables
@@ -242,7 +243,28 @@ class SeasonDetailView(DetailViewWithObjectList):
     model = Season
     def get_object(self) :
         if 'fetchwiki' in self.request.GET:
-            sea = super().get_object()
+            constructor = self.request.GET['constructor']
+            field = self.request.GET['field']
+
+            cons = Constructor.objects.get(name = constructor)
+
+            season = super().get_object()
+            entrants = scrape_season(season.year)
+
+            for entrant in entrants:
+                if entrant['constructor']['name'] == constructor or entrant['entrant'] == constructor:
+                    car_names = entrant['cars']
+                    for car_name in car_names:
+                        car = Car.objects.filter(name = car_name, constructor = cons)
+                        if not car:
+                            car = Car.objects.create(name = car_name, constructor = cons)
+                            car.save()
+                        else:
+                            car = car.first()
+                        season.cars.add(car)
+                    season.save()
+
+            
             #fetch data and write to database
         return super().get_object()
     
