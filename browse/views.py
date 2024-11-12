@@ -291,7 +291,7 @@ class SeasonDetailView(DetailViewWithObjectList):
         
         context['new_entrants'] = new_entrants 
 
-        context['driver_histories'] = [ [dr] + dr.history(self.object) for dr in self.object.drivers()]
+        # context['driver_histories'] = [ [dr] + dr.history(self.object) for dr in self.object.drivers()]
         return context
 
     def post(self, request, *args, **kwargs):
@@ -330,6 +330,16 @@ class SeasonDetailView(DetailViewWithObjectList):
         # we need to get the context again before refreshing
         context = self.get_context_data(**kwargs)
         return self.render_to_response(context=context)
+
+class SeasonDriversDetailView(DetailViewWithObjectList):
+    model = Season
+    template_name = "f1web/season_drivers_detail.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['driver_histories'] = [ [dr] + dr.history(self.get_object()) for dr in self.get_object().drivers()]
+        return context
+   
 
 def countries_view(request):
     """A view of all countries with drivers and constructors"""

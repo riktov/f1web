@@ -166,41 +166,7 @@
     </div>
 
     <div>
-        <h3>Driver histories</h3>
-        <table>
-            <tr>
-                <th>Driver</th>
-                <th>Team</th>
-                <th>From/Year</th>
-                <th>Year in F1</th>
-            </tr>
-            {% for drh in driver_histories %}
-            {% with from_or_year=drh.2 %}
-            <tr>
-                <td><a href="{% url 'driver_detail' drh.0.slug %}">{{drh.0}}</a></td>
-                <td>
-                {% for team in drh.1%}
-                    {{team}}<br/>
-                {% endfor %}
-                </td>
-
-                {% if drh.4 > 1 %}
-                    <td>
-                    {% if drh.2 %}
-                        {{drh.2}}
-                    {% else %}
-                        {{drh.3}}
-                    {% endif%}
-                    </td>
-                    <td>{{drh.4}}</td>    
-                {% else%}
-                    <td colspan="3">rookie</td>
-                {% endif %}
-                </td>
-            </tr>
-            {% endwith %}
-            {% endfor %}
-        </table>
+        <a href="{% url 'season_drivers_detail' object %}">Driver histories</a>
     </div>
 
 </div>

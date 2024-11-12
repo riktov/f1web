@@ -120,6 +120,8 @@ class Driver(models.Model):
                 se = se.previous()
             return [ this_season_teams, None, current_stint, len(prev_seasons) + 1]
 
+        #TODO: but could be from the same team renamed
+
         #moved from another team
         return [ this_season_teams, last_drive.team,  1, len(prev_seasons) +1 ]
 
@@ -189,6 +191,13 @@ class Constructor(models.Model):
         except CarNumber.DoesNotExist:
             return None
   
+    def previous_identity(self, season):
+        prev_transfers=ConstructorTransfer.objects.filter(new=self, season__lte=season)
+        if not prev_transfers:
+            return None
+        return prev_transfers.last().previous
+
+
 
 class TeamManager(models.Model):
     """The person who manages the Constructor, e.g., Ron Dennis, Bernie Ecclestone"""

@@ -1,0 +1,104 @@
+{% extends "browse/base.html" %}
+{% load links %}
+{% load static %}
+{% load user_agents %}
+
+<!DOCTYPE html>
+<html>
+
+{% block head %}
+    <title>
+    {{object}} - Driver Histories
+    </title>
+{% endblock %}
+
+
+{% block navbar %}
+    <a href="{% url 'season_list' %}">List All Seasons</a>
+{% endblock %}
+
+{% block maincontent %}
+
+{% if not request|is_mobile %}
+<div class="AllObjectsList">
+    <ul>
+    {% for season in model_object_list %}
+        <li><a href="{% url 'season_detail' season %}">{{season}}</a></li>
+    {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<div class="ObjectDetail">
+    <h1>{{object}} Drivers Histories</h1>
+    <a href="{% url 'season_detail' object %}">Season Summary</a>
+    <div id="champions">
+        Driver's Champion: 
+        {% if object.drivers_champion %}
+        <a href="{% url 'driver_detail' object.drivers_champion.slug %}">{{object.drivers_champion}} ({{object.drivers_champion_team}})</a>
+        {% endif %}
+        <br/>
+        Constructor's Champion: 
+        {% if object.constructors_champion %}
+        <a href="{% url 'constructor_detail' object.constructors_champion.slug %}">{{object.constructors_champion}}</a><br/>
+        {% endif %}
+    </div>
+
+    <hr>
+
+    <div class="ExternalLinks">
+        <a href="{{object | wikipedia_season }}" target=_blank><img src="https://wikipedia.org/static/favicon/wikipedia.ico" /></a>
+        <a href="{{ object.year | statsf1 }}" target="_blank"><img src="https://www.statsf1.com/favicon.ico" /></a>
+        <a href="{% url 'admin:f1web_season_change' object %}" target="_blank" class="AdminLink">Admin Change</a>
+    </div>
+
+    <div>
+        {% if object.previous %}
+            <a href="{% url 'season_detail' object.previous %}">{{object.previous}}</a>
+        {% endif %}
+
+        {% if object.next %}
+            <a href="{% url 'season_detail' object.next %}">{{object.next}}</a>
+        {% endif %}
+    </div>
+
+    <div>
+        <h3>Driver histories</h3>
+        <table>
+            <tr>
+                <th>Driver</th>
+                <th>Team</th>
+                <th>From/Year</th>
+                <th>Year in F1</th>
+            </tr>
+            {% for drh in driver_histories %}
+            {% with from_or_year=drh.2 %}
+            <tr>
+                <td><a href="{% url 'driver_detail' drh.0.slug %}">{{drh.0}}</a></td>
+                <td>
+                {% for team in drh.1%}
+                    {{team}}<br/>
+                {% endfor %}
+                </td>
+
+                {% if drh.4 > 1 %}
+                    <td>
+                    {% if drh.2 %}
+                        {{drh.2}}
+                    {% else %}
+                        {{drh.3}}
+                    {% endif%}
+                    </td>
+                    <td>{{drh.4}}</td>    
+                {% else%}
+                    <td colspan="3">rookie</td>
+                {% endif %}
+                </td>
+            </tr>
+            {% endwith %}
+            {% endfor %}
+        </table>
+    </div>
+
+</div>
+{% endblock %}
