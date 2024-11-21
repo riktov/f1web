@@ -94,9 +94,7 @@ class Driver(models.Model):
         return prev_season_drives.order_by('season', 'starting_round').last()
 
     def history(self, season):
-        """Return
-        this season's team(s)
-        team at the end of previous season, if different
+        """Return this driver's team(s) at the end of previous season, if different
         total seasons (up to this one) in this team. So earlier stints do not count
         total seasons (including this one) in F1
         """
