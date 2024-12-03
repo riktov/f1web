@@ -1,0 +1,14 @@
+<html>
+
+<body>
+    <div>
+    <ul>
+    {% for driver in teammates %}
+        <li>
+            <a href="{% url 'index' %}?driver_from={{driver_from.pk}}&driver_to={{driver_to.pk}}&driver={{driver.pk}}">{{driver}}</a>
+        </li>
+    {% endfor %}
+    </ul>
+    </div>
+</body>
+</html>

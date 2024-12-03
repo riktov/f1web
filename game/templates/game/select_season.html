@@ -1,0 +1,16 @@
+<html>
+
+<body>
+    <div>
+        <h3>{{driver}}</h3>
+        <ul>
+        {% for drive in drives %}
+            <li>
+                <a href="{% url 'index' %}?driver_from={{driver_from.pk}}&driver_to={{driver_to.pk}}&driver={{driver.pk}}&season={{drive.season}}">{{drive}}</a>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+</body>
+
+</html>
