@@ -9,8 +9,6 @@ from browse.templatetags import sort as templatetag_sort
 class CarTest(TestCase):
     "class for testing Car model"
     def setUp(self):
-
-
         self.team = Constructor.objects.create(name="FooBar")
 
         enginemaker = EngineMaker.objects.create(name="Empire")
@@ -58,21 +56,29 @@ class CarTest(TestCase):
         """Test that car's earliest season is valid, 
         regardless of how they are ordered in the DB"""
 
+        constructor = Constructor.objects.first()
+        engine = Engine.objects.first()
+        car = Car.objects.create(constructor=constructor, engine=engine)
+
+        s70 = Season.objects.get(year=1970)
+        s80 = Season.objects.get(year=1980)
+        s90 = Season.objects.get(year=1980)
+
+        s90.cars.add(car)
+        s80.cars.add(car)
+        s70.cars.add(car)
+        
         #car2 has been added to all years, in the order 90, 70, 80
         #so the database order should not have 70 at the head
 
-        s70 = Season.objects.get(year = 1970)
-        car2 = Car.objects.get(name = "FB2")
-        self.assertEqual(car2.earliest_season(), s70)
+        self.assertEqual(car.earliest_season(), s70)
     
     def test_car_earliest_season_none(self):
-        self.assertIsNone(self.car_with_no_season.earliest_season())
+        constructor = Constructor.objects.first()
+        engine = Engine.objects.first()
+        car = Car.objects.create(constructor=constructor, engine=engine)
 
-
-    def test_car_set_constructor(self):
-        car1 = Car.objects.get(name="FB1")
-        car1.constructor = self.team
-        
+        self.assertIsNone(car.earliest_season())
 
     def test_car_seasons_and_drivers(self):
         s70 = Season.objects.get(year = 1970)

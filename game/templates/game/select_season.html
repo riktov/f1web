@@ -2,11 +2,19 @@
 
 <body>
     <div>
+        <div>
+            <a href="{% url 'index' %}">Play Again</a>
+        </div>
+        <div>
+            Trying to get from {{driver_from.name}} to {{driver_to.name}}
+        </div>
         <h3>{{driver}}</h3>
         <ul>
         {% for drive in drives %}
             <li>
-                <a href="{% url 'index' %}?driver_from={{driver_from.pk}}&driver_to={{driver_to.pk}}&driver={{driver.pk}}&season={{drive.season}}">{{drive}}</a>
+                <a href="{% url 'index' %}?driver_from={{driver_from.pk}}&driver_to={{driver_to.pk}}&driver={{driver.pk}}&season={{drive.season}}">
+                    {{drive.season}} {{drive.team}}
+                </a>
             </li>
         {% endfor %}
         </ul>

@@ -1,6 +1,5 @@
 from django.shortcuts import render
 
-from browse import forms
 from f1web.models import Driver, DrivingContract, Season
 from game.forms import DriverSelectionForm
 
@@ -16,10 +15,11 @@ def index(request):
 
     driver_from = Driver.objects.get(pk = get_dict["driver_from"])
     driver_to = Driver.objects.get(pk = get_dict["driver_to"])
-    driver = driver_from 
 
     if get_dict.get("driver"):
         driver = Driver.objects.get(pk = get_dict["driver"])
+    else:
+        driver = driver_from 
 
     season = get_dict.get("season")
 
@@ -39,7 +39,8 @@ def index(request):
         }
         return render(request, "game/select_teammate.html", context)
 
-    drives = sorted(driver.drives(), key=lambda d:d.season)
+    drives = driver.drives.all()
+    # drives = sorted(driver.drives(), key=lambda d:d.season)
     
     context = {
         "driver_from": driver_from,
