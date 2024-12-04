@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 from f1web.models import Driver, DrivingContract, Season
 from game.forms import DriverSelectionForm
+from game.queries import teammates_all
 
 def index(request):
     get_dict = request.GET.dict()
@@ -13,8 +14,13 @@ def index(request):
         return render(request, "game/index.html", context)
     
 
-    driver_from = Driver.objects.get(pk = get_dict["driver_from"])
-    driver_to = Driver.objects.get(pk = get_dict["driver_to"])
+    if "random" in get_dict:
+        driver_from = Driver.objects.all().order_by("?").first()
+        driver_to = Driver.objects.exclude(pk=driver_from.pk).order_by("?").first()
+
+    else:
+        driver_from = Driver.objects.get(pk = get_dict["driver_from"])
+        driver_to = Driver.objects.get(pk = get_dict["driver_to"])
 
     if get_dict.get("driver"):
         driver = Driver.objects.get(pk = get_dict["driver"])
@@ -23,7 +29,10 @@ def index(request):
 
     season = get_dict.get("season")
 
+    trail = get_dict.get("trail")
+    
     if season:
+        #select one of the teammates from the season 
         season = Season.objects.get(pk = int(season))
         
         dcs = DrivingContract.objects.filter(driver=driver, season=season)
@@ -39,14 +48,19 @@ def index(request):
         }
         return render(request, "game/select_teammate.html", context)
 
+    #pick a season of the driver
+
     drives = driver.drives.all()
     # drives = sorted(driver.drives(), key=lambda d:d.season)
+    
+    teammates = sorted(teammates_all(driver), key = lambda d: d.name)
     
     context = {
         "driver_from": driver_from,
         "driver_to": driver_to,
         "driver": driver,
-        "drives": drives
+        "drives": drives,
+        "teammates": teammates
     }
 
     return render(request, "game/select_season.html", context)
