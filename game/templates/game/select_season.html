@@ -6,7 +6,9 @@
             <a href="{% url 'index' %}">Play Again</a>
         </div>
         <div>
-            Trying to get from {{driver_from.name}} to {{driver_to.name}}
+            Trying to get from 
+            <a href="{% url 'driver_detail' driver_from.slug %}">{{driver_from.name}}</a> to 
+            <a href="{% url 'driver_detail' driver_to.slug %}">{{driver_to.name}}
         </div>
         <h3>{{driver}}</h3>
         <ul>
@@ -18,6 +20,18 @@
             </li>
         {% endfor %}
         </ul>
+
+        <ul>
+        {% for tm in teammates %}
+            <li>
+                <a href="{% url 'index' %}?driver_from={{driver_from.pk}}&driver_to={{driver_to.pk}}&driver={{tm.pk}}&season={{drive.season}}">
+                    {{tm}}
+                </a>
+            </li>
+        {% endfor %}
+        </ul>
+
+
     </div>
 </body>
 
