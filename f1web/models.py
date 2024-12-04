@@ -52,7 +52,7 @@ class Driver(models.Model):
         # return self.drives.all().order_by('team') # type: ignore
 
     def team_in(self, season):
-        teams = [dc.team for dc in DrivingContract.objects.filter(driver = self, season=season)]
+        teams = [dc.team for dc in self.drives.filter(season=season)]
 
     def is_lead_in(self, season, team):
         dcs = self.drives.filter(season = season, team=team)
