@@ -8,9 +8,11 @@
         <div>
             Trying to get from 
             <a href="{% url 'driver_detail' driver_from.slug %}">{{driver_from.name}}</a> to 
-            <a href="{% url 'driver_detail' driver_to.slug %}">{{driver_to.name}}
+            <a href="{% url 'driver_detail' driver_to.slug %}">{{driver_to.name}}</a>
         </div>
-        <h3>{{driver}}</h3>
+        <h3>
+            <a href="{% url 'driver_detail' driver.slug %}">{{driver}}</a>
+        </h3>
         <ul>
         {% for drive in drives %}
             <li>
