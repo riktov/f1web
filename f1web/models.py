@@ -45,15 +45,14 @@ class Driver(models.Model):
     
     def natural_key(self):
         return (self.name,)
-    
-    @property
-    def xxdrives_list(self):
-        return self.drives.all().order_by('starting_round').order_by('season')
-        # return self.drives.all().order_by('team') # type: ignore
 
     def team_in(self, season):
-        teams = [dc.team for dc in DrivingContract.objects.filter(driver = self, season=season)]
+        teams = [dc.team for dc in self.drives.filter(season=season)]
 
+    def teams_in(self, season):
+        team_ids = [dc.team.id for dc in self.drives.filter(season = season)]
+        return Constructor.objects.filter(pk__in = team_ids)
+    
     def is_lead_in(self, season, team):
         dcs = self.drives.filter(season = season, team=team)
         if dcs:
@@ -75,16 +74,12 @@ class Driver(models.Model):
     
     @property 
     def seasons(self):
-        #return a Set, not an array!
-        return { dr.season for dr in self.drives.all() }    
+        return Season.objects.filter(year__in = [dc.season.year for dc in self.drives.all()])
     
     @property
     def season_range(self):
         se = self.seasons
-        if se:
-            ss = sorted(se, key=lambda s:s.year)
-            return(ss[0], ss[-1])
-        return None
+        return [se.first(), se.last()]
     
     def last_drive_before(self, season):
         prev_season_drives = self.drives.filter(season__lt = season)
@@ -154,17 +149,10 @@ class Constructor(models.Model):
 
         return sorted(cars_with_season, key=lambda c: c.earliest_season().year) + cars_without_season
 
-    def cars_in_season(self, season):
-        """return all the cars that this Constructor has raced in the specified season"""
-        return season.cars.filter(constructor=self)
-
     def drivers_in_season(self, season):
         """return all the drivers that have driven for this Constructor in the specified season"""
-        drives = self.drives.filter(season=season)
-
-        if not drives:
-            return []
-        return [drive.driver for drive in drives]
+        driver_ids = [dc.driver.id for dc in self.drives.filter(season=season)]
+        return Driver.objects.filter(pk__in = driver_ids)
     
     def seasons(self):
         return Season.objects.filter(cars__constructor = self).distinct() 
@@ -338,12 +326,12 @@ class Season(models.Model):
         return False
 
     def constructors(self):
-        teams_with_cars = { car.constructor for car in self.cars.all() }
-        teams_with_drivers = { dr.team for dr in self.drives.all() }
-        teams_with_numbers = { cn.team for cn in self.carnumber_set.all() }
+        team_ids_with_cars = {car.constructor.id for car in self.cars.all()}
+        team_ids_with_drivers = {dr.team.id for dr in self.drives.all()}
+        team_ids_with_numbers = {cn.team.id for cn in self.carnumber_set.all()}
+        
+        return Constructor.objects.filter(id__in = team_ids_with_cars | team_ids_with_drivers | team_ids_with_numbers)
 
-        return teams_with_cars.union(teams_with_drivers, teams_with_numbers)
-    
     def drivers(self):
         return { dc.driver for dc in self.drives.all()}
 

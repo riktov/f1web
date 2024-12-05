@@ -1,0 +1,18 @@
+<html>
+
+<body>
+    <h3>Game Index Page</h3>
+
+
+    <div>
+        <form>
+            {{form.as_p}}
+            <input type="submit" value="Start">
+        </form>
+    </div>
+
+    <div id="start_random">
+        <a href="{% url 'index' %}?random">Randomly pick drivers</a>
+    </div>
+</body>
+</html>
