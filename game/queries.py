@@ -1,29 +1,28 @@
-from f1web.models import DrivingContract
+from f1web.models import Driver, DrivingContract
 
 
 def teammates_in_season(driver, season):
     ds = driver.drives.filter(season=season)
     
-    all_teammates = []
+    all_teammate_ids = []
 
     for d in ds:
         teammate_dcs = DrivingContract.objects.filter(season = d.season, team=d.team).exclude(driver = driver)
         for tm in teammate_dcs:
-            all_teammates.append(tm.driver)
+            all_teammate_ids.append(tm.driver.id)
 
-    return all_teammates
+    return Driver.objects.filter(pk__in = all_teammate_ids)
 
 def teammates_all(driver):
-    all_teammates = set()
+    """Returns a querset of all drivers that this driver was teamed with"""
+    all_teammates_ids = []
 
-    seasons = driver.seasons
-
-    for season in seasons:
+    for season in driver.seasons:
         teammates = teammates_in_season(driver, season)
         for tm in teammates:
-            all_teammates.add(tm)
+            all_teammates_ids.append(tm.id)
 
-    return all_teammates
+    return Driver.objects.filter(pk__in = all_teammates_ids)
 
 def teamings(driver1, driver2):
     """Return the seasons and teams in which the two drivers were teamed"""
