@@ -24,12 +24,19 @@
         </ul>
 
         <ul>
-        {% for tm in teammates %}
+        {% for tm in teammates_and_teamings %}
+            {% with teammate=tm.0 teamings=tm.1 %}
             <li>
-                <a href="{% url 'index' %}?driver_from={{driver_from.pk}}&driver_to={{driver_to.pk}}&driver={{tm.pk}}&season={{drive.season}}">
-                    {{tm}}
+                <a href="{% url 'index' %}?driver_from={{driver_from.pk}}&driver_to={{driver_to.pk}}&driver={{teammate.id}}&season={{drive.season}}&trail={{trail}}">
+                    {{teammate}} 
                 </a>
+                    (
+                    {% for teaming in teamings %}
+                    {{teaming.0}} {{teaming.1.0}}
+                    {% endfor %}
+                    )
             </li>
+            {% endwith %}
         {% endfor %}
         </ul>
 

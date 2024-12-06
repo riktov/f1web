@@ -1,0 +1,25 @@
+<html>
+
+<body>
+    <h3>You Made It</h3>
+
+    <div>
+    {% for tup in trail%}
+        {% with driver=tup.0 teamups=tup.1 %}
+        {{driver}}<br>
+        {% for teamup in teamups %}
+            {% with season=teamup.0 teams=teamup.1 %}
+            >> {{season}} {{teams.0}}<br>
+            {% endwith %}
+        {% endfor %}
+        {% endwith %}
+    {% endfor %}
+
+    <span>{{driver_to}}</span>
+    </div>
+
+    <div>
+        <a href="{% url 'index' %}?driver_from={{driver_from.id}}&driver_to={{driver_to.id}}">Replay</a>
+    <div>
+</body>
+</html>

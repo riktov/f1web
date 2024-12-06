@@ -23,7 +23,7 @@ def teammates_all(driver):
             all_teammates_ids.append(tm.id)
 
     return Driver.objects.filter(pk__in = all_teammates_ids)
-
+    
 def teamings(driver1, driver2):
     """Return the seasons and teams in which the two drivers were teamed"""
     #get the intersection of both drivers' seasons

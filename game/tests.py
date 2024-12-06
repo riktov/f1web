@@ -2,6 +2,7 @@ from django.test import TestCase
 
 from f1web.models import Constructor, Driver, DrivingContract, Season
 from game.queries import teamings, teammates_all, teammates_in_season
+from game.trail import collapse_trail
 
 # Create your tests here.
 
@@ -75,3 +76,14 @@ class TeammatesTest(TestCase):
         self.assertIn(williams, teams)
 
 
+class TrailTest(TestCase):
+    def setUp(self):
+        pass
+
+    def test_collapse_trail(self):
+        trail = [1, 15, 26, 4, 15, 32]
+
+        expected = [1, 15, 32]
+        collapsed = collapse_trail(trail)
+
+        self.assertEqual(expected, collapsed)
