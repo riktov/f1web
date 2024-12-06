@@ -33,7 +33,6 @@
         <tr>
             <th>Season</th>
             <th>Team</th>
-            <th>#1</th>
             <th>Car No.</th>
             <th>Rounds</th>
             <th>Edit</th>
@@ -49,16 +48,13 @@
                 {% comment %} <a href="{% url 'admin:f1web_drivingcontract' drive.pk %}">Edit</a>> {% endcomment %}
             </td>
             <td>
+                {{drive.number}}
                 {% if drive.is_lead %}
                 +
                 {% endif %}
                 {% if drive.is_maybe_lead %}
                 ?
                 {% endif %}
-            </td>
-
-            <td>
-                {{drive.number}}
             </td>
 
             <td>
