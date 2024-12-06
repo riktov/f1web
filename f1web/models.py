@@ -48,11 +48,22 @@ class Driver(models.Model):
 
     def team_in(self, season):
         teams = [dc.team for dc in self.drives.filter(season=season)]
+        return teams
 
     def teams_in(self, season):
         team_ids = [dc.team.id for dc in self.drives.filter(season = season)]
         return Constructor.objects.filter(pk__in = team_ids)
     
+    def teammates(self):
+        mate_driver_ids = []
+
+        for team, season in [(dr.team, dr.season) for dr in self.drives.all() ]:
+            mate_drives = DrivingContract.objects.filter(team=team, season=season).exclude(driver=self)
+            for md in mate_drives:
+                mate_driver_ids.append(md.driver.id)
+        
+        return Driver.objects.filter(pk__in = mate_driver_ids)
+
     def is_lead_in(self, season, team):
         dcs = self.drives.filter(season = season, team=team)
         if dcs:
