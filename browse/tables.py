@@ -1,7 +1,9 @@
 """tables that are created in views and passed to templates"""
-from f1web.models import DrivingContract
+from f1web.models import Driver, DrivingContract
 from browse.forms import CreateDriveForSeasonForm, CreateNumberForm
+from django.db.models import Q, Min
 
+# TODO: We could probably use annotations. Annotations add ad-hoc fields to the query result.
 def team_car_drivers_for_season(season):
     """For a Season, return a list of teams containing team name, cars, and drivers"""
     team_car_drivers = []
@@ -89,3 +91,34 @@ def xxxdriver_history(driver, season):
 
     #moved from another team
     return [ driver, this_season_teams, last_season_teams,  1, len(prev_seasons) +1 ]
+
+def rookies(season):
+    """Return a QuerySet of drivers who arrived in a season"""
+
+    # Get all drivers who have a contract in this season
+    this_season_drivers = DrivingContract.objects.filter(season=season).values_list('driver', flat=True)
+
+    # Filter drivers whose first season is this season
+    rookies = DrivingContract.objects.filter(driver__in=this_season_drivers).annotate(
+        first_season=Min('season')
+    ).filter(first_season=season).values_list('driver', flat=True).distinct()
+
+    return rookies
+
+def enders(season):
+    """Return a list of drivers who left after a season"""
+    enders = []
+    # Get all drivers who have a contract in this season
+    this_season_drivers = { dc.driver for dc in DrivingContract.objects.filter(season=season) }
+
+    # For each, get the last season they drove in
+    for driver in this_season_drivers:
+        last_season = driver.seasons.last()
+        if last_season == season:
+            enders.append(driver)
+    # If it is this season, they are an ender
+
+    # Sort the drivers by order of their first season
+    enders.sort(key=lambda d: d.seasons.first().year)
+
+    return Driver.objects.filter(pk__in=[d.pk for d in enders])
