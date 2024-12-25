@@ -157,27 +157,47 @@ class EngineTest(TestCase):
     
 class DriverTest(TestCase):
     def setUp(self):
-        
-        self.driver = Driver.objects.create(name="Driver 1")
+        Season.objects.create(year = 1990)
+        Season.objects.create(year = 1991)
+        Season.objects.create(year = 1992)
 
-        self.s90 = Season.objects.create(year = 1990)
-        self.s91 = Season.objects.create(year = 1991)
-        self.s92 = Season.objects.create(year = 1992)
+        Constructor.objects.create(name="Lotus")
+        Constructor.objects.create(name="Benetton")
+        Constructor.objects.create(name="Ferrari")
+        Constructor.objects.create(name="McLaren")
 
-        c1 = Constructor.objects.create(name="Constructor 1")
-        c2 = Constructor.objects.create(name="Constructor 2")
-
-        DrivingContract.objects.create(driver=self.driver, season=self.s90, team=c1)
-        DrivingContract.objects.create(driver=self.driver, season=self.s91, team=c1)
-        self.dc90_2 = DrivingContract.objects.create(driver=self.driver, season=self.s90, team=c2, starting_round=11)
-        
-    
+            
     def test_stint(self):
-        hist = self.driver.history(self.s91)
+        nelson = Driver.objects.create(name="Nelson")
+
+        benetton = Constructor.objects.get(name="Benetton")
+        lotus = Constructor.objects.get(name="Lotus")
+
+        s90 = Season.objects.get(year=1990)
+        s91 = Season.objects.get(year=1991)
+
+        DrivingContract.objects.create(driver=nelson, team=lotus, season=s90)
+        DrivingContract.objects.create(driver=nelson, team=benetton, season=s91)
+
+        hist = nelson.history(s91)
         
         self.assertIsNotNone(hist)
-        self.assertEquals(hist[2], 2)
+        self.assertEquals(hist[2], 1, "Stint count is wrong")
     
     def test_last_drive(self):
-        self.assertEqual(self.driver.last_drive_before(self.s91), self.dc90_2)
+        nelson = Driver.objects.create(name="Nelson")
+
+        s90 = Season.objects.get(year=1990)
+        s91 = Season.objects.get(year=1991)
+
+        benetton = Constructor.objects.get(name="Benetton")
+        lotus = Constructor.objects.get(name="Lotus")
+
+        dc90 = DrivingContract.objects.create(driver=nelson, team=lotus, season=s90)
+        dc91 = DrivingContract.objects.create(driver=nelson, team=benetton, season=s91)
+
+        benetton = Constructor.objects.get(name="Benetton")
+        lotus = Constructor.objects.get(name="Lotus")
+
+        self.assertEqual(nelson.last_drive_before(s91), dc90)
         
