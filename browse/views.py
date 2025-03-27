@@ -6,6 +6,7 @@ from django.views.generic.edit import UpdateView
 from django.views.generic.list import ListView
 # from django.http import HttpResponse
 
+from browse.queries import single_driver_countries
 from browse.scrape import scrape_season
 from f1web.models import Car, ConstructorTransfer, Driver, Constructor, DrivingContract, EngineMaker, Season, Engine, CarNumber
 from . forms import CreateDriveForThisDriverForm, AddThisCarToSeasonForm, CreateCarForm, CreateNumberForm
@@ -371,3 +372,18 @@ def numbers_view(request):
     
         table.append({"season":s, "numbers":row})
     return render(request, "browse/numbers.html", {"table": table, "numbers":numbers})
+
+def season_driver_countries_view(request):
+    all_countries = { dr.country for dr in Driver.objects.all() }
+
+    singles = single_driver_countries()
+    
+    multiples = set()
+    for c in all_countries:
+        if c not in singles:
+            multiples.add(c)
+
+    context = {
+        "multiples":multiples
+    }
+    return render(request, "browse/season_driver_countries.html", context)

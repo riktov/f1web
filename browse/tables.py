@@ -92,33 +92,18 @@ def xxxdriver_history(driver, season):
     #moved from another team
     return [ driver, this_season_teams, last_season_teams,  1, len(prev_seasons) +1 ]
 
-def rookies(season):
-    """Return a QuerySet of drivers who arrived in a season"""
+def driver_country_histogram(drivers):
+    """Return a dict of the number of drivers of each country.
+    The driver set would typically be those in one season"""
+    countries = [dr.country for dr in drivers]
 
-    # Get all drivers who have a contract in this season
-    this_season_drivers = DrivingContract.objects.filter(season=season).values_list('driver', flat=True)
+    counts = {}
 
-    # Filter drivers whose first season is this season
-    rookies = DrivingContract.objects.filter(driver__in=this_season_drivers).annotate(
-        first_season=Min('season')
-    ).filter(first_season=season).values_list('driver', flat=True).distinct()
+    for c in countries:
+        if c.code in counts:
+            counts[c.code] = counts[c.code] + 1
+        else:
+            counts[c.code] = 1
 
-    return rookies
+    return counts
 
-def enders(season):
-    """Return a list of drivers who left after a season"""
-    enders = []
-    # Get all drivers who have a contract in this season
-    this_season_drivers = { dc.driver for dc in DrivingContract.objects.filter(season=season) }
-
-    # For each, get the last season they drove in
-    for driver in this_season_drivers:
-        last_season = driver.seasons.last()
-        if last_season == season:
-            enders.append(driver)
-    # If it is this season, they are an ender
-
-    # Sort the drivers by order of their first season
-    enders.sort(key=lambda d: d.seasons.first().year)
-
-    return Driver.objects.filter(pk__in=[d.pk for d in enders])

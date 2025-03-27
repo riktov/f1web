@@ -13,6 +13,7 @@ urlpatterns = [
     path("season/<int:pk>/", views.SeasonDetailView.as_view(), name="season_detail"),
     path("season/<int:pk>/drivers", views.SeasonDriversDetailView.as_view(), name="season_drivers_detail"),
     path("season/", views.SeasonListView.as_view(), name="season_list"),
+    path("season/driver_countries", views.season_driver_countries_view, name="season_driver_countries"),
     path("engine/<int:pk>/", views.EngineDetailView.as_view(), name="engine_detail"),
     path("engine/", views.EngineListView.as_view(), name="engine_list"),
     path("enginemaker/<slug:slug>/", views.EngineMakerDetailView.as_view(), name="enginemaker_detail"),

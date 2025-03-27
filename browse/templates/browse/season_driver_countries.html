@@ -1,0 +1,23 @@
+{% extends "browse/base.html" %}
+{% load links %}
+{% load static %}
+{% load user_agents %}
+
+<!DOCTYPE html>
+<html>
+
+{% block head %}
+    <title>
+    Driver Countries by Season
+    </title>
+{% endblock %}
+
+
+{% block navbar %}
+    <a href="{% url 'season_list' %}">List All Seasons</a>
+{% endblock %}
+
+{% block maincontent %}
+
+Driver Countries by Season
+{% endblock %}

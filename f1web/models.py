@@ -344,7 +344,7 @@ class Season(models.Model):
         return Constructor.objects.filter(id__in = team_ids_with_cars | team_ids_with_drivers | team_ids_with_numbers)
 
     def drivers(self):
-        return { dc.driver for dc in self.drives.all()}
+        return Driver.objects.filter(id__in = { dc.driver.id for dc in self.drives.all()})
 
 class DrivingContract(models.Model):
     """A driving gig, containing a season, team, and driver"""
@@ -437,3 +437,21 @@ class ConstructorTransfer(models.Model):
     
     class Meta:
          ordering = ('season',)
+
+class PermanentSet(models.Model):
+    """A fixture class defining a set that other objects can be a permanent member of
+    This is so we can create a permanent set of countries that have certain unchanging characteristics
+    That would require a lengthy query to retrieve dynamically.
+    """
+    set_name = models.CharField(max_length=64, blank=False, null=False)
+    set_description = models.CharField(max_length=64, blank=True, null=True)
+    def __str__(self) -> str:
+        return self.set_name
+
+class PermanentSetCountry(models.Model):
+    """A class indicating that this country is a member of the PermanentSet
+    """
+    set = models.ForeignKey(PermanentSet, related_name='countries', on_delete=models.CASCADE)
+    country = CountryField()
+    def __str__(self) -> str:
+        return f"{self.country} in {self.set}"

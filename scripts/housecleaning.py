@@ -15,7 +15,7 @@ def overlapping_stints():
                     if len(starting_rounds) != len(drives_in_season):
                         print(driver, season)
                         for dr in drives_in_season:
-                            print(dr.team, dr.starting_round)
+                            print(' -', dr.team, dr.starting_round)
                         # print(drives_in_season)
                     # print("\n")
 
