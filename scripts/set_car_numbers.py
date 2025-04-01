@@ -90,7 +90,7 @@ def numbers_1973_1995(this_season, prev_season):
 
     old_number = number_1.team.car_numbers(prev_season)
 
-    if old_number[0] < 2:
+    if old_number and old_number[0] < 2:
         print("The champ's team for this season had #1 the previous season, no swapping needed")
 
     if number_1:

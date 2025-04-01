@@ -142,7 +142,7 @@ def scrape_season(year):
     return entries
 
 if __name__ == "__main__":
-    specs = scrape_season(1990)
+    specs = scrape_season(2005)
     try:
         from pprint import pp
         pp(specs)

@@ -360,7 +360,7 @@ class DrivingContract(models.Model):
 
     class Meta:
         ordering = ('season', 'team', '-is_lead', 'driver',)
-        unique_together = ('season', 'team', 'driver')
+        unique_together = ('season', 'team', 'driver', 'is_lead')
 
     def __str__(self):
         lead = ''

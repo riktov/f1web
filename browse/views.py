@@ -70,11 +70,13 @@ class ConstructorDetailView(DetailViewWithObjectList):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        cons = self.get_object()  # Explicitly cast to Constructor
+
         context['form'] = CreateCarForm()
-        context['cars_table'] = self.get_object().cars_ordered_by_season()
-        context['seasons_table'] = self.get_object().seasons_and_cars_and_drivers()
-        context['previously'] = self.get_object().previously.all()
-        context['subsequently'] = self.get_object().subsequently.all()
+        context['cars_table'] = cons.cars_ordered_by_season()
+        context['seasons_table'] = cons.seasons_and_cars_and_drivers()
+        context['previously'] = cons.previously.all()
+        context['subsequently'] = cons.subsequently.all()
         # context['model_objects_list'] = self.model.objects.all()
         return context
     

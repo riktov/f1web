@@ -133,13 +133,13 @@
                     </td>
 
                     <td>
-                    {% for driver in row.drivers %}
-                        {{driver.0.country.unicode_flag}} 
-                        <a href="{% url 'driver_detail' driver.0.slug %}">{{driver.0}}</a>{% if driver.2 %}+{% endif %}
+                        {% for dc in row.drives %}
+                            {{dc.driver.country.unicode_flag}}
+                            <a href="{% url 'driver_detail' dc.driver.slug %}">{{dc.driver}}</a>{% if dc.is_lead %}&#9312;{% else %}&#9313;{% endif %}
+                            ({{dc.starting_round}}-)
+                            <br />
+                        {% endfor %}
 
-                        [{{driver.1}}]
-                        <br/>
-                    {% endfor %}
                         <div class="AddDrivesForm">
                             <form method="POST">
                                 {{row.form_drives.as_p}}
