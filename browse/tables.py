@@ -97,3 +97,16 @@ def driver_country_histogram(drivers):
 
     return counts
 
+def driver_country_tally(season, starters_only=True):
+    drives = DrivingContract.objects.filter(season=season)
+    if starters_only:
+        drives = drives.filter(starting_round = 1)
+
+    tally = {}
+    
+    for drive in drives:
+        country = drive.driver.country.code
+        if country in tally:
+            tally[country] += 1
+        else:
+            tally[country] = 1 
