@@ -55,3 +55,5 @@ def single_driver_countries():
 
     return singles
 
+def driver_seasons(country) :
+    """Return the number of driver-seasons for the country."""
