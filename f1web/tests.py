@@ -170,7 +170,7 @@ class DriverTest(TestCase):
         hist = self.driver.history(self.s91)
         
         self.assertIsNotNone(hist)
-        self.assertEquals(hist[2], 2)
+        self.assertEqual(hist[2], 2)
     
     def test_last_drive(self):
         self.assertEqual(self.driver.last_drive_before(self.s91), self.dc90_2)
