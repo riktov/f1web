@@ -89,20 +89,26 @@
             <th>Numbers</th>
         </tr>
 
-        {% for season, cars, drivers, numbers in seasons_table %}
+        {% for season, cars, drives, numbers in season_rows %}
         <tr>
             <td id={{season}}>
-                <a href="{% url 'season_detail' season.year %}#{{object.slug}}">
+                <a href="{% url 'season_detail' season.year %}">
                 {{season}}
                 </a>
                 {% if season.constructors_champion == object %}&#128081;{% endif %}
             </td>
 
             <td>
-            {% for driver in drivers %}
-                <span>
-                {{driver.country.unicode_flag}} <a href="{% url 'driver_detail' driver.slug %}">{{driver}}</a>
-                </span><br/>
+            {% for dc in drives %}
+                {{dc.driver.country.unicode_flag}}
+                <a href="{% url 'driver_detail' dc.driver.slug %}">
+                    {{dc.driver}}
+                </a>
+                {% if dc.is_lead %}&#9312;{% else %}&#9313;{% endif %}
+                {% if dc.starting_round > 1 %}
+                    ({{dc.starting_round}}-)
+                {% endif %}
+                <br />
             {% endfor %}
             </td>
 

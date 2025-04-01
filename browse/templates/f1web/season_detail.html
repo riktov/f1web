@@ -136,7 +136,9 @@
                         {% for dc in row.drives %}
                             {{dc.driver.country.unicode_flag}}
                             <a href="{% url 'driver_detail' dc.driver.slug %}">{{dc.driver}}</a>{% if dc.is_lead %}&#9312;{% else %}&#9313;{% endif %}
-                            ({{dc.starting_round}}-)
+                            {% if dc.starting_round > 1 %}
+                            <span class="ReplacementDriver">({{dc.starting_round}}-)</span>
+                            {% endif %}
                             <br />
                         {% endfor %}
 

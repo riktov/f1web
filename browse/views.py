@@ -75,6 +75,18 @@ class ConstructorDetailView(DetailViewWithObjectList):
         context['form'] = CreateCarForm()
         context['cars_table'] = cons.cars_ordered_by_season()
         context['seasons_table'] = cons.seasons_and_cars_and_drivers()
+
+        season_rows = []
+
+        for season in Season.objects.filter(cars__constructor = cons).distinct():
+            row = (season, 
+                   season.cars.filter(constructor=cons), 
+                   season.drives.filter(team=cons).order_by('starting_round', '-is_lead'), 
+                   cons.car_numbers(season))
+            season_rows.append(row)
+
+        context['season_rows'] = season_rows
+        
         context['previously'] = cons.previously.all()
         context['subsequently'] = cons.subsequently.all()
         # context['model_objects_list'] = self.model.objects.all()
