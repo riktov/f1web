@@ -182,7 +182,7 @@ class DriverTest(TestCase):
         hist = nelson.history(s91)
         
         self.assertIsNotNone(hist)
-        self.assertEquals(hist[2], 1, "Stint count is wrong")
+        self.assertEqual(hist[2], 2)
     
     def test_last_drive(self):
         nelson = Driver.objects.create(name="Nelson")

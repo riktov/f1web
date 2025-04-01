@@ -291,6 +291,7 @@ class Season(models.Model):
     cars = models.ManyToManyField(Car, blank=True)
     drivers_champion = models.ForeignKey(Driver, null=True, blank=True, on_delete=models.SET_NULL)
     constructors_champion = models.ForeignKey(Constructor, null=True, blank=True, on_delete=models.SET_NULL)
+    rounds = models.PositiveSmallIntegerField(default=10)
     
     class Meta:
         ordering = ('year',)
