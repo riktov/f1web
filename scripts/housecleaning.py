@@ -100,4 +100,4 @@ def overlapping_seats():
 def run():
     print("housecleaning script") 
     overlapping_seats()
-    # overlapping_stints()
+    overlapping_stints()
