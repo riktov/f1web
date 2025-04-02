@@ -1,3 +1,4 @@
+from browse.scrape import scrape_season
 from f1web.models import Constructor, Driver, DrivingContract, Season
 
 def prompt_overlapping(drives):
@@ -50,12 +51,36 @@ def prompt_overlapping_seats(drives):
     for drive in drives:
         print(f"{counter}) {drive}")
         counter = counter + 1
-    
-    resp = input("Enter a number or N\n")
 
+    this_season = drives[0].season 
+    this_team = drives[0].team
+
+
+    if not this_season in seasons_fetched:
+        print("Fetching season data from wikipedia...")
+        try:
+            seasons_fetched[this_season] = scrape_season(this_season.year)
+            # print(seasons_fetched[this_season])
+        except AttributeError as err:
+            print("Could not parse fetched Wikipedia page.")
+            pass
+
+    if this_season in seasons_fetched:
+        for ent in seasons_fetched[this_season]:
+            if ent['constructor']['name'] == this_team.name:
+                drivers = ent['drivers']
+                print(f"Drivers for {this_team.name} in {this_season}:\n")
+                for driver in drivers:
+                    name = driver['driver']['name']
+                    rounds = driver['rounds']
+                    number = driver['number']
+                    print(f"{name}, R:{rounds}, #{number} ")
+
+    resp = input("Enter a number or N\n")
     if resp.lower() == 'n':
         return 
-    
+
+
     idx = int(resp) - 1
     drive = drives[idx]
     print(drive)
@@ -95,6 +120,8 @@ def overlapping_seats():
                     for od in overlapping_drives:
                         print(f"  {drive}")
                         print(f"  {od}")
+
+seasons_fetched = {} 
 
 def run():
     print("housecleaning script") 
