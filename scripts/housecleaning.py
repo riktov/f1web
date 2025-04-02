@@ -28,16 +28,15 @@ def prompt_overlapping(drives):
 def overlapping_stints():
     """Find cases where one driver has multiple drives in a season (for different teams or even the same), 
     and they do not have different starting rounds"""
-    for driver in Driver.objects.all():
-        all_drives = driver.drives.all()
+    all_drivers = Driver.objects.all() 
 
-        if len(all_drives) > 1:
-            for season in driver.seasons:
-                drives_in_season = DrivingContract.objects.filter(season = season, driver = driver)
-                if len(drives_in_season) > 1:
-                    starting_rounds = { dr.starting_round for dr in drives_in_season }
-                    if len(starting_rounds) != len(drives_in_season):
-                        prompt_overlapping(drives_in_season)
+    for season in Season.objects.all():
+        for driver in all_drivers:
+            drives_in_season = DrivingContract.objects.filter(season = season, driver = driver)
+            if len(drives_in_season) > 1:
+                starting_rounds = { dr.starting_round for dr in drives_in_season }
+                if len(starting_rounds) != len(drives_in_season):
+                    prompt_overlapping(drives_in_season)
 
                         # print(driver, season)
                         # for dr in drives_in_season:
