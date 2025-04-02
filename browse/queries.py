@@ -57,3 +57,15 @@ def single_driver_countries():
 
 def driver_seasons(country) :
     """Return the number of driver-seasons for the country."""
+    return DrivingContract.objects.filter(driver__country=country, starting_round=1)
+
+def country_table():
+    countries = set([dr.country for dr in Driver.objects.all()])
+
+    arr = []
+
+    for c in countries:
+        arr.append([c, driver_seasons(c).count()])
+
+    # return arr
+    return sorted(arr, key=lambda x:x[1])
