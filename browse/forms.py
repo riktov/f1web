@@ -30,9 +30,9 @@ class AddThisCarToSeasonForm(forms.ModelForm):
         model = Season
         fields = [ "year"]
 
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     # self.fields['cars'].widget = forms.HiddenInput()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['year'].widget = forms.Select(choices=[(s.year, s.year) for s in Season.objects.all()])
 
 class CreateCarForm(forms.ModelForm):
     class Meta:
