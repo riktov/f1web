@@ -42,7 +42,7 @@
     {% if user.is_authenticated %}
     <div class="AddObjectForm">
         <h3>Add {{object}} to an existing Season</h3>
-        <form method="POST">
+        <form method="POST" class="AddThisCarToSeasonForm">
         {{form}}
         {% csrf_token %}
         <input type="submit" value="Add"/>

@@ -73,7 +73,7 @@
 {% if user.is_authenticated %}
 <div class="AddObjectForm">
     <h3>Add a new drive by {{object}}</h3>
-    <form method="POST">
+    <form method="POST" class="CreateDriveForThisDriverForm">
     {{form}}
     {% csrf_token %}
     <input type="submit" value="Add"/>
