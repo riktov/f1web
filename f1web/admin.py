@@ -14,12 +14,13 @@ class DriverAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
 
 class ConstructorAdmin(admin.ModelAdmin):
-    list_display = ("name",)
+    list_display = ("name", "country")
     prepopulated_fields = {"slug": ("name",)}
 
 class CarAdmin(admin.ModelAdmin):
-    # list_display = ("constructor", "name",)
-    prepopulated_fields = {"slug": ("constructor", "name",)}
+    list_display = ("constructor", "name",)
+    # don't prepopulate since it can't dereference constructor name
+    # prepopulated_fields = {"slug": ("constructor", "name",)}
 
 class CarNumberAdmin(admin.ModelAdmin):
     list_display = ("season", "team",)
@@ -27,8 +28,8 @@ class CarNumberAdmin(admin.ModelAdmin):
 class DrivingContractAdmin(admin.ModelAdmin):
     list_display = ("season", "driver", "team", "starting_round")
 
-# class ConstructorTransferAdmin(admin.ModelAdmin):
-#     list_display = ("season", "previous", "new")
+class ConstructorTransferAdmin(admin.ModelAdmin):
+    list_display = ("season", "previous", "new")
 
 admin.site.register(Driver, DriverAdmin)
 admin.site.register(Constructor, ConstructorAdmin)
@@ -42,7 +43,7 @@ admin.site.register(CarNumber, CarNumberAdmin)
 admin.site.register(Engine)
 admin.site.register(EngineMaker)
 admin.site.register(Rule)
-admin.site.register(ConstructorTransfer)
+admin.site.register(ConstructorTransfer, ConstructorTransferAdmin)
 admin.site.register(PermanentSet)
 admin.site.register(PermanentSetCountry)
 
