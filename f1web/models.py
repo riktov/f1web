@@ -325,7 +325,7 @@ class Season(models.Model):
  
     @property
     def drivers_champion_team(self):
-        """The team that reigning driver's champion drove for in the previous season"""
+        """The team of the driver who won this season. Not that of the 'reigning champion' who won the previous season"""
         teams = [ dc.team for dc in self.drives.filter(driver=self.drivers_champion)]
         # teams = [ dc.team for dc in DrivingContract.objects.filter(season=self, driver=self.drivers_champion)]
         return teams[0]
